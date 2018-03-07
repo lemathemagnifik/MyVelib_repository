@@ -66,11 +66,11 @@ public class Station extends Observable{
 	}
 
 
-	public StationType getType() {
+	public StationType getStationType() {
 		return type;
 	}
 
-	public void setType(StationType type) {
+	public void setStationType(StationType type) {
 		this.type = type;
 	}
 
@@ -163,6 +163,18 @@ public class Station extends Observable{
 			stationHistory.put(t,new int[] {this.slotsFree(),this.slotsOccupiedByMechanical(),slotsOccupiedByElectrical(),slotsBroken()});
 			System.out.println("The station's history is updated: the station has "+station.toString());
 		}
+	}
+
+
+
+	public ConcurrentSkipListMap<Timestamp, int[]> getStationHistory() {
+		return stationHistory;
+	}
+
+
+
+	public void setStationHistory(ConcurrentSkipListMap<Timestamp, int[]> stationHistory) {
+		this.stationHistory = stationHistory;
 	}
 	
 }
