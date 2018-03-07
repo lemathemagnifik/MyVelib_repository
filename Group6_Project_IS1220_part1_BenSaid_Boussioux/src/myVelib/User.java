@@ -1,13 +1,13 @@
 package myVelib;
 
 import java.sql.Timestamp;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import MyVelib.Bicycle.BicycleType;
 
 
 

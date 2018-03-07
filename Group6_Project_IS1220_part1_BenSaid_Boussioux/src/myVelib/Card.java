@@ -8,6 +8,7 @@ public abstract class Card {
 	private Double costH1;
 	private Double costH2;
 	private Double costafterH2;
+	//time credit in Duration
 	private Duration timeCredit;
 	
 	public Id getId() {
@@ -50,15 +51,15 @@ public abstract class Card {
 		this.costafterH2 = costafterH2;
 	}
 
-	public int getTimeCredit() {
+	public Duration getTimeCredit() {
 		return timeCredit;
 	}
 
-	public void setTimeCredit(int timeCredit) {
+	public void setTimeCredit(Duration timeCredit) {
 		this.timeCredit = timeCredit;
 	}
 
-	public Card(Id id, User user, Double costH1, Double costH2, Double costafterH2, int timeCredit) {
+	public Card(Id id, User user, Double costH1, Double costH2, Double costafterH2, Duration timeCredit) {
 		super();
 		this.id = id;
 		this.user = user;
