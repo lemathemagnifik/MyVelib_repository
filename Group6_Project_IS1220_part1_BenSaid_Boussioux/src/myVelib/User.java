@@ -1,13 +1,13 @@
 package myVelib;
 
 import java.sql.Timestamp;
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import MyVelib.Bicycle.BicycleType;
 
 
 
@@ -28,6 +28,8 @@ public class User implements CardVisitor, Observer{
 	protected Id id;
 	private Card card;
 	private String name;
+	
+
 	private ArrayList<Message> messageBox;
 	private ArrayList<Station> DestinationStation;
 	private Bicycle bicycle;
@@ -90,7 +92,12 @@ public class User implements CardVisitor, Observer{
 		this.name = name;
 	}
 	
-	
+	public ConcurrentSkipListMap<Timestamp, UserAction> getUserHistory() {
+		return userHistory;
+	}
+	public void setUserHistory(ConcurrentSkipListMap<Timestamp, UserAction> userHistory) {
+		this.userHistory = userHistory;
+	}
 	
 	
 	

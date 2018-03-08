@@ -3,6 +3,7 @@ package myVelib;
 import java.sql.Timestamp;
 
 import MyVelib.ParkingSlot.Status;
+import javafx.util.Duration;
 
 public class Ride {
 	
@@ -23,12 +24,22 @@ public class Ride {
 				{
 					System.out.println("Go put your bicycle at slot "+ i);
 					s.getParkingSlots().get(i).addBicycle(u.getBicycle());
-				/// gestion du temps	
+				// On signale à la station qu'on a rendu un vélo.	
 					s.addEntryToStationHistory(t);
-					//TODO D'abord on met du crédit si c'est une plus station
-					//TODO Attention on calcule duration of the Trip
+					
+					//On met du crédit si c'est une plus station
+					if (s.getStationType()==Station.StationType.Plus) {
+						u.getCard().creditTime();
+					}
+		
+					//On calcule duration of the Trip
+					Duration duration = new Duration(t.getTime()-u.getUserHistory().lastKey().getTime());
+					
 					//TODO Enfin on calcule le coût
 					u.computeCharge(u.getCard(), duration, u.getBicycle());
+
+					//TODO Décider à qui appartient dropOff et dropOn
+					
 					// TODO Stocker ce coût dans Trip pour le retrouver ou bien dans Card
 					
 				}
