@@ -16,10 +16,12 @@ public class MyVelib {
 	}
 	
 	public ArrayList<Station> mostUsedStation() {
+		return stationList;
 		
 	}
 	
 	public ArrayList<Station> leastOccupiedStation(){
+		return stationList;
 		
 	}
 	

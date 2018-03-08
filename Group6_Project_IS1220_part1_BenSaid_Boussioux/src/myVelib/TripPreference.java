@@ -5,9 +5,6 @@ import java.util.ArrayList;
 
 
 abstract class TripPreference {
-	private GPS departure;
-	private GPS arrival;
-	private Network network;
 	
 	/**
 	 * Method giving the departure and arrival stations.
@@ -16,9 +13,10 @@ abstract class TripPreference {
 	 * @param network
 	 * @return
 	 */
-	abstract Station[] setPath(GPS departure, GPS arrival, Network network);
 	
-	public ArrayList<Station> isClosest(GPS position, ArrayList<Station> stations) {
+	abstract Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus);
+	
+	public static ArrayList<Station> isClosest(GPS position, ArrayList<Station> stations) {
 		
 		ArrayList<Station> closest = new ArrayList<Station>();
 		double mindist = Double.MAX_VALUE;
@@ -47,7 +45,7 @@ abstract class TripPreference {
 	}
 	
 	
-	public Station[] ClosestStations(ArrayList<Station> departures, ArrayList<Station> arrivals) {
+	public static Station[] ClosestStations(ArrayList<Station> departures, ArrayList<Station> arrivals) {
 		
 		if (departures==null ||arrivals==null) {
 			return null;
@@ -73,13 +71,74 @@ abstract class TripPreference {
 			}
 					
 		}
-		
+				
 		return closestCouple;
 	}
 	
-	public static void main(String[] args) {
-		Network network = new Network();
+
+	public ArrayList<Station> getStationsInRadiusPercent(ArrayList<Station> stations, GPS position, Double percent, boolean onlyPlus ) {
+		ArrayList<Station> foundStations = new ArrayList<Station>();
+		ArrayList<Station> closestStations = isClosest(position,stations);
+		Double distanceToClosest = position.distance(closestStations.get(0).getPosition());
+		Double radius = percent*distanceToClosest;
+		for (Station s:stations) {
+			if (onlyPlus && s.getType()!=Station.StationType.Plus) {
+				continue;
+			}
+			Double distance=position.distance(s.getPosition());
+			if (distance<radius) {
+				foundStations.add(s);
+			}
+		}
+		return foundStations;
+	}
+	
+	
+	public ArrayList<Station> uniformyzeDepartures(ArrayList<Station> stations,GPS departure, Bicycle.BicycleType bType){
+		ArrayList<Station> uniformStations = new ArrayList<Station>();
 		
+		ArrayList<Station> stationsInRadius = getStationsInRadiusPercent(stations, departure, 1.05, false);
+		int maxOccupied = 0;
+		for (Station s:stationsInRadius) {
+			if (( bType == Bicycle.BicycleType.Electrical && s.slotsOccupiedByElectrical()!=0) || (bType==Bicycle.BicycleType.Mechanical && s.slotsOccupiedByMechanical()!=0 ) || bType==null && s.slotsOccupied()!=0) {
+				if (s.slotsOccupied()>=maxOccupied) {
+					if (s.slotsFree()>maxOccupied) {
+						uniformStations.clear();
+					}
+					uniformStations.add(s);
+				}
+			}
+
+		}
+		return uniformStations;
+	}
+	
+
+	public ArrayList<Station> uniformyzeArrivals(ArrayList<Station> stations,GPS arrival){
+		
+		ArrayList<Station> uniformStations = new ArrayList<Station>();
+		
+		ArrayList<Station> stationsInRadius = getStationsInRadiusPercent(stations, arrival, 1.05, false);
+		int maxFree = 0;
+		for (Station s:stationsInRadius) {
+			if (s.slotsFree()>=maxFree) {
+				if (s.slotsFree()>maxFree) {
+					uniformStations.clear();
+				}
+				uniformStations.add(s);
+			}
+		}
+		return uniformStations;
+	} 
+	
+	public ArrayList<Station> onlyPlusStations(ArrayList<Station> stations, GPS arrival){		
+		return getStationsInRadiusPercent(stations, arrival, 1.10, true);
+		
+	}
+	
+	
+	
+	public static void main(String[] args) {		
 	}
 	
 }

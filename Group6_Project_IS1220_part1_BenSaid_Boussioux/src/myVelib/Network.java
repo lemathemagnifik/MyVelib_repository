@@ -55,7 +55,50 @@ public class Network {
 		}
 		return plusStations;
 	}
+	
+	public ArrayList<Station> isClosest(GPS position) {
+		
+		ArrayList<Station> closest = new ArrayList<Station>();
+		double mindist = Double.MAX_VALUE;
+		double eps= Math.pow(10, -15);
+		
+		for (Station station:stations) {
+			GPS location=station.getPosition();
+			if (position.equals(location)){
+				continue;
+			}
+			if (station.getStatus()==Station.Status.Full || station.getStatus()==Station.Status.Offline) {
+				continue;
+			}
+			
+			double dist=position.distance(location);
+			
+			if ((dist-eps)<=mindist) {
+				if (Math.abs(dist-mindist)>eps) {
+					mindist=dist;
+					closest.clear();
+				}
+				closest.add(station);
+			}	
+		}
+		return closest;
+	}
+	
 
+	public ArrayList<Station> getStationsInRadiusPercent( GPS position, Double percent ) {
+		ArrayList<Station> foundStations = new ArrayList<Station>();
+		ArrayList<Station> closestStations = this.isClosest(position);
+		Double distanceToClosest = position.distance(closestStations.get(0).getPosition());
+		Double radius = percent*distanceToClosest;
+		for (Station s:stations) {
+			Double distance=position.distance(s.getPosition());
+			if (distance<radius) {
+				foundStations.add(s);
+			}
+		}
+		return foundStations;
+	}
+	
 	public ArrayList<User> getUsers() {
 		return users;
 	}

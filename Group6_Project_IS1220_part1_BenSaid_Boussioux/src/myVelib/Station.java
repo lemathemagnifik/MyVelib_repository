@@ -8,7 +8,7 @@ import MyVelib.User.UserAction;
 
 
 public class Station extends Observable{
-	static int counter=0;
+	static int IDcounter=0;
 	private int id;
 	private Network network;
 	private String name;
@@ -28,8 +28,8 @@ public class Station extends Observable{
 	
 	public Station(String name, StationType type, GPS position, ArrayList<ParkingSlot> parkingSlots, Status status,Network network) {
 		super();
-		counter++;
-		this.id=counter;
+		IDcounter++;
+		this.id=IDcounter;
 		this.name = name;
 		this.type = type;
 		this.position = position;
@@ -43,8 +43,8 @@ public class Station extends Observable{
 	public Station(String name, StationType type, GPS position, Network network) {
 		// TODO 
 		super();
-		counter++;
-		this.id=counter;
+		IDcounter++;
+		this.id=IDcounter;
 		this.name = name;
 		this.type = type;
 		this.position = position;
@@ -114,7 +114,6 @@ public class Station extends Observable{
 
 	}
 
-	
 
 	public int getId() {
 		return id;
@@ -155,13 +154,22 @@ public class Station extends Observable{
 		return counter;
 	}
 	
+	public int slotsOccupied() {
+		return this.slotsOccupiedByElectrical()+this.slotsOccupiedByMechanical();
+	}
+	
+	public int getSize() {
+		return this.parkingSlots.size();
+	}
+	
+	
 	public void addEntryToStationHistory(Timestamp t){
 		if(!stationHistory.isEmpty()&& stationHistory.lastKey().compareTo(t)>0){
 			System.out.println("Error, do not enter a time in the past.");
 		}
 		else{
 			stationHistory.put(t,new int[] {this.slotsFree(),this.slotsOccupiedByMechanical(),slotsOccupiedByElectrical(),slotsBroken()});
-			System.out.println("The station's history is updated: the station has "+station.toString());
+			System.out.println("The station's history is updated: the station has "+this.toString());
 		}
 	}
 	

@@ -2,7 +2,8 @@ package myVelib;
 
 public class Test2 {
 	public static void main(String[] args) {
-		System.out.println(2);
-
+		Bicycle.BicycleType type = null;
+		System.out.println(type == null);
+		
 	}
 }
