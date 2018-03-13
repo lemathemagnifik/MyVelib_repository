@@ -3,9 +3,15 @@ package myVelib;
 import java.time.Duration;
 
 public class BlueCard extends Card implements CardInterface {
-
+	private static Double costH1electrical = 2.0;
+	private static Double costH2electrical = 2.0;
+	private static Double costafterH2electrical = 2.0;
+	private static Double costH1mechanical = 0.0;
+	private static Double costH2mechanical = 1.0;
+	private static Double costafterH2mechanical = 2.0;
 	public BlueCard() {
-		// TODO Auto-generated constructor stub
+		super();	
+	// TODO Auto-generated constructor stub
 		
 		
 	}

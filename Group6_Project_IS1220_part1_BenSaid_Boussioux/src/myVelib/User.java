@@ -111,7 +111,7 @@ public class User implements CardVisitor, Observer{
 		DestinationStation.add(s);
 	}
 	
-	public void dropOff(Station s){
+	public void unsuscribe(Station s){
 		s.deleteObserver(this);
 		DestinationStation.remove(s);
 		//// ligne à rajouter dans Timestamp treatedPatients.add(s);
@@ -190,10 +190,10 @@ public class User implements CardVisitor, Observer{
 	public double visit(BlueCard blueCard, Duration tripTime, Bicycle.BicycleType type) throws Exception {
 		// toHours() retourne le nombre d'heures tronque
 		if (type==Bicycle.BicycleType.Electrical){
-			return  (tripTime.toHours()+1)*2;
+			return  (tripTime.toHours()+1)*blueCard.getCostH1electrical();
 		}
 		if (type==Bicycle.BicycleType.Mechanical){
-			return tripTime.toHours()+1;
+			return (tripTime.toHours()+1)*blueCard.getCostH1mechanical();
 		}
 		else{
 			throw new Exception("bicycle type not found!");

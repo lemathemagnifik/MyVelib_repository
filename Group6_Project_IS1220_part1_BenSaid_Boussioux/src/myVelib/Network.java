@@ -48,7 +48,7 @@ public class Network {
 	public ArrayList<Station> getPlusStation(){
 		ArrayList<Station> plusStations = new ArrayList<Station>();
 		for (Station s:stations) {
-			Station.StationType type=s.getType();
+			Station.StationType type=s.getStationType();
 			if (type==Station.StationType.Plus) {
 				plusStations.add(s);
 			}

@@ -82,7 +82,7 @@ abstract class TripPreference {
 		Double distanceToClosest = position.distance(closestStations.get(0).getPosition());
 		Double radius = percent*distanceToClosest;
 		for (Station s:stations) {
-			if (onlyPlus && s.getType()!=Station.StationType.Plus) {
+			if (onlyPlus && s.getStationType()!=Station.StationType.Plus) {
 				continue;
 			}
 			Double distance=position.distance(s.getPosition());
@@ -94,7 +94,7 @@ abstract class TripPreference {
 	}
 	
 	
-	public ArrayList<Station> uniformyzeDepartures(ArrayList<Station> stations,GPS departure, Bicycle.BicycleType bType){
+	public ArrayList<Station> uniformiseDepartures(ArrayList<Station> stations,GPS departure, Bicycle.BicycleType bType){
 		ArrayList<Station> uniformStations = new ArrayList<Station>();
 		
 		ArrayList<Station> stationsInRadius = getStationsInRadiusPercent(stations, departure, 1.05, false);
@@ -114,7 +114,7 @@ abstract class TripPreference {
 	}
 	
 
-	public ArrayList<Station> uniformyzeArrivals(ArrayList<Station> stations,GPS arrival){
+	public ArrayList<Station> uniformiseArrivals(ArrayList<Station> stations,GPS arrival){
 		
 		ArrayList<Station> uniformStations = new ArrayList<Station>();
 		

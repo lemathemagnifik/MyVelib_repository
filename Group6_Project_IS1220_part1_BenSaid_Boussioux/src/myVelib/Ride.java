@@ -2,7 +2,7 @@ package myVelib;
 
 import java.sql.Timestamp;
 
-import MyVelib.ParkingSlot.Status;
+
 import javafx.util.Duration;
 
 public class Ride {
@@ -36,12 +36,13 @@ public class Ride {
 					Duration duration = new Duration(t.getTime()-u.getUserHistory().lastKey().getTime());
 					
 					//TODO Enfin on calcule le coût
-					u.computeCharge(u.getCard(), duration, u.getBicycle());
+					u.visit(u.getCard(), duration, u.getBicycle());
 
 					//TODO Décider à qui appartient dropOff et dropOn
 					
 					// TODO Stocker ce coût dans Trip pour le retrouver ou bien dans Card
-					
+					// TODO Faire sortir l'utilisateur des observateurs.
+					u.unsuscribe(s);
 				}
 			}
 		}

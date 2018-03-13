@@ -5,9 +5,12 @@ import java.time.Duration;
 public abstract class Card {
 	public Id id;
 	private User user;
-	private Double costH1;
-	private Double costH2;
-	private Double costafterH2;
+	private Double costH1electrical;
+	private Double costH2eletrical;
+	private Double costafterH2electrical;
+	private Double costH1mechanical;
+	private Double costH2mechanical;
+	private Double costafterH2mechanical;
 	//time credit in Duration
 	private Duration timeCredit;
 	
@@ -27,29 +30,8 @@ public abstract class Card {
 		this.user = user;
 	}
 
-	public Double getCostH1() {
-		return costH1;
-	}
-
-	public void setCostH1(Double costH1) {
-		this.costH1 = costH1;
-	}
-
-	public Double getCostH2() {
-		return costH2;
-	}
-
-	public void setCostH2(Double costH2) {
-		this.costH2 = costH2;
-	}
-
-	public Double getCostafterH2() {
-		return costafterH2;
-	}
-
-	public void setCostafterH2(Double costafterH2) {
-		this.costafterH2 = costafterH2;
-	}
+	
+	
 
 	public Duration getTimeCredit() {
 		return timeCredit;
@@ -59,16 +41,70 @@ public abstract class Card {
 		this.timeCredit = timeCredit;
 	}
 
-	public Card(Id id, User user, Double costH1, Double costH2, Double costafterH2, Duration timeCredit) {
+	
+	
+	public Double getCostH1electrical() {
+		return costH1electrical;
+	}
+
+	public void setCostH1electrical(Double costH1electrical) {
+		this.costH1electrical = costH1electrical;
+	}
+
+	public Double getCostH2eletrical() {
+		return costH2eletrical;
+	}
+
+	public void setCostH2eletrical(Double costH2eletrical) {
+		this.costH2eletrical = costH2eletrical;
+	}
+
+	public Double getCostafterH2electrical() {
+		return costafterH2electrical;
+	}
+
+	public void setCostafterH2electrical(Double costafterH2electrical) {
+		this.costafterH2electrical = costafterH2electrical;
+	}
+
+	public Double getCostH1mechanical() {
+		return costH1mechanical;
+	}
+
+	public void setCostH1mechanical(Double costH1mechanical) {
+		this.costH1mechanical = costH1mechanical;
+	}
+
+	public Double getCostH2mechanical() {
+		return costH2mechanical;
+	}
+
+	public void setCostH2mechanical(Double costH2mechanical) {
+		this.costH2mechanical = costH2mechanical;
+	}
+
+	public Double getCostafterH2mechanical() {
+		return costafterH2mechanical;
+	}
+
+	public void setCostafterH2mechanical(Double costafterH2mechanical) {
+		this.costafterH2mechanical = costafterH2mechanical;
+	}
+
+	public Card(Id id, User user, Double costH1electrical, Double costH2eletrical, Double costafterH2electrical,
+			Double costH1mechanical, Double costH2mechanical, Double costafterH2mechanical, Duration timeCredit) {
 		super();
 		this.id = id;
 		this.user = user;
-		this.costH1 = costH1;
-		this.costH2 = costH2;
-		this.costafterH2 = costafterH2;
+		this.costH1electrical = costH1electrical;
+		this.costH2eletrical = costH2eletrical;
+		this.costafterH2electrical = costafterH2electrical;
+		this.costH1mechanical = costH1mechanical;
+		this.costH2mechanical = costH2mechanical;
+		this.costafterH2mechanical = costafterH2mechanical;
 		this.timeCredit = timeCredit;
 	}
-	
+
 	/**
 	 * Adds time credit on the card.
 	 * @param d
