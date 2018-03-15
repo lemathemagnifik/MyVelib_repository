@@ -12,9 +12,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 
 public class User implements CardVisitor, Observer{
-	public User() {
-		super();
-	}
+	
 
 	public enum UserAction {dropped_on, dropped_off}; 
 	
@@ -25,10 +23,11 @@ public class User implements CardVisitor, Observer{
 	private ConcurrentSkipListMap <Timestamp, UserAction> userHistory = new ConcurrentSkipListMap<Timestamp, User.UserAction>();
 	private GPS position;
 	private GPS destination;
-	protected Id id;
+	protected int id;
 	private Card card;
 	private String name;
-	
+	static int IDuserCounter=0;
+
 
 	private ArrayList<Message> messageBox;
 	private ArrayList<Station> DestinationStation;
@@ -145,12 +144,17 @@ public class User implements CardVisitor, Observer{
 	 * @param name
 	 * @param messageBox
 	 */
-	public User(Id id, Card card, String name, ArrayList<Message> messageBox) {
+	public User(String name) {
 		super();
-		this.id = id;
-		this.card = card;
+		IDuserCounter++;
+		this.id=IDuserCounter;
+		this.card = null;
 		this.name = name;
-		this.messageBox = messageBox;
+		this.messageBox = new ArrayList <Message>();
+		this.position = new GPS(0,0);
+	}
+	public User() {
+		super();
 	}
 	
 	public double computeCharge(){
@@ -227,6 +231,10 @@ public class User implements CardVisitor, Observer{
 		return numberOfHours;
 	}
 	
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", card="
+				+ card + "]";
+	}
 
 		
 	

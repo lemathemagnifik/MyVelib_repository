@@ -4,15 +4,15 @@ import java.time.Duration;
 
 public abstract class Card {
 	public Id id;
-	private User user;
-	private Double costH1electrical;
-	private Double costH2eletrical;
-	private Double costafterH2electrical;
-	private Double costH1mechanical;
-	private Double costH2mechanical;
-	private Double costafterH2mechanical;
+	public User user;
+	public Double costH1electrical;
+	public Double costH2electrical;
+	public Double costafterH2electrical;
+	public Double costH1mechanical;
+	public Double costH2mechanical;
+	public Double costafterH2mechanical;
 	//time credit in Duration
-	private Duration timeCredit;
+	public Duration timeCredit;
 	
 	public Id getId() {
 		return id;
@@ -51,12 +51,12 @@ public abstract class Card {
 		this.costH1electrical = costH1electrical;
 	}
 
-	public Double getCostH2eletrical() {
-		return costH2eletrical;
+	public Double getCostH2electrical() {
+		return costH2electrical;
 	}
 
-	public void setCostH2eletrical(Double costH2eletrical) {
-		this.costH2eletrical = costH2eletrical;
+	public void setCostH2electrical(Double costH2eletrical) {
+		this.costH2electrical = costH2eletrical;
 	}
 
 	public Double getCostafterH2electrical() {
@@ -91,19 +91,34 @@ public abstract class Card {
 		this.costafterH2mechanical = costafterH2mechanical;
 	}
 
-	public Card(Id id, User user, Double costH1electrical, Double costH2eletrical, Double costafterH2electrical,
+	public Card(Id id, User user, Double costH1electrical, Double costH2electrical, Double costafterH2electrical,
 			Double costH1mechanical, Double costH2mechanical, Double costafterH2mechanical, Duration timeCredit) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.costH1electrical = costH1electrical;
-		this.costH2eletrical = costH2eletrical;
+		this.costH2electrical = costH2electrical;
 		this.costafterH2electrical = costafterH2electrical;
 		this.costH1mechanical = costH1mechanical;
 		this.costH2mechanical = costH2mechanical;
 		this.costafterH2mechanical = costafterH2mechanical;
 		this.timeCredit = timeCredit;
 	}
+	
+	public Card(User user) {
+		super();
+		this.id = new Id();
+		this.user = user;
+		this.costH1electrical = costH1electrical;
+		this.costH2electrical = costH2electrical;
+		this.costafterH2electrical = costafterH2electrical;
+		this.costH1mechanical = costH1mechanical;
+		this.costH2mechanical = costH2mechanical;
+		this.costafterH2mechanical = costafterH2mechanical;
+		this.timeCredit = Duration.ZERO;
+	}
+
+	
 
 	/**
 	 * Adds time credit on the card.
@@ -121,4 +136,6 @@ public abstract class Card {
 	public void creditTime() {
 		this.timeCredit=this.timeCredit.plusMillis(300000);
 	}
+	
+	
 }

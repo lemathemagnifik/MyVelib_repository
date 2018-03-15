@@ -126,4 +126,6 @@ public class Network {
 	public void addBicycle(Bicycle bicycle) {
 		this.getBicycles().add(bicycle);
 	}
+	
+	
 }

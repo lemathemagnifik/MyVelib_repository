@@ -52,7 +52,7 @@ public class Station extends Observable{
 		this.status = Status.Available;
 		this.network=network;		
 	}
-
+	
 
 	
 
@@ -120,8 +120,8 @@ public class Station extends Observable{
 	}
 	
 	public int slotsFree() {
-		int counter =0;
-		for (int i=0; i<=parkingSlots.size();i++) {
+		int counter = 0;
+		for (int i=0; i<parkingSlots.size();i++) {
 			if (parkingSlots.get(i).getStatus()==ParkingSlot.Status.Free)
 				counter+=1;
 		}
@@ -130,7 +130,7 @@ public class Station extends Observable{
 	
 	public int slotsBroken() {
 		int counter =0;
-		for (int i=0; i<=parkingSlots.size();i++) {
+		for (int i=0; i<parkingSlots.size();i++) {
 			if (parkingSlots.get(i).getStatus()==ParkingSlot.Status.Broken)
 				counter+=1;
 		}
@@ -139,7 +139,7 @@ public class Station extends Observable{
 	
 	public int slotsOccupiedByMechanical() {
 		int counter =0;
-		for (int i=0; i<=parkingSlots.size();i++) {
+		for (int i=0; i<parkingSlots.size();i++) {
 			if (parkingSlots.get(i).getStatus()==ParkingSlot.Status.OccupiedByMechanical)
 				counter+=1;
 		}
@@ -147,7 +147,7 @@ public class Station extends Observable{
 	}
 	public int slotsOccupiedByElectrical() {
 		int counter =0;
-		for (int i=0; i<=parkingSlots.size();i++) {
+		for (int i=0; i<parkingSlots.size();i++) {
 			if (parkingSlots.get(i).getStatus()==ParkingSlot.Status.OccupiedByElectrical)
 				counter+=1;
 		}
@@ -184,5 +184,13 @@ public class Station extends Observable{
 	public void setStationHistory(ConcurrentSkipListMap<Timestamp, int[]> stationHistory) {
 		this.stationHistory = stationHistory;
 	}
+	
+	public String toString() {
+		return "Station [network = " + network + "id = " + id + ", name = " + name + ", freeSlots = "
+				+ this.slotsFree() + ", slots occupied by mechanical = " + this.slotsOccupiedByMechanical() + ", slots occupied by electrical = " + this.slotsOccupiedByElectrical() + ", slots broken = " + this.slotsBroken() + "]";
+	}
+	
+	
+	
 	
 }

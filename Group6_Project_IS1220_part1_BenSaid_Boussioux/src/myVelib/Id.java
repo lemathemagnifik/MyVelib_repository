@@ -1,5 +1,11 @@
 package myVelib;
 
 public class Id {
-	private int id ;
+	static int id =0;
+	
+	public Id() {
+		this.id = id;
+		id++;
+	}
+	
 }

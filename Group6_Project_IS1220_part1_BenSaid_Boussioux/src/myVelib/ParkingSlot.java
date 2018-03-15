@@ -3,6 +3,8 @@ package myVelib;
 import java.sql.Timestamp;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+import myVelib.Ride.NoMoreElectricalException;
+
 
 
 public class ParkingSlot {
@@ -67,8 +69,17 @@ public class ParkingSlot {
 		this.status = Status.Broken;
 	}
 	
+	
+	public class UnavailableSlotException extends Exception{
+		public UnavailableSlotException(){
+		    System.out.println("Sorry, this slot is broken or occupied.");
+		  }  
+	}
 	// Ici on n'a pas encore géré l'exception du fait qu'il y aurait déjà un vélo dans le slot.
-	public void addBicycle(Bicycle bicycle) {
+	public void addBicycle(Bicycle bicycle) throws UnavailableSlotException {
+		if (!(this.status == ParkingSlot.Status.Free)){
+			throw new UnavailableSlotException();}
+		
 		if (bicycle.getType()==Bicycle.BicycleType.Mechanical) {
 		this.status = Status.OccupiedByMechanical;
 		this.bicycle = bicycle;
