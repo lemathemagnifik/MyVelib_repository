@@ -154,8 +154,17 @@ public class Station extends Observable{
 		return counter;
 	}
 	
-	public int slotsOccupied() {
-		return this.slotsOccupiedByElectrical()+this.slotsOccupiedByMechanical();
+	public int slotsOccupied(Bicycle.BicycleType bType) {
+		if (bType==null) {
+			return this.slotsOccupiedByElectrical()+this.slotsOccupiedByMechanical();
+		}
+		else if (bType==Bicycle.BicycleType.Electrical) {
+			return this.slotsOccupiedByElectrical();
+		}
+		else if (bType==Bicycle.BicycleType.Mechanical) {
+			return this.slotsOccupiedByMechanical();
+		}
+		else {return 0;}
 	}
 	
 	public int getSize() {
@@ -186,8 +195,9 @@ public class Station extends Observable{
 	}
 	
 	public String toString() {
-		return "Station [network = " + network + "id = " + id + ", name = " + name + ", freeSlots = "
-				+ this.slotsFree() + ", slots occupied by mechanical = " + this.slotsOccupiedByMechanical() + ", slots occupied by electrical = " + this.slotsOccupiedByElectrical() + ", slots broken = " + this.slotsBroken() + "]";
+		return ""+this.getPosition();
+		//return "Station [network = " + network + "id = " + id + ", name = " + name + ", freeSlots = "
+		//		+ this.slotsFree() + ", slots occupied by mechanical = " + this.slotsOccupiedByMechanical() + ", slots occupied by electrical = " + this.slotsOccupiedByElectrical() + ", slots broken = " + this.slotsBroken() + "]";
 	}
 	
 	

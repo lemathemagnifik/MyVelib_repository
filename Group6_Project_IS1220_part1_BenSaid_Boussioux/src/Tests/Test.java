@@ -1,7 +1,9 @@
 package Tests;
 
+import myVelib.ParkingSlot.UnavailableSlotException;
+
 public class Test {
-	public static void main(String[] args) {
+	public static Network CreateTestNetwork() throws UnavailableSlotException {
 		Network myNetwork= new Network();
 		
 		for (Integer i=1 ; i<=10; i++) {
@@ -30,6 +32,6 @@ public class Test {
 				myNetwork.addStation(station);
 			}
 		}
-		System.out.println(myNetwork.getStations());
+		return myNetwork;
 	}
 }

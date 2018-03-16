@@ -5,6 +5,10 @@ public class Bicycle {
 	private BicycleType type;
 	private boolean isUsed;
 	private int ID;
+	private double speed;
+	final static double electricalSpeed = 20;
+	final static double mechanicalSpeed = 15;
+
 	
 	public enum BicycleType{Electrical, Mechanical};
 	
@@ -14,8 +18,14 @@ public class Bicycle {
 		this.type = type;
 		this.ID = counter;
 		this.isUsed = false;
+		if (type==BicycleType.Electrical) {
+			this.speed=electricalSpeed;
+		}
+
+		else if (type==BicycleType.Mechanical) {
+			this.speed = mechanicalSpeed;
+			}
 	}
-	
 	
 	public boolean isUsed() {
 		return isUsed;
@@ -25,6 +35,9 @@ public class Bicycle {
 		return type;
 	}
 	
+	public double getSpeed() {
+		return speed;
+	}
 	
 	public void setType(BicycleType type) {
 		this.type = type;

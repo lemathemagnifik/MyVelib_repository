@@ -2,6 +2,7 @@ package myVelib;
 
 import java.sql.Timestamp;
 
+
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -12,7 +13,6 @@ import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Ride.NoMoreElectricalException;
 import myVelib.User.UnavailableStationException;
-
 
 
 
@@ -28,10 +28,11 @@ public class User implements CardVisitor, Observer{
 	private ConcurrentSkipListMap <Timestamp, UserAction> userHistory = new ConcurrentSkipListMap<Timestamp, User.UserAction>();
 	private GPS position;
 	private GPS destination;
-	protected int id;
+	protected Id id;
 	private Card card;
 	private String name;
 	static int IDuserCounter=0;
+	final static double walkingSpeed = 4;
 
 
 	private ArrayList<Message> messageBox;
