@@ -2,6 +2,8 @@ package myVelib;
 
 import java.util.ArrayList;
 
+import myVelib.ParkingSlot.UnavailableSlotException;
+
 
 
 abstract class TripPreference {
@@ -16,6 +18,12 @@ abstract class TripPreference {
 	
 	abstract Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus);
 	
+	/**
+	 * Return the list of the closest stations from the ArrayList<Station> to GPS position. 
+	 * @param position
+	 * @param stations
+	 * @return
+	 */
 	public static ArrayList<Station> isClosest(GPS position, ArrayList<Station> stations) {
 		
 		ArrayList<Station> closest = new ArrayList<Station>();
@@ -24,9 +32,9 @@ abstract class TripPreference {
 		
 		for (Station station:stations) {
 			GPS location=station.getPosition();
-			if (position.equals(location)){
-				continue;
-			}
+//			if (position.equals(location)){
+//				continue;
+//			}
 			if (station.getStatus()==Station.Status.Full || station.getStatus()==Station.Status.Offline) {
 				continue;
 			}
@@ -45,6 +53,12 @@ abstract class TripPreference {
 	}
 	
 	
+	/**
+	 * Returns Station[2] the couple of stations from ArrayList<Station> departures and ArrayList<Station> arrivals who are the closest to one another.
+	 * @param departures
+	 * @param arrivals
+	 * @return
+	 */
 	public static Station[] ClosestStations(ArrayList<Station> departures, ArrayList<Station> arrivals) {
 		
 		if (departures==null ||arrivals==null) {
@@ -75,7 +89,14 @@ abstract class TripPreference {
 		return closestCouple;
 	}
 	
-
+	/**
+	 * Returns an ArrayList<Station> containing all the stations that are in a radius that equals a percentage of the distance to the closest station amongst stations to the GPS positions. If onlyPlus == True, returns only the plus stations. 
+	 * @param stations
+	 * @param position
+	 * @param percent
+	 * @param onlyPlus
+	 * @return
+	 */
 	public ArrayList<Station> getStationsInRadiusPercent(ArrayList<Station> stations, GPS position, Double percent, boolean onlyPlus ) {
 		ArrayList<Station> foundStations = new ArrayList<Station>();
 		ArrayList<Station> closestStations = isClosest(position,stations);
@@ -86,22 +107,28 @@ abstract class TripPreference {
 				continue;
 			}
 			Double distance=position.distance(s.getPosition());
-			if (distance<radius) {
+			if (distance<=radius) {
 				foundStations.add(s);
 			}
 		}
 		return foundStations;
 	}
 	
-	
+	/**
+	 * returns the list of the stations who have the most 
+	 * @param stations
+	 * @param departure
+	 * @param bType
+	 * @return
+	 */
 	public ArrayList<Station> uniformiseDepartures(ArrayList<Station> stations,GPS departure, Bicycle.BicycleType bType){
 		ArrayList<Station> uniformStations = new ArrayList<Station>();
 		
 		ArrayList<Station> stationsInRadius = getStationsInRadiusPercent(stations, departure, 1.05, false);
 		int maxOccupied = 0;
 		for (Station s:stationsInRadius) {
-			if (( bType == Bicycle.BicycleType.Electrical && s.slotsOccupiedByElectrical()!=0) || (bType==Bicycle.BicycleType.Mechanical && s.slotsOccupiedByMechanical()!=0 ) || bType==null && s.slotsOccupied()!=0) {
-				if (s.slotsOccupied()>=maxOccupied) {
+			if (( bType == Bicycle.BicycleType.Electrical && s.slotsOccupiedByElectrical()!=0) || (bType==Bicycle.BicycleType.Mechanical && s.slotsOccupiedByMechanical()!=0 ) || bType==null && s.slotsOccupied(null)!=0) {
+				if (s.slotsOccupied(bType)>=maxOccupied) {
 					if (s.slotsFree()>maxOccupied) {
 						uniformStations.clear();
 					}
@@ -113,7 +140,7 @@ abstract class TripPreference {
 		return uniformStations;
 	}
 	
-
+	// remarque : ici le type de vélo n'est pas pris en compte. KISS method.
 	public ArrayList<Station> uniformiseArrivals(ArrayList<Station> stations,GPS arrival){
 		
 		ArrayList<Station> uniformStations = new ArrayList<Station>();
@@ -131,14 +158,73 @@ abstract class TripPreference {
 		return uniformStations;
 	} 
 	
+	
 	public ArrayList<Station> onlyPlusStations(ArrayList<Station> stations, GPS arrival){		
 		return getStationsInRadiusPercent(stations, arrival, 1.10, true);
 		
 	}
 	
-	
-	
-	public static void main(String[] args) {		
+	public ArrayList<Station> getDepartures(Network network, GPS departure, boolean uniformity) {
+		ArrayList<Station> departureStations;
+		if (uniformity) {
+			ArrayList<Station> mostFullStations = uniformiseDepartures(network.getStations(), departure, null);
+			departureStations = isClosest(departure, mostFullStations);
+			}
+		else {
+			departureStations = isClosest(departure,network.getStations());
+		}
+		return departureStations;
 	}
 	
+	public ArrayList<Station> getArrivals(Network network, GPS arrival, boolean uniformity, boolean plus) {
+		ArrayList<Station> arrivalStations;
+		if (plus) {
+			arrivalStations = onlyPlusStations(network.getStations(), arrival);
+			if (arrivalStations.size()==0) {
+				arrivalStations = network.getStations();
+			}
+		}
+		else {
+			arrivalStations = network.getStations();
+		}
+			if (uniformity) {
+				ArrayList<Station> lessFullStations = uniformiseArrivals(arrivalStations, arrival);
+				arrivalStations = isClosest(arrival, lessFullStations);
+			}
+			else {
+				arrivalStations = isClosest(arrival,network.getStations());
+			}
+			return arrivalStations;
+	}
+		
+	
+	public static void main(String[] args)  {
+		Network myNetwork = new Network();
+		try {
+			myNetwork = Test.CreateTestNetwork();
+		} catch (UnavailableSlotException e) {
+			e.printStackTrace();
+		}
+		
+		
+		ArrayList<Station> testRadius = new ShortestPath().getStationsInRadiusPercent(myNetwork.getStations(), new GPS(20,10), 1.10, false);
+		System.out.println(testRadius);
+		
+
+		ArrayList<Station> departureStations;
+		departureStations = new FastestPath().getDepartures(myNetwork, new GPS(2.5,2),false);
+		System.out.println(departureStations);
+		
+		ArrayList<Station> arrivalStations;
+		arrivalStations = new FastestPath().getArrivals(myNetwork, new GPS(5.5,5), false, false);
+		System.out.println(arrivalStations);
+
+
+		
+
+	}
+
+
+
+
 }

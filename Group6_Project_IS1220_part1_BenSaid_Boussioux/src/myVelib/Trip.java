@@ -19,18 +19,20 @@ public class Trip {
 		this.plus = plus;
 		this.uniformity = uniformity;
 		if (alreadyHaveBicycle) {
-			preference = new RecalculatePath(network, departure, arrival, plus, uniformity);
+			preference = new RecalculatePath();
 		}
 		else {
 			if (fastest) {
-				preference = new FastestPath(network, departure, arrival, plus, uniformity);
+				preference = new FastestPath();
 			}
 			else {
-				preference = new ShortestPath(network, departure, arrival, plus, uniformity);
+				preference = new ShortestPath();
 			}
 		}
 		
 	}
+	
+	
 	
 }
 	

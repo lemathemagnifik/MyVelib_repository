@@ -2,47 +2,40 @@ package myVelib;
 
 import java.util.ArrayList;
 
+import myVelib.ParkingSlot.UnavailableSlotException;
+
 public class ShortestPath extends TripPreference {
 
-	public ShortestPath(Network network, GPS departure, GPS arrival, boolean plus, boolean uniformity) {
+	public ShortestPath() {
 		// TODO Auto-generated constructor stub
 	}
+
 
 	@Override
 	Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus ) {
 		ArrayList<Station> departureStations;
 		ArrayList<Station> arrivalStations;
-		ArrayList<Station> plusChoiceStations;
-		if (uniformity) {
-			ArrayList<Station> mostFullStations = uniformyzeDepartures(network.getStations(), departure, null);
-			departureStations = isClosest(departure, mostFullStations);
-			}
-		else {
-			departureStations = isClosest(departure,network.getStations());
-		}
 		
-		if (plus) {
-			plusChoiceStations = onlyPlusStations(network.getStations(), arrival);
-			if (plusChoiceStations.size()==0) {
-				plusChoiceStations = network.getStations();
-			}
-		}
-		else {
-			plusChoiceStations = network.getStations();
-		}
-			if (uniformity) {
-				ArrayList<Station> lessFullStations = uniformyzeArrivals(plusChoiceStations, arrival);
-				arrivalStations = isClosest(arrival, lessFullStations);
-			}
-			else {
-				arrivalStations = isClosest(arrival,network.getStations());
-			}
-			
+		departureStations = getDepartures(network, departure, uniformity);
+		arrivalStations = getArrivals(network, arrival, uniformity, plus);
 		return ClosestStations(departureStations, arrivalStations);
-
+	}
+	
+	public static void main(String[] args)  {
+		
+		Network myNetwork = new Network();
+		try {
+			myNetwork = Test.CreateTestNetwork();
+		} catch (UnavailableSlotException e) {
+			e.printStackTrace();
 		}
 		
+		Station[] path = new ShortestPath().setPath(myNetwork, new GPS(2,2), new GPS(5,5), false, false);
+		System.out.println(path[0]);
+		System.out.println(path[1]);
 		
+		
+	}
 }
 
 
