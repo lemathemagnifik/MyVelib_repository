@@ -15,9 +15,13 @@ public class BlueCard extends Card implements CardInterface {
 		this.user=user;
 	}
 	
+	public Double getCostH1electrical() {
+		return costH1electrical;
+	}
 	
-	
-
+	public Double getCostH1mechanical() {
+		return costH1mechanical;
+	}
 
 
 	@Override

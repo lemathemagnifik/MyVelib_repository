@@ -3,23 +3,18 @@ package Tests;
 import static org.junit.Assert.*;
 
 
+
 import org.junit.Test;
 import java.sql.Timestamp;
+import java.time.Duration;
 
-import myVelib.Bicycle;
-import myVelib.GPS;
-import myVelib.Id;
-import myVelib.Network;
-import myVelib.ParkingSlot;
-import myVelib.Station;
-import myVelib.User;
+
 import myVelib.User.AlreadyHasABikeException;
 import myVelib.User.NoMoreElectricalException;
 import myVelib.User.UnavailableStationException;
 import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station.StationType;
-import myVelib.Card;
 import myVelib.*;
 
 public class NetworkTest {
@@ -55,20 +50,25 @@ public class NetworkTest {
 		catch(UnavailableSlotException e) {System.out.println("slot occupied: "  + e.toString());
 		}
 		//System.out.println(stationNotreDame.toString3());
-		System.out.println(stationNotreDame.slotsOccupied());
-		System.out.println(stationNotreDame.toString());
+
 		
 		//We add a new user
 		Id id = new Id();
 		User user = new User("Leonard");
-		System.out.println(user);
 		
 		BlueCard cardTest = new BlueCard(user);
 		user.setCard(cardTest);
-		System.out.println(user.getCard());
-
-		System.out.println(user.getCard().getTimeCredit());
-		System.out.println(user);
+		System.out.println(cardTest.getCostH1electrical());
+		Duration d = Duration.ZERO;
+			try {
+				user.visit((BlueCard) cardTest, d, BicycleType.Electrical);
+				System.out.println("it works");
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		
+		
 		Timestamp t = new Timestamp(20);	
 		Timestamp u = new Timestamp(50);	
 
@@ -83,13 +83,22 @@ public class NetworkTest {
 		}
 		catch(AlreadyHasABikeException e) {System.out.println("already bike: "  + e.toString());
 		}	
+		
+		
 		try {
 			user.dropOff(stationNotreDame, u);
 			}
 		catch(UnavailableStationException e) {System.out.println("no electrical: "  + e.toString());
 		} 
-		System.out.println(user.getUserHistory());
+		//System.out.println(user.getUserHistory());
+		user.displayMessage();
 
+		user.subscribeStation(stationNotreDame);
+		user.subscribeStation(stationStJacques);
+		stationNotreDame.setStatus(Station.Status.Full);
+		stationStJacques.setStatus(Station.Status.Offline);
+		stationStMichel.setStatus(Station.Status.Offline);
+		user.displayMessage();
 		
 	
 	

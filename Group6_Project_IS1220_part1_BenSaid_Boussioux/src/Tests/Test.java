@@ -1,4 +1,5 @@
 package Tests;
+import myVelib.*;
 
 import myVelib.ParkingSlot.UnavailableSlotException;
 

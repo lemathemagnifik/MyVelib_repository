@@ -16,7 +16,7 @@ import myVelib.User.UnavailableStationException;
 
 
 
-public class User implements CardVisitor, Observer{
+public class User implements CardVisitor, Observer {
 	
 
 	public enum UserAction {dropped_on, dropped_off}; 
@@ -28,7 +28,7 @@ public class User implements CardVisitor, Observer{
 	private ConcurrentSkipListMap <Timestamp, UserAction> userHistory = new ConcurrentSkipListMap<Timestamp, User.UserAction>();
 	private GPS position;
 	private GPS destination;
-	protected Id id;
+	protected int id;
 	private Card card;
 	private String name;
 	static int IDuserCounter=0;
@@ -36,7 +36,7 @@ public class User implements CardVisitor, Observer{
 
 
 	private ArrayList<Message> messageBox;
-	private ArrayList<Station> DestinationStation;
+	private ArrayList<Station> observedStations = new ArrayList<Station>();
 	private Bicycle bicycle;
 	
 	public Bicycle getBicycle() {
@@ -111,14 +111,14 @@ public class User implements CardVisitor, Observer{
 	 * @param s
 	 */
 	
-	public void destinationStation(Station s){
+	public void subscribeStation(Station s){
 		s.addObserver(this);
-		DestinationStation.add(s);
+		this.observedStations.add(s);
 	}
 	
 	public void unsuscribe(Station s){
 		s.deleteObserver(this);
-		DestinationStation.remove(s);
+		observedStations.remove(s);
 		//// ligne à rajouter dans Timestamp treatedPatients.add(s);
 	}
 	
@@ -126,16 +126,19 @@ public class User implements CardVisitor, Observer{
 	public void recieveMessage(Message m){
 		messageBox.add(m);
 	}
-	public void displayMessage(Message m){
-		m.setRead(true);
+	public void displayMessage(){
+		for (Message m : this.messageBox) {
+			m.setRead(true);
+			System.out.println(m.getText());}
 	}
+	
 	public void removeMessage(Message m){
 		messageBox.remove(m);
 	}
 	
-	@Override
-	public void update(Observable o, Object arg) {
-		Station s = (Station) o;
+	
+	public void update(Station s) {//, Object arg) {
+		//Station s = (Station) o;
 		////String result= (String) arg;
 		this.recieveMessage(new Message("The Station "+s.getName()+" is now "+s.getStatus()));
 
@@ -163,11 +166,7 @@ public class User implements CardVisitor, Observer{
 		super();
 	}
 	
-	public double computeCharge(){
-		double charge = 0;
-		//TODO Attention il faut enlever le crédit sur le temps avant de visiter.
-		return charge;
-	}
+	
 	
 	
 	/**

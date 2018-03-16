@@ -5,9 +5,11 @@ import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+import mainPackage.Physician;
 
 
-public class Station extends Observable{
+
+public class Station implements Observable{
 	static int IDcounter=0;
 	private int id;
 	private Network network;
@@ -17,7 +19,7 @@ public class Station extends Observable{
 	private ArrayList<ParkingSlot> parkingSlots;
 	private Status status;
 	private ConcurrentSkipListMap <Timestamp, int[]> stationHistory = new ConcurrentSkipListMap<Timestamp, int[]>();
-	
+	private ArrayList<User> observers = new ArrayList<User>();
 	
 
 
@@ -53,9 +55,23 @@ public class Station extends Observable{
 		this.network=network;		
 	}
 	
+	public void deleteObserver(User u) {
+		this.observers.remove(u);
+	}
+	
+	public void addObserver(User u) {
+		this.observers.add(u);
+	}
 
 	
-
+	
+	public void notifyObservers(){
+		for (User u : observers){
+			u.update(this);
+		}
+	}
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -109,7 +125,7 @@ public class Station extends Observable{
 
 	public void setStatus(Status status) {
 		this.status = status;
-		this.setChanged();
+		//this.setChanged();
 		this.notifyObservers();
 
 	}
