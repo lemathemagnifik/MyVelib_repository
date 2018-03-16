@@ -12,6 +12,7 @@ public class Bicycle {
 	
 	public enum BicycleType{Electrical, Mechanical};
 	
+	
 	public Bicycle(BicycleType type) {
 		super();
 		counter++;
@@ -27,20 +28,24 @@ public class Bicycle {
 			}
 	}
 	
+	
 	public boolean isUsed() {
 		return isUsed;
 	}
 	
+	
 	public BicycleType getType() {
 		return type;
 	}
-	
-	public double getSpeed() {
-		return speed;
-	}
+
 	
 	public void setType(BicycleType type) {
 		this.type = type;
+	}
+	
+	
+	public double getSpeed() {
+		return speed;
 	}
 	
 	
@@ -48,11 +53,6 @@ public class Bicycle {
 		return ID;
 	}
 	
-	
-	public void setID(int iD) {
-		ID = iD;
-	}
 
-	
 
 }
