@@ -8,6 +8,11 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+import myVelib.Bicycle.BicycleType;
+import myVelib.ParkingSlot.UnavailableSlotException;
+import myVelib.Ride.NoMoreElectricalException;
+import myVelib.User.UnavailableStationException;
+
 
 
 
@@ -225,7 +230,7 @@ public class User implements CardVisitor, Observer{
 	}
 	
 	@Override
-	public double visit(VmaxCard vmaxCard,  Duration tripTime) {
+	public double visit(VmaxCard vmaxCard,  Duration tripTime, BicycleType type) {
 		long numberOfHours= tripTime.toHours();
 		
 		return numberOfHours;
@@ -236,7 +241,180 @@ public class User implements CardVisitor, Observer{
 				+ card + "]";
 	}
 
+	/**
+	 * This function allows the User to drop Off his bicycle.
+	 * @param u
+	 * @param s
+	 */
+	
+	public void dropOff(Station s, Timestamp t) throws UnavailableStationException {
 		
+		if (s.getStatus()==Station.Status.Full || s.getStatus()==Station.Status.Offline)
+			throw new UnavailableStationException();
+		
+		else {
+			for (int i=0; i<s.getParkingSlots().size(); i++) {
+				if (s.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.Free)
+				{
+					System.out.println("Go put your bicycle at slot "+ i);
+					//On gère l'exception pour des questions de compilation
+					
+					try {
+						s.getParkingSlots().get(i).addBicycle(this.getBicycle());
+						}
+					catch(UnavailableSlotException e) {System.out.println("no electrical: "  + e.toString());
+					}
+				
+					// On signale à la station qu'on a rendu un vélo.	
+					s.addEntryToStationHistory(t);
+					
+					//On met du crédit si c'est une plus station
+					if (s.getStationType()==Station.StationType.Plus) {
+						this.getCard().creditTime();
+					}
+					 
+					//We compute the duration of the trip in ms.
+					Duration duration = Duration.ZERO;
+					duration.plusMillis(t.getTime()-this.getUserHistory().lastKey().getTime());
+					//We update the user's history
+					this.updateUserHistory(t, UserAction.dropped_off);
+					this.setBicycle(null);
+					//We compute the cost of the trip
+					try {
+					Double cost = this.visit((BlueCard) this.card, duration, this.getBicycle().getType());
+					System.out.println("You have to pay" + cost + "euros.");
+					}
+					catch(Exception e) {System.out.println("no blueCard: "  + e.toString());
+					}					
+					
+					// TODO Stocker ce coût dans Trip pour le retrouver ou bien dans Card
+					// TODO Faire sortir l'utilisateur des observateurs.
+					//this.unsuscribe(s);
+				}
+			}
+		}
+	}
+	
+	
+				
+	/**
+	 * This function allows the User to drop on an electrical bicycle.
+	 * @param t
+	 * @param s
+	 * @throws NoMoreElectricalException 
+	 */
+	public void dropOnElectrical(Station s, Timestamp t) throws NoMoreElectricalException, AlreadyHasABikeException {
+		if (s.slotsOccupiedByElectrical()==0)
+			throw new NoMoreElectricalException(); 
+		if (this.getBicycle()!=null)
+			throw new AlreadyHasABikeException();
+		int i = this.selectBicycleElectrical(s);
+		
+		//We get the bicycle
+		Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
+		// We set free the slot
+		s.getParkingSlots().get(i).becomesFree();
+		this.setBicycle(bicycle);
+		// start counter for the user
+		this.updateUserHistory(t, UserAction.dropped_on);
+		//We need to begin the riding time and put something in the TimeStamp
+		s.addEntryToStationHistory(t);
+		
+	}
+	
+	/**
+	 * This function allows the User to drop on a mechanical bicycle.
+	 * @param u
+	 * @param s
+	 * @throws NoMoreMechanicalException 
+	 */
+	public void dropOnMechanical(Station s, Timestamp t) throws NoMoreMechanicalException, AlreadyHasABikeException {
+		if (s.slotsOccupiedByMechanical()==0)
+			throw new NoMoreMechanicalException();
+		if (this.getBicycle()!=null)
+			throw new AlreadyHasABikeException();
+		
+		int i = this.selectBicycleMechanical(s);
+		
+		//We get the bicycle
+		Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
+		// We set free the slot
+		s.getParkingSlots().get(i).becomesFree();
+		this.setBicycle(bicycle);
+		// start counter
+		//We need to begin the riding time and put something in the TimeStamp
+		s.addEntryToStationHistory(t);
+		
+	}
+	
+	/** 
+	 * This function tells the User in which slot he should take his electrical bicycle.
+	 * @param s
+	 * @return i
+	 * i is the parking slot where the user can take the bicycle.
+	 */
+	public class NoMoreElectricalException extends Exception{
+		public NoMoreElectricalException(){
+		    System.out.println("Sorry, no more electrical bikes available.");
+		  }  
+	}
+	
+	public class NoMoreMechanicalException extends Exception{
+		public NoMoreMechanicalException(){
+		    System.out.println("Sorry, no more mechanical bikes available.");
+		  }  
+	}
+	
+	public class AlreadyHasABikeException extends Exception{
+		public AlreadyHasABikeException(){
+		    System.out.println("Sorry, you already have a bike.");
+		  }  
+	}
+	
+	public class UnavailableStationException extends Exception{
+		public UnavailableStationException(){
+		    System.out.println("Sorry, this stations is unavailable to drop off your bicycle.");
+		  }  
+	}
+	
+	
+	public int selectBicycleElectrical  (Station s) throws NoMoreElectricalException{
+
+		if (s.slotsOccupiedByElectrical() == 0){
+				throw new NoMoreElectricalException();}
+		else {
+			for (int i=0; i<=s.getParkingSlots().size(); i++) {
+				if (s.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByElectrical)
+				{
+					System.out.println("Go take electrical bicycle at slot "+ i);
+					return i;
+					
+				}
+			}
+		}
+		return 0;//for debugging purposes
+		
+	}
+	
+	/** 
+	 * This function tells the User in which slot he should take his mechanical bicycle.
+	 * @param s
+	 * @return i
+	 * i is the parking slot where the user can take the bicycle.
+	 */
+
+	public int selectBicycleMechanical (Station s) throws NoMoreMechanicalException{
+		if (s.slotsOccupiedByMechanical() == 0)
+				throw new NoMoreMechanicalException(); 
+		else {
+			for (int i=0; i<=s.getParkingSlots().size(); i++) {
+				if (s.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByMechanical)
+				{
+					System.out.println("Go take mechanical bicycle at slot "+ i);
+					return i;	}}}return 0;}
+	
+	
+	
 	
 
 }

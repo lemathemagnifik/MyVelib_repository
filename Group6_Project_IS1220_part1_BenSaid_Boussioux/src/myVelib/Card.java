@@ -2,7 +2,7 @@ package myVelib;
 
 import java.time.Duration;
 
-public abstract class Card {
+public abstract class Card implements CardInterface{
 	public Id id;
 	public User user;
 	public Double costH1electrical;

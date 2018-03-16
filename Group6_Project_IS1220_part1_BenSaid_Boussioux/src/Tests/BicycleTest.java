@@ -1,4 +1,4 @@
-package myVelib;
+package Tests;
 
 import static org.junit.Assert.*;
 

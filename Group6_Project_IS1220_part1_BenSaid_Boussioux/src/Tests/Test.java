@@ -1,4 +1,4 @@
-package myVelib;
+package Tests;
 
 public class Test {
 	public static void main(String[] args) {

@@ -56,14 +56,14 @@ public class Ride {
 	 * @param s
 	 * @throws NoMoreElectricalException 
 	 */
-	public void dropOnElectrical(User u, Station s, Timestamp t) throws NoMoreElectricalException {
+	public void dropOnElectrical(Station s, Timestamp t) throws NoMoreElectricalException {
 		int i = this.selectBicycleElectrical(s);
 		
 		//We get the bicycle
 		Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
 		// We set free the slot
 		s.getParkingSlots().get(i).becomesFree();
-		u.setBicycle(bicycle);
+		this.setBicycle(bicycle);
 		// start counter
 		//We need to begin the riding time and put something in the TimeStamp
 		s.addEntryToStationHistory(t);

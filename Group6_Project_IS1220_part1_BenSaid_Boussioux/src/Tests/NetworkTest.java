@@ -1,13 +1,26 @@
-package myVelib;
+package Tests;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
 
-import fr.ecp.IS1220.tutorial6.shapeFactory.BadShapeCreationException;
+import org.junit.Test;
+import java.sql.Timestamp;
+
+import myVelib.Bicycle;
+import myVelib.GPS;
+import myVelib.Id;
+import myVelib.Network;
+import myVelib.ParkingSlot;
+import myVelib.Station;
+import myVelib.User;
+import myVelib.User.AlreadyHasABikeException;
+import myVelib.User.NoMoreElectricalException;
+import myVelib.User.UnavailableStationException;
 import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station.StationType;
+import myVelib.Card;
+import myVelib.*;
 
 public class NetworkTest {
 
@@ -28,8 +41,7 @@ public class NetworkTest {
 			stationNotreDame.addParkingSlot();
 			stationStJacques.addParkingSlot();
 			stationNotreDame.getParkingSlots().get(i).addBicycle(new Bicycle(BicycleType.Electrical));
-			
-			myNetwork.addUser(new User());
+			stationStJacques.getParkingSlots().get(i).addBicycle(new Bicycle(BicycleType.Mechanical));
 			
 			//System.out.println(myNetwork.getUsers().get(i).toString());
 			
@@ -47,11 +59,37 @@ public class NetworkTest {
 		System.out.println(stationNotreDame.toString());
 		
 		//We add a new user
+		Id id = new Id();
+		User user = new User("Leonard");
+		System.out.println(user);
 		
-		User leonard = new User();
-		
-		
-		
+		BlueCard cardTest = new BlueCard(user);
+		user.setCard(cardTest);
+		System.out.println(user.getCard());
+
+		System.out.println(user.getCard().getTimeCredit());
+		System.out.println(user);
+		Timestamp t = new Timestamp(20);	
+		Timestamp u = new Timestamp(50);	
+
+		try {
+			try {
+				user.dropOnElectrical(stationNotreDame, t );
+				
+				
+			}
+			catch(NoMoreElectricalException e) {System.out.println("no electrical: "  + e.toString());
+			} 
+		}
+		catch(AlreadyHasABikeException e) {System.out.println("already bike: "  + e.toString());
+		}	
+		try {
+			user.dropOff(stationNotreDame, u);
+			}
+		catch(UnavailableStationException e) {System.out.println("no electrical: "  + e.toString());
+		} 
+		System.out.println(user.getUserHistory());
+
 		
 	
 	
