@@ -260,7 +260,7 @@ public class User implements CardVisitor, Observer {
 					//On gère l'exception pour des questions de compilation
 					
 					try {
-						s.getParkingSlots().get(i).addBicycle(this.getBicycle());
+						s.getParkingSlots().get(i).addBicycle(this.getBicycle(),t);
 						}
 					catch(UnavailableSlotException e) {System.out.println("no electrical: "  + e.toString());
 					}
@@ -279,6 +279,7 @@ public class User implements CardVisitor, Observer {
 					//We update the user's history
 					this.updateUserHistory(t, UserAction.dropped_off);
 					this.setBicycle(null);
+					s.setNumberOfReturns(s.getNumberOfReturns()+1);
 					//We compute the cost of the trip
 					try {
 					Double cost = this.visit((BlueCard) this.card, duration, this.getBicycle().getType());
@@ -313,12 +314,13 @@ public class User implements CardVisitor, Observer {
 		//We get the bicycle
 		Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
 		// We set free the slot
-		s.getParkingSlots().get(i).becomesFree();
+		s.getParkingSlots().get(i).becomesFree(t);
 		this.setBicycle(bicycle);
 		// start counter for the user
 		this.updateUserHistory(t, UserAction.dropped_on);
 		//We need to begin the riding time and put something in the TimeStamp
 		s.addEntryToStationHistory(t);
+		s.setNumberOfRentals(s.getNumberOfRentals()+1);
 		
 	}
 	
@@ -339,12 +341,12 @@ public class User implements CardVisitor, Observer {
 		//We get the bicycle
 		Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
 		// We set free the slot
-		s.getParkingSlots().get(i).becomesFree();
+		s.getParkingSlots().get(i).becomesFree(t);
 		this.setBicycle(bicycle);
 		// start counter
 		//We need to begin the riding time and put something in the TimeStamp
 		s.addEntryToStationHistory(t);
-		
+		s.setNumberOfRentals(s.getNumberOfRentals()+1);
 	}
 	
 	/** 

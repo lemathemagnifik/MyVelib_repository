@@ -20,9 +20,32 @@ public class Station implements Observable{
 	private Status status;
 	private ConcurrentSkipListMap <Timestamp, int[]> stationHistory = new ConcurrentSkipListMap<Timestamp, int[]>();
 	private ArrayList<User> observers = new ArrayList<User>();
-	
+	private int numberOfRentals;
+	private int numberOfReturns;
 
 
+
+	public int getNumberOfRentals() {
+		return numberOfRentals;
+	}
+
+
+
+	public int getNumberOfReturns() {
+		return numberOfReturns;
+	}
+
+
+
+	public void setNumberOfRentals(int numberOfRentals) {
+		this.numberOfRentals = numberOfRentals;
+	}
+
+
+
+	public void setNumberOfReturns(int numberOfReturns) {
+		this.numberOfReturns = numberOfReturns;
+	}
 
 	public enum Status {Full, Available, Offline};
 	public enum StationType {Normal, Plus}
@@ -214,6 +237,10 @@ public class Station implements Observable{
 		return ""+this.getPosition();
 		//return "Station [network = " + network + "id = " + id + ", name = " + name + ", freeSlots = "
 		//		+ this.slotsFree() + ", slots occupied by mechanical = " + this.slotsOccupiedByMechanical() + ", slots occupied by electrical = " + this.slotsOccupiedByElectrical() + ", slots broken = " + this.slotsBroken() + "]";
+	}
+	
+	public double occupationRate(Timestamp t1, Timestamp t2) {
+		
 	}
 	
 	
