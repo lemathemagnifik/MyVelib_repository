@@ -156,6 +156,6 @@ public class ParkingSlot {
 			}
 		}
 		
-		return acc;
+		return (r.getTime()-t.getTime()-acc);
 	}
 }

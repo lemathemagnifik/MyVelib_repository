@@ -100,6 +100,7 @@ public class NetworkTest {
 		stationStMichel.setStatus(Station.Status.Offline);
 		user.displayMessage();
 		
+		
 	
 	
 	}
