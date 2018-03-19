@@ -123,20 +123,20 @@ public class Ride {
 				 * @param u
 				 * @param s
 				 */
-				public void dropOnMechanical(User u, Station s) {
-					// Je n'ai pas pris en compte l'exception ici.
-					int i = this.selectBicycleMechanical(s);
-					
-					//We get the bicycle
-					Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
-					// We set free the slot
-					s.getParkingSlots().get(i).becomesFree();
-					
-					// start counter
-					//We need to begin the riding time and put something in the TimeStamp
-					
-					}
-				}
+	public void dropOnMechanical(User u, Station s) {
+		// Je n'ai pas pris en compte l'exception ici.
+		int i = this.selectBicycleMechanical(s);
+			
+		//We get the bicycle
+		Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
+		// We set free the slot
+		s.getParkingSlots().get(i).becomesFree();
+				
+		// start counter
+		//We need to begin the riding time and put something in the TimeStamp
+				
+		}
+	}
 	
 				
 				
