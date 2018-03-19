@@ -74,7 +74,7 @@ public class NetworkTest {
 
 		try {
 			try {
-				user.dropOnElectrical(stationNotreDame, t );
+				user.rentBikeElectrical(stationNotreDame, t );
 				
 				
 			}
@@ -86,7 +86,7 @@ public class NetworkTest {
 		
 		
 		try {
-			user.dropOff(stationNotreDame, u);
+			user.returnBike(stationNotreDame, u);
 			}
 		catch(UnavailableStationException e) {System.out.println("no electrical: "  + e.toString());
 		} 

@@ -77,13 +77,7 @@ public class User implements CardVisitor, Observer {
 		return id;
 	}
 	
-	/**
-	 * TODO
-	 * @param id
-	 */
-	public void setId(Id id) {
-		this.id = id;
-	}
+	
 	public Card getCard() {
 		return card;
 	}
@@ -247,10 +241,12 @@ public class User implements CardVisitor, Observer {
 	 * @param s
 	 */
 	
-	public void dropOff(Station s, Timestamp t) throws UnavailableStationException {
+	public void returnBike(Station s, Timestamp t) throws UnavailableStationException, NoMoreAvailableSlotsException {
 		
-		if (s.getStatus()==Station.Status.Full || s.getStatus()==Station.Status.Offline)
+		if (s.getStatus()==Station.Status.Offline)
 			throw new UnavailableStationException();
+		if (s.getStatus()==Station.Status.Full)
+			throw new NoMoreAvailableSlotsException();
 		
 		else {
 			for (int i=0; i<s.getParkingSlots().size(); i++) {
@@ -304,24 +300,26 @@ public class User implements CardVisitor, Observer {
 	 * @param s
 	 * @throws NoMoreElectricalException 
 	 */
-	public void dropOnElectrical(Station s, Timestamp t) throws NoMoreElectricalException, AlreadyHasABikeException {
+	public void rentBikeElectrical(Station s, Timestamp t) throws NoMoreElectricalException, AlreadyHasABikeException {
 		if (s.slotsOccupiedByElectrical()==0)
 			throw new NoMoreElectricalException(); 
 		if (this.getBicycle()!=null)
 			throw new AlreadyHasABikeException();
-		int i = this.selectBicycleElectrical(s);
-		
+		try {
+		int i = s.selectBicycleElectrical();
 		//We get the bicycle
-		Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
-		// We set free the slot
-		s.getParkingSlots().get(i).becomesFree(t);
-		this.setBicycle(bicycle);
-		// start counter for the user
-		this.updateUserHistory(t, UserAction.dropped_on);
-		//We need to begin the riding time and put something in the TimeStamp
-		s.addEntryToStationHistory(t);
-		s.setNumberOfRentals(s.getNumberOfRentals()+1);
-		
+				Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
+				// We set free the slot
+				s.getParkingSlots().get(i).becomesFree(t);
+				this.setBicycle(bicycle);
+				// start counter for the user
+				this.updateUserHistory(t, UserAction.dropped_on);
+				//We need to begin the riding time and put something in the TimeStamp
+				s.addEntryToStationHistory(t);
+				s.setNumberOfRentals(s.getNumberOfRentals()+1);
+		}
+		catch(Station.NoMoreElectricalException e){System.out.println("no electrical: "  + e.toString());
+		}	
 	}
 	
 	/**
@@ -330,23 +328,27 @@ public class User implements CardVisitor, Observer {
 	 * @param s
 	 * @throws NoMoreMechanicalException 
 	 */
-	public void dropOnMechanical(Station s, Timestamp t) throws NoMoreMechanicalException, AlreadyHasABikeException {
+	public void rentBikeMechanical(Station s, Timestamp t) throws NoMoreMechanicalException, AlreadyHasABikeException {
 		if (s.slotsOccupiedByMechanical()==0)
 			throw new NoMoreMechanicalException();
 		if (this.getBicycle()!=null)
 			throw new AlreadyHasABikeException();
 		
-		int i = this.selectBicycleMechanical(s);
-		
-		//We get the bicycle
-		Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
-		// We set free the slot
-		s.getParkingSlots().get(i).becomesFree(t);
-		this.setBicycle(bicycle);
-		// start counter
-		//We need to begin the riding time and put something in the TimeStamp
-		s.addEntryToStationHistory(t);
-		s.setNumberOfRentals(s.getNumberOfRentals()+1);
+		try {
+			int i = s.selectBicycleMechanical();
+			//We get the bicycle
+					Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
+					// We set free the slot
+					s.getParkingSlots().get(i).becomesFree(t);
+					this.setBicycle(bicycle);
+					// start counter for the user
+					this.updateUserHistory(t, UserAction.dropped_on);
+					//We need to begin the riding time and put something in the TimeStamp
+					s.addEntryToStationHistory(t);
+					s.setNumberOfRentals(s.getNumberOfRentals()+1);
+			}
+			catch(Station.NoMoreMechanicalException e){System.out.println("no mechanical: "  + e.toString());
+			}
 	}
 	
 	/** 
@@ -375,45 +377,15 @@ public class User implements CardVisitor, Observer {
 	
 	public class UnavailableStationException extends Exception{
 		public UnavailableStationException(){
-		    System.out.println("Sorry, this stations is unavailable to drop off your bicycle.");
+		    System.out.println("Sorry, this station is unavailable to drop off your bicycle.");
 		  }  
 	}
 	
-	
-	public int selectBicycleElectrical  (Station s) throws NoMoreElectricalException{
-
-		if (s.slotsOccupiedByElectrical() == 0){
-				throw new NoMoreElectricalException();}
-		else {
-			for (int i=0; i<=s.getParkingSlots().size(); i++) {
-				if (s.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByElectrical)
-				{
-					System.out.println("Go take electrical bicycle at slot "+ i);
-					return i;
-					
-				}
-			}
-		}
-		return 0;//for debugging purposes
-		
+	public class NoMoreAvailableSlotsException extends Exception{
+		public NoMoreAvailableSlotsException(){
+		    System.out.println("Sorry, this station has no more available slots.");
+		  }  
 	}
-	
-	/** 
-	 * This function tells the User in which slot he should take his mechanical bicycle.
-	 * @param s
-	 * @return i
-	 * i is the parking slot where the user can take the bicycle.
-	 */
-
-	public int selectBicycleMechanical (Station s) throws NoMoreMechanicalException{
-		if (s.slotsOccupiedByMechanical() == 0)
-				throw new NoMoreMechanicalException(); 
-		else {
-			for (int i=0; i<=s.getParkingSlots().size(); i++) {
-				if (s.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByMechanical)
-				{
-					System.out.println("Go take mechanical bicycle at slot "+ i);
-					return i;	}}}return 0;}
 	
 	
 	

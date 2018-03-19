@@ -22,7 +22,8 @@ public class Station implements Observable{
 	private ArrayList<User> observers = new ArrayList<User>();
 	private int numberOfRentals;
 	private int numberOfReturns;
-
+	public enum Status {Full, Available, Offline};
+	public enum StationType {Normal, Plus}
 
 
 	public int getNumberOfRentals() {
@@ -47,8 +48,7 @@ public class Station implements Observable{
 		this.numberOfReturns = numberOfReturns;
 	}
 
-	public enum Status {Full, Available, Offline};
-	public enum StationType {Normal, Plus}
+	
 
 	
 	public Station(String name, StationType type, GPS position, ArrayList<ParkingSlot> parkingSlots, Status status,Network network) {
@@ -240,7 +240,61 @@ public class Station implements Observable{
 	}
 	
 	public double occupationRate(Timestamp t1, Timestamp t2) {
+		//[TODO]
+	}
+	
+	public int selectBicycleElectrical  () throws NoMoreElectricalException{
+
+		if (this.slotsOccupiedByElectrical() == 0){
+				throw new NoMoreElectricalException();}
+		else {
+			for (int i=0; i<=this.getParkingSlots().size(); i++) {
+				if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByElectrical)
+				{
+					System.out.println("Go take electrical bicycle at slot "+ i);
+					return i;
+					
+				}
+			}
+		}
+		return 0;//for debugging purposes
 		
+	}
+	
+	/** 
+	 * This function tells the User in which slot he should take his mechanical bicycle.
+	 * @param s
+	 * @return i
+	 * i is the parking slot where the user can take the bicycle.
+	 */
+
+	public int selectBicycleMechanical () throws NoMoreMechanicalException{
+		if (this.slotsOccupiedByMechanical() == 0)
+				throw new NoMoreMechanicalException(); 
+		else {
+			for (int i=0; i<=this.getParkingSlots().size(); i++) {
+				if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByMechanical)
+				{
+					System.out.println("Go take mechanical bicycle at slot "+ i);
+					return i;	}}}return 0;}
+	
+	public class NoMoreElectricalException extends Exception{
+		public NoMoreElectricalException(){
+		    System.out.println("Sorry, no more electrical bikes available.");
+		  }  
+	}
+	
+	public class NoMoreMechanicalException extends Exception{
+		public NoMoreMechanicalException(){
+		    System.out.println("Sorry, no more mechanical bikes available.");
+		  }  
+	}
+	
+	
+	public class UnavailableStationException extends Exception{
+		public UnavailableStationException(){
+		    System.out.println("Sorry, this stations is unavailable to drop off your bicycle.");
+		  }  
 	}
 	
 	
