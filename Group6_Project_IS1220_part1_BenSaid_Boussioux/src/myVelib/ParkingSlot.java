@@ -1,9 +1,8 @@
 package myVelib;
 
 import java.sql.Timestamp;
-import java.util.concurrent.ConcurrentSkipListMap;
 
-import myVelib.Ride.NoMoreElectricalException;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -16,6 +15,15 @@ public class ParkingSlot {
 	private ConcurrentSkipListMap <Timestamp, ParkingSlot.Status> slotHistory = new ConcurrentSkipListMap<Timestamp, ParkingSlot.Status>();
 	public enum Status {Free, OccupiedByElectrical, OccupiedByMechanical, Broken};
 	static int counter;
+	public ConcurrentSkipListMap<Timestamp, ParkingSlot.Status> getSlotHistory() {
+		return slotHistory;
+	}
+
+
+	public void setSlotHistory(ConcurrentSkipListMap<Timestamp, ParkingSlot.Status> slotHistory) {
+		this.slotHistory = slotHistory;
+	}
+
 	private int id;
 	private Station station;
 	private Bicycle bicycle;
@@ -121,11 +129,12 @@ public class ParkingSlot {
 	
 	// Je pense que c'est dans le time qu'on va printer le fait qu'un utilisateur récupère un vélo.
 	public void updateSlotHistory(Timestamp t){
-		if(!slotHistory.isEmpty()&& slotHistory.lastKey().compareTo(t)>0){
+		if(!this.slotHistory.isEmpty()&& this.slotHistory.lastKey().compareTo(t)>0){
 			System.out.println("Error, do not enter a time in the past.");
 		}
 		else{
-			slotHistory.put(t,this.getStatus());
+			//Vérifier que c'est bien fait
+			this.slotHistory.put(t,this.getStatus());
 			// vérifier le toString()
 			System.out.println("The slot's history is updated: the slot is now "+this.getStatus().toString()+" at time "+t.toString());
 		}
@@ -140,6 +149,8 @@ public class ParkingSlot {
 		long acc = 0;
 		
 		ConcurrentNavigableMap <Timestamp,ParkingSlot.Status> toCompute = this.slotHistory.subMap(t, true, r, true);
+		
+		//gérer le cas où on obtient 
 		if (this.slotHistory.lowerEntry(t).getValue()==ParkingSlot.Status.Free)
 			acc = acc + toCompute.firstKey().getTime()-t.getTime();
 		

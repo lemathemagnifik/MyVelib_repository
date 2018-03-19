@@ -239,8 +239,13 @@ public class Station implements Observable{
 		//		+ this.slotsFree() + ", slots occupied by mechanical = " + this.slotsOccupiedByMechanical() + ", slots occupied by electrical = " + this.slotsOccupiedByElectrical() + ", slots broken = " + this.slotsBroken() + "]";
 	}
 	
+	
+	//[TODO]gérer exception du temps
 	public double occupationRate(Timestamp t1, Timestamp t2) {
-		//[TODO]
+		long occupationTime = 0; 
+		for (int i=0;i<this.getParkingSlots().size();i++)
+			occupationTime +=this.getParkingSlots().get(i).occupationTime(t1, t2);
+		return (occupationTime / ((t2.getTime()-t1.getTime())*this.getParkingSlots().size()));
 	}
 	
 	public int selectBicycleElectrical  () throws NoMoreElectricalException{

@@ -10,6 +10,7 @@ import java.time.Duration;
 
 
 import myVelib.User.AlreadyHasABikeException;
+import myVelib.User.NoMoreAvailableSlotsException;
 import myVelib.User.NoMoreElectricalException;
 import myVelib.User.UnavailableStationException;
 import myVelib.Bicycle.BicycleType;
@@ -69,8 +70,12 @@ public class NetworkTest {
 			}
 		
 		
-		Timestamp t = new Timestamp(20);	
+		Timestamp t = new Timestamp(0);	
 		Timestamp u = new Timestamp(50);	
+		Timestamp r = new Timestamp(70);
+		Timestamp v = new Timestamp(1000);
+		Timestamp n = new Timestamp(60);
+
 
 		try {
 			try {
@@ -86,7 +91,10 @@ public class NetworkTest {
 		
 		
 		try {
+			try {
 			user.returnBike(stationNotreDame, u);
+			}
+			catch(NoMoreAvailableSlotsException e) {System.out.println(e.toString());}
 			}
 		catch(UnavailableStationException e) {System.out.println("no electrical: "  + e.toString());
 		} 
@@ -95,10 +103,18 @@ public class NetworkTest {
 
 		user.subscribeStation(stationNotreDame);
 		user.subscribeStation(stationStJacques);
-		stationNotreDame.setStatus(Station.Status.Full);
 		stationStJacques.setStatus(Station.Status.Offline);
 		stationStMichel.setStatus(Station.Status.Offline);
 		user.displayMessage();
+		
+		System.out.println(stationNotreDame.getParkingSlots().get(0).getSlotHistory());
+		stationNotreDame.getParkingSlots().get(0).updateSlotHistory(r);
+		stationNotreDame.getParkingSlots().get(0).updateSlotHistory(v);
+		System.out.println(stationNotreDame.getParkingSlots().get(0).getSlotHistory().lowerEntry(u).getValue());
+		System.out.println(stationNotreDame.getParkingSlots().get(0).occupationTime(n, v));
+
+		
+		
 		
 		
 	
