@@ -5,8 +5,6 @@ import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import mainPackage.Physician;
-
 
 
 public class Station implements Observable{
@@ -278,6 +276,13 @@ public class Station implements Observable{
 		
 	}
 	
+	/** 
+	 * This function tells the User in which slot he should take his bicycle.
+	 * @param bType The type of the bicycle. Set to null if there is no preference. 
+	 * @return i
+	 * i is the parking slot where the user can take the bicycle.
+	 */
+
 	public int selectBicycle (Bicycle.BicycleType bType) throws NoMoreBikeException{
 
 		if (this.slotsOccupied(bType) == 0){
@@ -337,6 +342,12 @@ public class Station implements Observable{
 		public UnavailableStationException(){
 		    System.out.println("Sorry, this stations is unavailable to drop off your bicycle.");
 		  }  
+	}
+
+	@Override
+	public void setChanged() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
