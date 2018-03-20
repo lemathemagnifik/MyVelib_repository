@@ -278,6 +278,26 @@ public class Station implements Observable{
 		
 	}
 	
+	public int selectBicycle (Bicycle.BicycleType bType) throws NoMoreBikeException{
+
+		if (this.slotsOccupied(bType) == 0){
+				throw new NoMoreBikeException();}
+		else  {
+			for (int i=0; i<=this.getParkingSlots().size(); i++) {
+				if (this.getParkingSlots().get(i).getBicycle()!=null & this.getParkingSlots().get(i).getBicycle().getType() == bType)
+				{
+					System.out.println("Go take the " + Bicycle.bicycleTypeString(bType) + " bicycle at slot "+ i);
+					return i;
+					
+				}
+			}
+		}
+		
+		
+		return 0;//for debugging purposes
+		
+	}
+	
 	/** 
 	 * This function tells the User in which slot he should take his mechanical bicycle.
 	 * @param s
@@ -307,6 +327,11 @@ public class Station implements Observable{
 		  }  
 	}
 	
+	public class NoMoreBikeException extends Exception{
+		public NoMoreBikeException(){
+		    System.out.println("Sorry, no more bikes of the desired type available.");
+		  }  
+	}
 	
 	public class UnavailableStationException extends Exception{
 		public UnavailableStationException(){

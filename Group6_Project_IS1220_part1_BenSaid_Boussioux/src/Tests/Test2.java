@@ -1,9 +1,11 @@
 package Tests;
 
+import myVelib.Bicycle.BicycleType;
+import myVelib.Station;
+import myVelib.Station.NoMoreBikeException;
+
 public class Test2 {
 	public static void main(String[] args) {
-		Bicycle.BicycleType type = null;
-		System.out.println(type == null);
-		
+		new Station.NoMoreBikeException().toString();
 	}
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
-import myVelib.Ride.NoMoreElectricalException;
+import myVelib.Station.NoMoreBikeException;
 import myVelib.User.UnavailableStationException;
 
 
@@ -25,9 +25,10 @@ public class User implements CardVisitor, Observer {
 	 * This type of map stores the key-value pairs in a specific order. This way it is easy to get the last user's state.
 	 * 
 	 */
-	private ConcurrentSkipListMap <Timestamp, UserAction> userHistory = new ConcurrentSkipListMap<Timestamp, User.UserAction>();
+	private ConcurrentSkipListMap <Timestamp, Ride> userHistory = new ConcurrentSkipListMap<Timestamp, Ride>();
 	private GPS position;
 	private PlannedRide plannedRide;
+	private Ride ride;
 	private Network network;
 	protected int id;
 	private Card card;
@@ -93,10 +94,10 @@ public class User implements CardVisitor, Observer {
 		this.name = name;
 	}
 	
-	public ConcurrentSkipListMap<Timestamp, UserAction> getUserHistory() {
+	public ConcurrentSkipListMap<Timestamp, Ride> getUserHistory() {
 		return userHistory;
 	}
-	public void setUserHistory(ConcurrentSkipListMap<Timestamp, UserAction> userHistory) {
+	public void setUserHistory(ConcurrentSkipListMap<Timestamp, Ride> userHistory) {
 		this.userHistory = userHistory;
 	}
 	
@@ -330,27 +331,59 @@ public class User implements CardVisitor, Observer {
 	 * @param s
 	 * @throws NoMoreMechanicalException 
 	 */
+	
+	
 	public void rentBikeMechanical(Station s, Timestamp t) throws NoMoreMechanicalException, AlreadyHasABikeException {
 		if (s.slotsOccupiedByMechanical()==0)
-			throw new NoMoreMechanicalException();
+			throw new NoMoreMechanicalException(); 
 		if (this.getBicycle()!=null)
 			throw new AlreadyHasABikeException();
-		
 		try {
-			int i = s.selectBicycleMechanical();
-			//We get the bicycle
-					Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
-					// We set free the slot
-					s.getParkingSlots().get(i).becomesFree(t);
-					this.setBicycle(bicycle);
-					// start counter for the user
-					this.updateUserHistory(t, UserAction.dropped_on);
-					//We need to begin the riding time and put something in the TimeStamp
-					s.addEntryToStationHistory(t);
-					s.setNumberOfRentals(s.getNumberOfRentals()+1);
+		int i = s.selectBicycleMechanical();
+		//We get the bicycle
+				Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
+				// We set free the slot
+				s.getParkingSlots().get(i).becomesFree(t);
+				this.setBicycle(bicycle);
+				// start counter for the user
+				this.updateUserHistory(t, UserAction.dropped_on);
+				//We need to begin the riding time and put something in the TimeStamp
+				s.addEntryToStationHistory(t);
+				s.setNumberOfRentals(s.getNumberOfRentals()+1);
+		}
+		catch(Station.NoMoreMechanicalException e){System.out.println("no electrical: "  + e.toString());
+		}	
+	}
+	
+	public void rentBike(Station s, Bicycle.BicycleType bType, Timestamp t) throws NoMoreBikesException, AlreadyHasABikeException {
+		if (this.getBicycle()!=null) {
+			throw new AlreadyHasABikeException();
+		}
+		else if (s.slotsOccupiedByMechanical()==0 & bType==Bicycle.BicycleType.Mechanical || s.slotsOccupiedByElectrical()==0 & bType==Bicycle.BicycleType.Electrical) {
+			throw new NoMoreBikesException();
+		}
+		
+		else {
+			try {
+				int i = s.selectBicycle(bType);
+				Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
+				// We set free the slot
+				s.getParkingSlots().get(i).becomesFree(t);
+				this.setBicycle(bicycle);
+				// start counter for the user
+				this.updateUserHistory(t, UserAction.dropped_on);
+				//We need to begin the riding time and put something in the TimeStamp
+				s.addEntryToStationHistory(t);
+				s.setNumberOfRentals(s.getNumberOfRentals()+1);
+				this.ride.setDepartureStation(s);
+				this.ride.setDepartureTime(t);
+				this.ride.setBicycle(bicycle);
+				
 			}
-			catch(Station.NoMoreMechanicalException e){System.out.println("no mechanical: "  + e.toString());
+			catch (NoMoreBikeException e) {
+				e.toString();
 			}
+		}
 	}
 	
 	/** 
@@ -367,7 +400,13 @@ public class User implements CardVisitor, Observer {
 	
 	public class NoMoreMechanicalException extends Exception{
 		public NoMoreMechanicalException(){
-		    System.out.println("Sorry, no more mechanical bikes available.");
+		    System.out.println("Sorry, no more electrical bikes available.");
+		  }  
+	}
+	
+	public class NoMoreBikesException extends Exception{
+		public NoMoreBikesException(){
+		    System.out.println("Sorry, no more bikes of the desired type available.");
 		  }  
 	}
 	
@@ -415,4 +454,7 @@ public class User implements CardVisitor, Observer {
 			System.out.println("Your ride has been deleted.");
 		}
 	}
+	
+
+	
 }

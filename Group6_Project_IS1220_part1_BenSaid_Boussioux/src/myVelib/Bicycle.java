@@ -64,6 +64,15 @@ public class Bicycle {
 		ID = iD;
 	}
 
-	
+	static String bicycleTypeString(Bicycle.BicycleType bType) {
+		String str = "";
+		if (bType==Bicycle.BicycleType.Electrical) {
+			str = "electrical";
+		}
+		else if (bType==Bicycle.BicycleType.Mechanical) {
+			str="mechanical";
+		}
+		return str;
+	}
 
 }
