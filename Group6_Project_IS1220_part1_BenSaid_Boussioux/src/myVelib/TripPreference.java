@@ -2,6 +2,7 @@ package myVelib;
 
 import java.util.ArrayList;
 
+import Tests.Test;
 import myVelib.ParkingSlot.UnavailableSlotException;
 
 
@@ -165,15 +166,13 @@ abstract class TripPreference {
 	}
 	
 	public ArrayList<Station> getDepartures(Network network, GPS departure, boolean uniformity) {
-		ArrayList<Station> departureStations;
+
 		if (uniformity) {
-			ArrayList<Station> mostFullStations = uniformiseDepartures(network.getStations(), departure, null);
-			departureStations = isClosest(departure, mostFullStations);
+			return isClosest(departure, uniformiseDepartures(network.getStations(), departure, null));
 			}
 		else {
-			departureStations = isClosest(departure,network.getStations());
+			return isClosest(departure,network.getStations());
 		}
-		return departureStations;
 	}
 	
 	public ArrayList<Station> getArrivals(Network network, GPS arrival, boolean uniformity, boolean plus) {
@@ -197,32 +196,32 @@ abstract class TripPreference {
 			return arrivalStations;
 	}
 		
-	
-	public static void main(String[] args)  {
-		Network myNetwork = new Network();
-		try {
-			myNetwork = Test.CreateTestNetwork();
-		} catch (UnavailableSlotException e) {
-			e.printStackTrace();
-		}
-		
-		
-		ArrayList<Station> testRadius = new ShortestPath().getStationsInRadiusPercent(myNetwork.getStations(), new GPS(20,10), 1.10, false);
-		System.out.println(testRadius);
-		
-
-		ArrayList<Station> departureStations;
-		departureStations = new FastestPath().getDepartures(myNetwork, new GPS(2.5,2),false);
-		System.out.println(departureStations);
-		
-		ArrayList<Station> arrivalStations;
-		arrivalStations = new FastestPath().getArrivals(myNetwork, new GPS(5.5,5), false, false);
-		System.out.println(arrivalStations);
-
-
-		
-
-	}
+//	
+//	public static void main(String[] args)  {
+//		Network myNetwork = new Network();
+//		try {
+//			myNetwork = Test.CreateTestNetwork();
+//		} catch (UnavailableSlotException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		
+//		ArrayList<Station> testRadius = new ShortestPath().getStationsInRadiusPercent(myNetwork.getStations(), new GPS(20,10), 1.10, false);
+//		System.out.println(testRadius);
+//		
+//
+//		ArrayList<Station> departureStations;
+//		departureStations = new FastestPath().getDepartures(myNetwork, new GPS(2.5,2),false);
+//		System.out.println(departureStations);
+//		
+//		ArrayList<Station> arrivalStations;
+//		arrivalStations = new FastestPath().getArrivals(myNetwork, new GPS(5.5,5), false, false);
+//		System.out.println(arrivalStations);
+//
+//
+//		
+//
+//	}
 
 
 

@@ -2,6 +2,7 @@ package myVelib;
 
 import java.util.ArrayList;
 
+import Tests.Test;
 import myVelib.ParkingSlot.UnavailableSlotException;
 
 public class ShortestPath extends TripPreference {

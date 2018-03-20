@@ -3,9 +3,13 @@ package myVelib;
 import java.sql.Timestamp;
 import java.time.Duration;
 
+import Tests.Test;
+import myVelib.ParkingSlot.UnavailableSlotException;
+
 public class Ride {
 	public Timestamp departureTime;
 	public Timestamp arrivalTime;
+	public Duration duration;
 	public Station departureStation;
 	public Station arrivalStation;
 	public Bicycle bicycle;
@@ -13,16 +17,8 @@ public class Ride {
 	public Duration timeCredit;
 	
 	
-	public Ride(Timestamp departureTime, Timestamp arrivalTime, Station departureStation, Station arrivalStation,
-			Bicycle bicycle, Double cost, Duration timeCredit) {
+	public Ride() {
 		super();
-		this.departureTime = departureTime;
-		this.arrivalTime = arrivalTime;
-		this.departureStation = departureStation;
-		this.arrivalStation = arrivalStation;
-		this.bicycle = bicycle;
-		this.cost = cost;
-		this.timeCredit = timeCredit;
 	}
 
 
@@ -66,6 +62,16 @@ public class Ride {
 	}
 
 
+	public Duration getDuration() {
+		return duration;
+	}
+
+
+	public void setDuration(Duration duration) {
+		this.duration = duration;
+	}
+
+
 	public Bicycle getBicycle() {
 		return bicycle;
 	}
@@ -96,6 +102,13 @@ public class Ride {
 	}
 	
 	
+	public static void main(String[] args) throws UnavailableSlotException {
+		Network myNetwork = Test.CreateTestNetwork();
+		Ride ride = new PlannedRide(myNetwork, new GPS(1,1), new GPS(3.4,5), true, true, false, false);
+		System.out.println(ride.getDepartureStation());
+		System.out.println(ride.getArrivalStation());
+
+	}
 	
 	
 	

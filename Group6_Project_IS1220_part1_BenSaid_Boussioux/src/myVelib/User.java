@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+import Tests.Test;
 import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station.NoMoreBikeException;
@@ -171,13 +172,13 @@ public class User implements CardVisitor, Observer {
 	 * @param t
 	 * @param ps
 	 */
-	public void updateUserHistory(Timestamp t, UserAction ua){
+	public void updateUserHistory(Timestamp t, Ride ride){
 		if(!userHistory.isEmpty()&& userHistory.lastKey().compareTo(t)>0){
 			System.out.println("Error, do not enter a time in the past.");
 		}
 		else{
-			userHistory.put(t,ua);
-			System.out.println("The user's history is updated: the user "+ua.toString()+" the bicycle "+ bicycle.toString() + "at time "+t.toString());
+			userHistory.put(t,ride);
+			//System.out.println("The user's history is updated: the user "+ride.toString()+" the bicycle "+ bicycle.toString() + "at time "+t.toString());
 		}
 	}
 	
@@ -255,14 +256,16 @@ public class User implements CardVisitor, Observer {
 			for (int i=0; i<s.getParkingSlots().size(); i++) {
 				if (s.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.Free)
 				{
-					System.out.println("Go put your bicycle at slot "+ i);
+					System.out.println("Please, put your bicycle at slot "+ i);
 					//On gère l'exception pour des questions de compilation
 					
 					try {
 						s.getParkingSlots().get(i).addBicycle(this.getBicycle(),t);
 						}
+					//le println ??
 					catch(UnavailableSlotException e) {System.out.println("no electrical: "  + e.toString());
 					}
+					
 				
 					// On signale à la station qu'on a rendu un vélo.	
 					s.addEntryToStationHistory(t);
@@ -270,23 +273,29 @@ public class User implements CardVisitor, Observer {
 					//On met du crédit si c'est une plus station
 					if (s.getStationType()==Station.StationType.Plus) {
 						this.getCard().creditTime();
+						this.ride.getTimeCredit().plusMillis(300000);
 					}
 					 
 					//We compute the duration of the trip in ms.
 					Duration duration = Duration.ZERO;
-					duration.plusMillis(t.getTime()-this.getUserHistory().lastKey().getTime());
+					duration.plusMillis(t.getTime()-this.ride.getDepartureTime().getTime());
 					//We update the user's history
-					this.updateUserHistory(t, UserAction.dropped_off);
-					this.setBicycle(null);
 					s.setNumberOfReturns(s.getNumberOfReturns()+1);
 					//We compute the cost of the trip
+					Double cost = (double) 0;
 					try {
-					Double cost = this.visit((BlueCard) this.card, duration, this.getBicycle().getType());
+					cost = this.visit((BlueCard) this.card, duration, this.getBicycle().getType());
 					System.out.println("You have to pay" + cost + "euros.");
 					}
 					catch(Exception e) {System.out.println("no blueCard: "  + e.toString());
-					}					
-					
+					}
+					this.setBicycle(null);
+					this.ride.setArrivalTime(t);
+					this.ride.setArrivalStation(s);
+					this.ride.setDuration(duration);
+					this.ride.setCost(cost);
+					this.updateUserHistory(this.ride.getDepartureTime(), this.ride);
+					this.ride = null;
 					// TODO Stocker ce coût dans Trip pour le retrouver ou bien dans Card
 					// TODO Faire sortir l'utilisateur des observateurs.
 					//this.unsuscribe(s);
@@ -378,7 +387,6 @@ public class User implements CardVisitor, Observer {
 				this.ride.setDepartureStation(s);
 				this.ride.setDepartureTime(t);
 				this.ride.setBicycle(bicycle);
-				
 			}
 			catch (NoMoreBikeException e) {
 				e.toString();
@@ -433,18 +441,18 @@ public class User implements CardVisitor, Observer {
 	}
 	
 	public void planRide(GPS destination,  boolean plus, boolean uniformity, boolean fastest) {
-		if (this.plannedRide == null) {
-			plannedRide = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, false);
+		if (this.ride == null) {
+			this.ride = new PlannedRide(this.network, new GPS(0,0), new GPS(5,5), true, true, false, false);
 			System.out.println("We are finding the best path");
 		}
 		else {
-			plannedRide = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, true);
+			this.ride = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, true);
 			System.out.println("You haven't reached your destination yet. We are looking for a new path.");
+			
 		}
-
-
-		
 	}
+	
+	
 	public void deleteCurrentRide() {
 		if (plannedRide==null) {
 			System.out.println("There is no planned ride.");
@@ -456,5 +464,23 @@ public class User implements CardVisitor, Observer {
 	}
 	
 
+	public Ride getRide() {
+		return ride;
+	}
+	public void setRide(Ride ride) {
+		this.ride = ride;
+	}
+	public static void main(String[] args) throws UnavailableSlotException {
+		
+		Network myNetwork = Test.CreateTestNetwork();
+		User userTest = new User("Anis");
+		userTest.setNetwork(myNetwork);
+		userTest.setRide( new PlannedRide(myNetwork, userTest.getPosition(), new GPS(5,5), true, true, false, false));
+		System.out.println(userTest.ride.getDepartureStation());
+		System.out.println(userTest.ride.getArrivalStation());
+		
+		
+		
+	}
 	
 }
