@@ -27,14 +27,13 @@ public class User implements CardVisitor, Observer {
 	 */
 	private ConcurrentSkipListMap <Timestamp, UserAction> userHistory = new ConcurrentSkipListMap<Timestamp, User.UserAction>();
 	private GPS position;
-	private GPS destination;
+	private PlannedRide plannedRide;
+	private Network network;
 	protected int id;
 	private Card card;
 	private String name;
 	static int IDuserCounter=0;
 	final static double walkingSpeed = 4;
-
-
 	private ArrayList<Message> messageBox;
 	private ArrayList<Station> observedStations = new ArrayList<Station>();
 	private Bicycle bicycle;
@@ -55,8 +54,15 @@ public class User implements CardVisitor, Observer {
 	 */
 
 	
+	
 	public GPS getPosition() {
 		return position;
+	}
+	public PlannedRide getPlannedRide() {
+		return plannedRide;
+	}
+	public void setPlannedRide(PlannedRide plannedRide) {
+		this.plannedRide = plannedRide;
 	}
 	public void setPosition(GPS position) {
 		this.position = position;
@@ -66,18 +72,14 @@ public class User implements CardVisitor, Observer {
 		this.position = arrival;
 		
 	}
-	
-	public GPS getDestination() {
-		return destination;
+		
+	public Network getNetwork() {
+		return network;
 	}
-	public void setDestination(GPS destination) {
-		this.destination = destination;
+	public void setNetwork(Network network) {
+		this.network = network;
 	}
-	public Id getId() {
-		return id;
-	}
-	
-	
+
 	public Card getCard() {
 		return card;
 	}
@@ -387,8 +389,30 @@ public class User implements CardVisitor, Observer {
 		  }  
 	}
 	
+	public void userBalance() {
+		
+	}
 	
-	
-	
+	public void planRide(GPS destination,  boolean plus, boolean uniformity, boolean fastest) {
+		if (this.plannedRide == null) {
+			plannedRide = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, false);
+			System.out.println("We are finding the best path");
+		}
+		else {
+			plannedRide = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, true);
+			System.out.println("You haven't reached your destination yet. We are looking for a new path.");
+		}
 
+
+		
+	}
+	public void deleteCurrentRide() {
+		if (plannedRide==null) {
+			System.out.println("There is no planned ride.");
+		}
+		else {
+			this.setPlannedRide(null);
+			System.out.println("Your ride has been deleted.");
+		}
+	}
 }

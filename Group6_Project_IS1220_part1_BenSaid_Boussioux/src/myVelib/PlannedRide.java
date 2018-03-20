@@ -1,6 +1,6 @@
 package myVelib;
 
-public class Trip {
+public class PlannedRide {
 	private TripPreference preference;
 	private GPS departure;
 	private GPS arrival;
@@ -9,8 +9,9 @@ public class Trip {
 	private boolean uniformity;
 	private boolean fastest;
 	private boolean alreadyHaveBicycle;
+	private Station[] path;
 	
-	public Trip(Network network, GPS departure, GPS arrival, boolean plus, boolean uniformity, boolean fastest, boolean alreadyHaveBicycle) {
+	public PlannedRide(Network network, GPS departure, GPS arrival, boolean plus, boolean uniformity, boolean fastest, boolean alreadyHaveBicycle) {
 		super();
 		this.network = network;
 		this.departure = departure;
@@ -29,7 +30,7 @@ public class Trip {
 				preference = new ShortestPath();
 			}
 		}
-		
+		this.path = preference.setPath(network, departure, arrival, uniformity, plus);
 	}
 	
 	

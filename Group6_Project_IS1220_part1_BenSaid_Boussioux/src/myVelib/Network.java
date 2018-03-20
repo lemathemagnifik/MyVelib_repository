@@ -102,7 +102,7 @@ public class Network {
 	public ArrayList<User> getUsers() {
 		return users;
 	}
-
+	// trouver une solution pour affecter network à chacun des User/Bicycle/Station des ArrayList ou effacer ces méthode (kiss!)
 	public void setUsers(ArrayList<User> users) {
 		this.users = users;
 	}
@@ -117,14 +117,17 @@ public class Network {
 	
 	public void addStation(Station station) {
 		this.getStations().add(station);
+		station.setNetwork(this);
 	}
 	
 	public void addUser(User user) {
 		this.getUsers().add(user);
+		user.setNetwork(this);
 	}
 	
 	public void addBicycle(Bicycle bicycle) {
 		this.getBicycles().add(bicycle);
+		bicycle.setNetwork(this);
 	}
 	
 	

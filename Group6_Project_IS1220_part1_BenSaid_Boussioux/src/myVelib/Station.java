@@ -26,6 +26,18 @@ public class Station implements Observable{
 	public enum StationType {Normal, Plus}
 
 
+	
+	public Network getNetwork() {
+		return network;
+	}
+
+
+
+	public void setNetwork(Network network) {
+		this.network = network;
+	}
+	
+	
 	public int getNumberOfRentals() {
 		return numberOfRentals;
 	}

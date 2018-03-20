@@ -2,6 +2,7 @@ package myVelib;
 
 public class Bicycle {
 	static int counter = 0 ; 
+	private Network network;
 	private BicycleType type;
 	private boolean isUsed;
 	private int ID;
@@ -31,6 +32,16 @@ public class Bicycle {
 		return isUsed;
 	}
 	
+	
+	
+	public Network getNetwork() {
+		return network;
+	}
+
+	public void setNetwork(Network network) {
+		this.network = network;
+	}
+
 	public BicycleType getType() {
 		return type;
 	}
