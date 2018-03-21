@@ -2,6 +2,7 @@ package myVelib;
 
 import java.util.ArrayList;
 
+import Tests.Test;
 import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station.StationType;

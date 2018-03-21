@@ -13,136 +13,42 @@ import Tests.Test;
 import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station.NoMoreBikeException;
-import myVelib.User.UnavailableStationException;
 
 
 
 public class User implements CardVisitor, Observer {
 	
-
+//*****************************************************************//
+//							Attributes 							   //
+//*****************************************************************//
+	
 	public enum UserAction {dropped_on, dropped_off}; 
+	
+	private Network network;
+	protected int id;
+	private String name;
+	private Card card;
+	private GPS position;
+	private Ride ride;
+	private Bicycle bicycle; //Pas sûr de l'utilité de Bicycle
+
+	private ArrayList<Message> messageBox;
+	private ArrayList<Observable> observedStations = new ArrayList<Observable>();
 	
 	/**A map representing a user's history: with Timestamps as keys and UserStates as values.
 	 * This type of map stores the key-value pairs in a specific order. This way it is easy to get the last user's state.
 	 * 
 	 */
 	private ConcurrentSkipListMap <Timestamp, Ride> userHistory = new ConcurrentSkipListMap<Timestamp, Ride>();
-	private GPS position;
-	private PlannedRide plannedRide;
-	private Ride ride;
-	private Network network;
-	protected int id;
-	private Card card;
-	private String name;
+
 	static int IDuserCounter=0;
 	final static double walkingSpeed = 4;
-	private ArrayList<Message> messageBox;
-	private ArrayList<Station> observedStations = new ArrayList<Station>();
-	private Bicycle bicycle;
-	
-	public Bicycle getBicycle() {
-		return bicycle;
-	}
-	public void setBicycle(Bicycle bicycle) {
-		this.bicycle = bicycle;
-	}
 	
 	
 	
-	
-	/** The getters and setters
-	 * 
-	 * @param userActions
-	 */
-
-	
-	
-	public GPS getPosition() {
-		return position;
-	}
-	public PlannedRide getPlannedRide() {
-		return plannedRide;
-	}
-	public void setPlannedRide(PlannedRide plannedRide) {
-		this.plannedRide = plannedRide;
-	}
-	public void setPosition(GPS position) {
-		this.position = position;
-	}
-	
-	public void setPosition(GPS departure, GPS arrival) {
-		this.position = arrival;
-		
-	}
-		
-	public Network getNetwork() {
-		return network;
-	}
-	public void setNetwork(Network network) {
-		this.network = network;
-	}
-
-	public Card getCard() {
-		return card;
-	}
-	public void setCard(Card card) {
-		this.card = card;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public ConcurrentSkipListMap<Timestamp, Ride> getUserHistory() {
-		return userHistory;
-	}
-	public void setUserHistory(ConcurrentSkipListMap<Timestamp, Ride> userHistory) {
-		this.userHistory = userHistory;
-	}
-	
-	
-	
-	/** Observers functions
-	 * 
-	 * @param s
-	 */
-	
-	public void subscribeStation(Station s){
-		s.addObserver(this);
-		this.observedStations.add(s);
-	}
-	
-	public void unsuscribe(Station s){
-		s.deleteObserver(this);
-		observedStations.remove(s);
-		//// ligne Ã  rajouter dans Timestamp treatedPatients.add(s);
-	}
-	
-
-	public void recieveMessage(Message m){
-		messageBox.add(m);
-	}
-	public void displayMessage(){
-		for (Message m : this.messageBox) {
-			m.setRead(true);
-			System.out.println(m.getText());}
-	}
-	
-	public void removeMessage(Message m){
-		messageBox.remove(m);
-	}
-	
-	
-	public void update(Station s) {//, Object arg) {
-		//Station s = (Station) o;
-		////String result= (String) arg;
-		this.recieveMessage(new Message("The Station "+s.getName()+" is now "+s.getStatus()));
-
-	}
-	
-	
+//*****************************************************************//
+//						Constructor 							   //
+//*****************************************************************//
 	
 	/**
 	 * Constructor 
@@ -160,13 +66,150 @@ public class User implements CardVisitor, Observer {
 		this.messageBox = new ArrayList <Message>();
 		this.position = new GPS(0,0);
 	}
+	
 	public User() {
 		super();
 	}
 	
 	
+//*****************************************************************//
+//						Getters and Setters 					   //
+//*****************************************************************//
 	
 	
+	public int getId() {
+		return id;
+	}
+
+	public Network getNetwork() {
+		return network;
+	}
+
+	public void setNetwork(Network network) {
+		this.network = network;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Card getCard() {
+		return card;
+	}
+
+	public void setCard(Card card) {
+		this.card = card;
+	}
+
+	public GPS getPosition() {
+		return position;
+	}
+
+	public void setPosition(GPS position) {
+		this.position = position;
+	}
+//Pas sûr de l'utilité de Bicycle
+	public Bicycle getBicycle() {
+		return bicycle;
+	}
+
+	public void setBicycle(Bicycle bicycle) {
+		this.bicycle = bicycle;
+	}
+
+	public ArrayList<Message> getMessageBox() {
+		return messageBox;
+	}
+
+	public void setMessageBox(ArrayList<Message> messageBox) {
+		this.messageBox = messageBox;
+	}
+
+	public Ride getRide() {
+		return ride;
+	}
+	
+	public void setRide(Ride ride) {
+		this.ride = ride;
+	}
+
+	public ConcurrentSkipListMap<Timestamp, Ride> getUserHistory() {
+		return userHistory;
+	}
+
+	public void setUserHistory(ConcurrentSkipListMap<Timestamp, Ride> userHistory) {
+		this.userHistory = userHistory;
+	}
+
+	public static int getIDuserCounter() {
+		return IDuserCounter;
+	}
+
+	public static void setIDuserCounter(int iDuserCounter) {
+		IDuserCounter = iDuserCounter;
+	}
+
+	public static double getWalkingspeed() {
+		return walkingSpeed;
+	}
+
+
+//*****************************************************************//
+//							Methods 							   //
+//*****************************************************************//	
+
+	
+// OBSERVER PATTERN
+	/** Observers functions
+	 * 
+	 * @param s
+	 */
+	
+	public void subscribeStation(Observable s){
+		s.addObserver(this);
+		this.observedStations.add(s);
+	}
+	
+	public void unsuscribe(Observable s){
+		s.deleteObserver(this);
+		observedStations.remove(s);
+	}
+	
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (o instanceof Station) {
+			Station station = (Station) o;
+			this.recieveMessage(new Message("The Station "+station.getName()+" is now "+station.getStatus()));
+			System.out.println("The Station "+station.getName()+" is now "+station.getStatus());
+		}
+
+	}
+
+
+	public void recieveMessage(Message m){
+		messageBox.add(m);
+	}
+	
+	public void displayMessage(){
+		for (Message m : this.messageBox) {
+			m.setRead(true);
+			System.out.println(m.getText());}
+	}
+	
+	public void removeMessage(Message m){
+		messageBox.remove(m);
+	}
+	
+
+//-----------------------------------------------------------------//
+
+// VISITOR PATTERN	
+		
 	/**
 	 * adds an event to the user's history. Also checks that the events are entered in chronological order.
 	 * @param t
@@ -183,9 +226,11 @@ public class User implements CardVisitor, Observer {
 	}
 	
 	
-			//bleu 1ï¿½ /heure-> mï¿½canique 2ï¿½/h-> ï¿½lectrique
-			//velibr 0ï¿½ premiï¿½re heure et 1ï¿½ le reste -> mï¿½canique; 1ï¿½ 1ere h 2ï¿½ les autres h.->electrique
-			//vmax 0ï¿½premiï¿½re h 1ï¿½ pour les heures suivantes.
+	//bleu 1ï¿½ /heure-> mï¿½canique 2ï¿½/h-> ï¿½lectrique
+	//velibr 0ï¿½ premiï¿½re heure et 1ï¿½ le reste -> mï¿½canique; 1ï¿½ 1ere h 2ï¿½ les autres h.->electrique
+	//vmax 0ï¿½premiï¿½re h 1ï¿½ pour les heures suivantes.
+	
+	
 	/**
 	 * cette classe compute le temps final. C'est ï¿½ dire que tripTime est le temps moins le crï¿½dit en temps.
 	 * On facture par heures entiï¿½res.
@@ -234,10 +279,17 @@ public class User implements CardVisitor, Observer {
 		return numberOfHours;
 	}
 	
+	
+//-----------------------------------------------------------------//
+
+// toString METHOD
+	
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", card="
 				+ card + "]";
 	}
+
+//-----------------------------------------------------------------//
 
 	/**
 	 * This function allows the User to drop Off his bicycle.
@@ -295,10 +347,10 @@ public class User implements CardVisitor, Observer {
 					this.ride.setDuration(duration);
 					this.ride.setCost(cost);
 					this.updateUserHistory(this.ride.getDepartureTime(), this.ride);
-					this.ride = null;
+					this.ride = new Ride();
 					// TODO Stocker ce coÃ»t dans Trip pour le retrouver ou bien dans Card
 					// TODO Faire sortir l'utilisateur des observateurs.
-					//this.unsuscribe(s);
+					this.unsuscribe(s);
 				}
 			}
 		}
@@ -312,27 +364,27 @@ public class User implements CardVisitor, Observer {
 	 * @param s
 	 * @throws NoMoreElectricalException 
 	 */
-	public void rentBikeElectrical(Station s, Timestamp t) throws NoMoreElectricalException, AlreadyHasABikeException {
-		if (s.slotsOccupiedByElectrical()==0)
-			throw new NoMoreElectricalException(); 
-		if (this.getBicycle()!=null)
-			throw new AlreadyHasABikeException();
-		try {
-		int i = s.selectBicycleElectrical();
-		//We get the bicycle
-				Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
-				// We set free the slot
-				s.getParkingSlots().get(i).becomesFree(t);
-				this.setBicycle(bicycle);
-				// start counter for the user
-				this.updateUserHistory(t, UserAction.dropped_on);
-				//We need to begin the riding time and put something in the TimeStamp
-				s.addEntryToStationHistory(t);
-				s.setNumberOfRentals(s.getNumberOfRentals()+1);
-		}
-		catch(Station.NoMoreElectricalException e){System.out.println("no electrical: "  + e.toString());
-		}	
-	}
+//	public void rentBikeElectrical(Station s, Timestamp t) throws NoMoreElectricalException, AlreadyHasABikeException {
+//		if (s.slotsOccupiedByElectrical()==0)
+//			throw new NoMoreElectricalException(); 
+//		if (this.getBicycle()!=null)
+//			throw new AlreadyHasABikeException();
+//		try {
+//		int i = s.selectBicycleElectrical();
+//		//We get the bicycle
+//				Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
+//				// We set free the slot
+//				s.getParkingSlots().get(i).becomesFree(t);
+//				this.setBicycle(bicycle);
+//				// start counter for the user
+//				this.updateUserHistory(t, UserAction.dropped_on);
+//				//We need to begin the riding time and put something in the TimeStamp
+//				s.addEntryToStationHistory(t);
+//				s.setNumberOfRentals(s.getNumberOfRentals()+1);
+//		}
+//		catch(Station.NoMoreElectricalException e){System.out.println("no electrical: "  + e.toString());
+//		}	
+//	}
 	
 	/**
 	 * This function allows the User to drop on a mechanical bicycle.
@@ -341,28 +393,28 @@ public class User implements CardVisitor, Observer {
 	 * @throws NoMoreMechanicalException 
 	 */
 	
-	
-	public void rentBikeMechanical(Station s, Timestamp t) throws NoMoreMechanicalException, AlreadyHasABikeException {
-		if (s.slotsOccupiedByMechanical()==0)
-			throw new NoMoreMechanicalException(); 
-		if (this.getBicycle()!=null)
-			throw new AlreadyHasABikeException();
-		try {
-		int i = s.selectBicycleMechanical();
-		//We get the bicycle
-				Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
-				// We set free the slot
-				s.getParkingSlots().get(i).becomesFree(t);
-				this.setBicycle(bicycle);
-				// start counter for the user
-				this.updateUserHistory(t, UserAction.dropped_on);
-				//We need to begin the riding time and put something in the TimeStamp
-				s.addEntryToStationHistory(t);
-				s.setNumberOfRentals(s.getNumberOfRentals()+1);
-		}
-		catch(Station.NoMoreMechanicalException e){System.out.println("no electrical: "  + e.toString());
-		}	
-	}
+//	
+//	public void rentBikeMechanical(Station s, Timestamp t) throws NoMoreMechanicalException, AlreadyHasABikeException {
+//		if (s.slotsOccupiedByMechanical()==0)
+//			throw new NoMoreMechanicalException(); 
+//		if (this.getBicycle()!=null)
+//			throw new AlreadyHasABikeException();
+//		try {
+//		int i = s.selectBicycleMechanical();
+//		//We get the bicycle
+//				Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
+//				// We set free the slot
+//				s.getParkingSlots().get(i).becomesFree(t);
+//				this.setBicycle(bicycle);
+//				// start counter for the user
+//				this.updateUserHistory(t, UserAction.dropped_on);
+//				//We need to begin the riding time and put something in the TimeStamp
+//				s.addEntryToStationHistory(t);
+//				s.setNumberOfRentals(s.getNumberOfRentals()+1);
+//		}
+//		catch(Station.NoMoreMechanicalException e){System.out.println("no electrical: "  + e.toString());
+//		}	
+//	}
 	
 	public void rentBike(Station s, Bicycle.BicycleType bType, Timestamp t) throws NoMoreBikesException, AlreadyHasABikeException {
 		if (this.getBicycle()!=null) {
@@ -380,7 +432,8 @@ public class User implements CardVisitor, Observer {
 				s.getParkingSlots().get(i).becomesFree(t);
 				this.setBicycle(bicycle);
 				// start counter for the user
-				this.updateUserHistory(t, UserAction.dropped_on);
+				this.ride=new Ride();
+				this.updateUserHistory(t, this.ride);
 				//We need to begin the riding time and put something in the TimeStamp
 				s.addEntryToStationHistory(t);
 				s.setNumberOfRentals(s.getNumberOfRentals()+1);
@@ -394,12 +447,30 @@ public class User implements CardVisitor, Observer {
 		}
 	}
 	
-	/** 
-	 * This function tells the User in which slot he should take his electrical bicycle.
-	 * @param s
-	 * @return i
-	 * i is the parking slot where the user can take the bicycle.
-	 */
+
+	public void userBalance() {
+		
+	}
+	
+	public void planRide(GPS destination,  boolean plus, boolean uniformity, boolean fastest) {
+		if (this.ride == null) {
+			this.ride = new PlannedRide(this.network, new GPS(0,0), new GPS(5,5), true, true, false, false);
+			System.out.println("We are finding the best path");
+		}
+		else {
+			this.ride = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, true);
+			System.out.println("You haven't reached your destination yet. We are looking for a new path.");
+			
+		}
+	}
+	
+	
+
+	
+//*****************************************************************//
+//							EXCEPTIONS 							   //
+//*****************************************************************//	
+	
 	public class NoMoreElectricalException extends Exception{
 		public NoMoreElectricalException(){
 		    System.out.println("Sorry, no more electrical bikes available.");
@@ -436,40 +507,12 @@ public class User implements CardVisitor, Observer {
 		  }  
 	}
 	
-	public void userBalance() {
-		
-	}
-	
-	public void planRide(GPS destination,  boolean plus, boolean uniformity, boolean fastest) {
-		if (this.ride == null) {
-			this.ride = new PlannedRide(this.network, new GPS(0,0), new GPS(5,5), true, true, false, false);
-			System.out.println("We are finding the best path");
-		}
-		else {
-			this.ride = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, true);
-			System.out.println("You haven't reached your destination yet. We are looking for a new path.");
-			
-		}
-	}
 	
 	
-	public void deleteCurrentRide() {
-		if (plannedRide==null) {
-			System.out.println("There is no planned ride.");
-		}
-		else {
-			this.setPlannedRide(null);
-			System.out.println("Your ride has been deleted.");
-		}
-	}
+//*****************************************************************//
+//								Main 							   //
+//*****************************************************************//	
 	
-
-	public Ride getRide() {
-		return ride;
-	}
-	public void setRide(Ride ride) {
-		this.ride = ride;
-	}
 	public static void main(String[] args) throws UnavailableSlotException {
 		
 		Network myNetwork = Test.CreateTestNetwork();
@@ -482,5 +525,8 @@ public class User implements CardVisitor, Observer {
 		
 		
 	}
+
+
+
 	
 }

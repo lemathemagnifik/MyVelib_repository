@@ -3,13 +3,13 @@ package myVelib;
 import java.sql.Timestamp;
 
 import java.util.*;
+import java.util.Observable;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import mainPackage.Physician;
 
 
-
-public class Station implements Observable{
+public class Station extends Observable {
+	
 	static int IDcounter=0;
 	private int id;
 	private Network network;
@@ -19,7 +19,6 @@ public class Station implements Observable{
 	private ArrayList<ParkingSlot> parkingSlots;
 	private Status status;
 	private ConcurrentSkipListMap <Timestamp, int[]> stationHistory = new ConcurrentSkipListMap<Timestamp, int[]>();
-	private ArrayList<User> observers = new ArrayList<User>();
 	private int numberOfRentals;
 	private int numberOfReturns;
 	public enum Status {Full, Available, Offline};
@@ -78,7 +77,6 @@ public class Station implements Observable{
 	
 
 	public Station(String name, StationType type, GPS position, Network network) {
-		// TODO 
 		super();
 		IDcounter++;
 		this.id=IDcounter;
@@ -90,21 +88,6 @@ public class Station implements Observable{
 		this.network=network;		
 	}
 	
-	public void deleteObserver(User u) {
-		this.observers.remove(u);
-	}
-	
-	public void addObserver(User u) {
-		this.observers.add(u);
-	}
-
-	
-	
-	public void notifyObservers(){
-		for (User u : observers){
-			u.update(this);
-		}
-	}
 	
 	
 	public String getName() {
@@ -160,7 +143,7 @@ public class Station implements Observable{
 
 	public void setStatus(Status status) {
 		this.status = status;
-		//this.setChanged();
+		this.setChanged();
 		this.notifyObservers();
 
 	}
@@ -338,6 +321,11 @@ public class Station implements Observable{
 		    System.out.println("Sorry, this stations is unavailable to drop off your bicycle.");
 		  }  
 	}
+
+
+
+
+
 	
 	
 	
