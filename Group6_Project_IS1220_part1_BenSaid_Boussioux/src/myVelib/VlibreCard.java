@@ -2,7 +2,7 @@ package myVelib;
 
 import java.time.Duration;
 
-public class VlibreCard extends Card implements CardInterface{
+public class VlibreCard extends Card implements VisitableCard{
 	
 	public VlibreCard(Id id, User user, Double costH1electrical, Double costH2eletrical, Double costafterH2electrical,
 			Double costH1mechanical, Double costH2mechanical, Double costafterH2mechanical, Duration timeCredit) {

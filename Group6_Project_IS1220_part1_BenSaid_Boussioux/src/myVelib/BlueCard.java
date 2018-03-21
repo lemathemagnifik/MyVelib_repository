@@ -25,8 +25,8 @@ public class BlueCard extends Card implements CardInterface {
 
 
 	@Override
-	public void accept(User user, Duration tripTime, Bicycle.BicycleType type) throws Exception {
-		user.visit(this, tripTime, type);
+	public void accept(CardVisitor visitor, Duration tripTime, Bicycle.BicycleType bType) throws Exception {
+		visitor.visit(this, tripTime, bType);
 	}
 
 }
