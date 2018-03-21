@@ -21,8 +21,9 @@ public class User implements CardVisitor, Observer {
 //*****************************************************************//
 //							Attributes 							   //
 //*****************************************************************//
-	
-	public enum UserAction {dropped_on, dropped_off}; 
+		
+	static int IDuserCounter=0;
+	final static double walkingSpeed = 4;
 	
 	private Network network;
 	protected int id;
@@ -30,6 +31,7 @@ public class User implements CardVisitor, Observer {
 	private Card card;
 	private GPS position;
 	private Ride ride;
+	private UserBalance userBalance;
 	private Bicycle bicycle; //Pas sûr de l'utilité de Bicycle
 
 	private ArrayList<Message> messageBox;
@@ -41,8 +43,6 @@ public class User implements CardVisitor, Observer {
 	 */
 	private ConcurrentSkipListMap <Timestamp, Ride> userHistory = new ConcurrentSkipListMap<Timestamp, Ride>();
 
-	static int IDuserCounter=0;
-	final static double walkingSpeed = 4;
 	
 	
 	
@@ -65,6 +65,7 @@ public class User implements CardVisitor, Observer {
 		this.name = name;
 		this.messageBox = new ArrayList <Message>();
 		this.position = new GPS(0,0);
+		this.userBalance = new UserBalance();
 	}
 	
 	public User() {
@@ -280,14 +281,6 @@ public class User implements CardVisitor, Observer {
 	}
 	
 	
-//-----------------------------------------------------------------//
-
-// toString METHOD
-	
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", card="
-				+ card + "]";
-	}
 
 //-----------------------------------------------------------------//
 
@@ -325,7 +318,9 @@ public class User implements CardVisitor, Observer {
 					//On met du crÃ©dit si c'est une plus station
 					if (s.getStationType()==Station.StationType.Plus) {
 						this.getCard().creditTime();
+						//TODO remplacer tout les 300000 par une constante et défiinir la constante.
 						this.ride.getTimeCredit().plusMillis(300000);
+						this.userBalance.getTotalTimeCredit().plusMillis(300000);
 					}
 					 
 					//We compute the duration of the trip in ms.
@@ -342,6 +337,10 @@ public class User implements CardVisitor, Observer {
 					catch(Exception e) {System.out.println("no blueCard: "  + e.toString());
 					}
 					this.setBicycle(null);
+					
+					this.userBalance.setTotalCharges(this.userBalance.getTotalCharges() + cost);
+					this.userBalance.getTotalTime().plus(duration);
+					
 					this.ride.setArrivalTime(t);
 					this.ride.setArrivalStation(s);
 					this.ride.setDuration(duration);
@@ -434,6 +433,9 @@ public class User implements CardVisitor, Observer {
 				// start counter for the user
 				this.ride=new Ride();
 				this.updateUserHistory(t, this.ride);
+				
+				this.userBalance.setNumberOfRides(this.userBalance.getNumberOfRides()+1);
+				
 				//We need to begin the riding time and put something in the TimeStamp
 				s.addEntryToStationHistory(t);
 				s.setNumberOfRentals(s.getNumberOfRentals()+1);
@@ -464,7 +466,16 @@ public class User implements CardVisitor, Observer {
 		}
 	}
 	
-	
+
+//-----------------------------------------------------------------//
+
+// toString METHOD
+		
+		public String toString() {
+			return "User [id=" + id + ", name=" + name + ", card="
+					+ card + "]";
+		}
+
 
 	
 //*****************************************************************//

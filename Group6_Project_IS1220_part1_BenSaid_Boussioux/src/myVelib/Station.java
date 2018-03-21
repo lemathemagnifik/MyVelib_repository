@@ -9,59 +9,35 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 
 public class Station extends Observable {
+
+//*****************************************************************//
+//							Attributes 							   //
+//*****************************************************************//
+
+	public enum Status {Full, Available, Offline};
+	public enum StationType {Normal, Plus}
 	
 	static int IDcounter=0;
-	private int id;
+	
 	private Network network;
+	private int id;
 	private String name;
 	private StationType type;
 	private GPS position;
-	private ArrayList<ParkingSlot> parkingSlots;
 	private Status status;
+	private ArrayList<ParkingSlot> parkingSlots;
+	
 	private ConcurrentSkipListMap <Timestamp, int[]> stationHistory = new ConcurrentSkipListMap<Timestamp, int[]>();
 	private int numberOfRentals;
 	private int numberOfReturns;
-	public enum Status {Full, Available, Offline};
-	public enum StationType {Normal, Plus}
 
 
 	
-	public Network getNetwork() {
-		return network;
-	}
-
-
-
-	public void setNetwork(Network network) {
-		this.network = network;
-	}
 	
-	
-	public int getNumberOfRentals() {
-		return numberOfRentals;
-	}
+//*****************************************************************//
+//						Constructor 							   //
+//*****************************************************************//	
 
-
-
-	public int getNumberOfReturns() {
-		return numberOfReturns;
-	}
-
-
-
-	public void setNumberOfRentals(int numberOfRentals) {
-		this.numberOfRentals = numberOfRentals;
-	}
-
-
-
-	public void setNumberOfReturns(int numberOfReturns) {
-		this.numberOfReturns = numberOfReturns;
-	}
-
-	
-
-	
 	public Station(String name, StationType type, GPS position, ArrayList<ParkingSlot> parkingSlots, Status status,Network network) {
 		super();
 		IDcounter++;
@@ -88,17 +64,50 @@ public class Station extends Observable {
 		this.network=network;		
 	}
 	
+			
 	
+	
+	
+//*****************************************************************//
+//					Setters and Getters 						   //
+//*****************************************************************//
+	
+	public Network getNetwork() {
+		return network;
+	}
+
+
+
+	public void setNetwork(Network network) {
+		this.network = network;
+	}
+	
+	
+	public int getNumberOfRentals() {
+		return numberOfRentals;
+	}
+
+
+
+	public int getNumberOfReturns() {
+		return numberOfReturns;
+	}
+
+	public void setNumberOfRentals(int numberOfRentals) {
+		this.numberOfRentals = numberOfRentals;
+	}
+
+	public void setNumberOfReturns(int numberOfReturns) {
+		this.numberOfReturns = numberOfReturns;
+	}
 	
 	public String getName() {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public StationType getStationType() {
 		return type;
@@ -108,38 +117,25 @@ public class Station extends Observable {
 		this.type = type;
 	}
 
-
 	public GPS getPosition() {
 		return position;
 	}
-
 
 	public void setPosition(GPS position) {
 		this.position = position;
 	}
 
-
 	public ArrayList<ParkingSlot> getParkingSlots() {
 		return parkingSlots;
 	}
 
-
 	public void setParkingSlots(ArrayList<ParkingSlot> parkingSlots) {
 		this.parkingSlots = parkingSlots;
 	}
-	
-
-	public void addParkingSlot(ParkingSlot slot) {
-		this.parkingSlots.add(slot);
-	}
-	public void addParkingSlot() {
-		ParkingSlot slot = new ParkingSlot(this);
-		this.parkingSlots.add(slot);
-	}
+		
 	public Status getStatus() {
 		return status;
 	}
-
 
 	public void setStatus(Status status) {
 		this.status = status;
@@ -148,11 +144,32 @@ public class Station extends Observable {
 
 	}
 
-
 	public int getId() {
 		return id;
 	}
 	
+	public ConcurrentSkipListMap<Timestamp, int[]> getStationHistory() {
+		return stationHistory;
+	}
+
+	public void setStationHistory(ConcurrentSkipListMap<Timestamp, int[]> stationHistory) {
+		this.stationHistory = stationHistory;
+	}
+	
+	
+	
+//*****************************************************************//
+//								Methods		 					   //
+//*****************************************************************//	
+	
+	
+//-----------------------------------------------------------------------------//
+// Modified getters and setters 
+
+	public int getSize() {
+		return this.parkingSlots.size();
+	}
+
 	public int slotsFree() {
 		int counter = 0;
 		for (int i=0; i<parkingSlots.size();i++) {
@@ -179,6 +196,7 @@ public class Station extends Observable {
 		}
 		return counter;
 	}
+	
 	public int slotsOccupiedByElectrical() {
 		int counter =0;
 		for (int i=0; i<parkingSlots.size();i++) {
@@ -201,11 +219,23 @@ public class Station extends Observable {
 		else {return 0;}
 	}
 	
-	public int getSize() {
-		return this.parkingSlots.size();
+
+
+//-----------------------------------------------------------------------------//
+// Network configuration  
+	
+
+	public void addParkingSlot(ParkingSlot slot) {
+		this.parkingSlots.add(slot);
 	}
 	
+
+	public void addParkingSlot() {
+		ParkingSlot slot = new ParkingSlot(this);
+		this.parkingSlots.add(slot);
+	}
 	
+
 	public void addEntryToStationHistory(Timestamp t){
 		if(!stationHistory.isEmpty()&& stationHistory.lastKey().compareTo(t)>0){
 			System.out.println("Error, do not enter a time in the past.");
@@ -216,23 +246,6 @@ public class Station extends Observable {
 		}
 	}
 
-
-
-	public ConcurrentSkipListMap<Timestamp, int[]> getStationHistory() {
-		return stationHistory;
-	}
-
-
-
-	public void setStationHistory(ConcurrentSkipListMap<Timestamp, int[]> stationHistory) {
-		this.stationHistory = stationHistory;
-	}
-	
-	public String toString() {
-		return ""+this.getPosition();
-		//return "Station [network = " + network + "id = " + id + ", name = " + name + ", freeSlots = "
-		//		+ this.slotsFree() + ", slots occupied by mechanical = " + this.slotsOccupiedByMechanical() + ", slots occupied by electrical = " + this.slotsOccupiedByElectrical() + ", slots broken = " + this.slotsBroken() + "]";
-	}
 	
 	
 	//[TODO]gérer exception du temps
@@ -243,6 +256,17 @@ public class Station extends Observable {
 		return (occupationTime / ((t2.getTime()-t1.getTime())*this.getParkingSlots().size()));
 	}
 	
+	
+	public int selectBicycleMechanical () throws NoMoreMechanicalException{
+		if (this.slotsOccupiedByMechanical() == 0)
+				throw new NoMoreMechanicalException(); 
+		else {
+			for (int i=0; i<=this.getParkingSlots().size(); i++) {
+				if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByMechanical)
+				{
+					System.out.println("Go take mechanical bicycle at slot "+ i);
+					return i;	}}}return 0;}
+
 	public int selectBicycleElectrical  () throws NoMoreElectricalException{
 
 		if (this.slotsOccupiedByElectrical() == 0){
@@ -262,23 +286,18 @@ public class Station extends Observable {
 	}
 	
 	public int selectBicycle (Bicycle.BicycleType bType) throws NoMoreBikeException{
-
+		Integer slotNumber = null ;
 		if (this.slotsOccupied(bType) == 0){
 				throw new NoMoreBikeException();}
 		else  {
 			for (int i=0; i<=this.getParkingSlots().size(); i++) {
-				if (this.getParkingSlots().get(i).getBicycle()!=null & this.getParkingSlots().get(i).getBicycle().getType() == bType)
-				{
+				if (this.getParkingSlots().get(i).getBicycle()!=null & this.getParkingSlots().get(i).getBicycle().getType() == bType) {
 					System.out.println("Go take the " + Bicycle.bicycleTypeString(bType) + " bicycle at slot "+ i);
-					return i;
-					
+					slotNumber =  i;
 				}
 			}
 		}
-		
-		
-		return 0;//for debugging purposes
-		
+		return slotNumber;
 	}
 	
 	/** 
@@ -288,15 +307,25 @@ public class Station extends Observable {
 	 * i is the parking slot where the user can take the bicycle.
 	 */
 
-	public int selectBicycleMechanical () throws NoMoreMechanicalException{
-		if (this.slotsOccupiedByMechanical() == 0)
-				throw new NoMoreMechanicalException(); 
-		else {
-			for (int i=0; i<=this.getParkingSlots().size(); i++) {
-				if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByMechanical)
-				{
-					System.out.println("Go take mechanical bicycle at slot "+ i);
-					return i;	}}}return 0;}
+	
+	
+//------------------------------------------------------------------------------//
+	
+// toString METHODS
+	
+	
+	public String toString() {
+		return ""+this.getPosition();
+		//return "Station [network = " + network + "id = " + id + ", name = " + name + ", freeSlots = "
+		//		+ this.slotsFree() + ", slots occupied by mechanical = " + this.slotsOccupiedByMechanical() + ", slots occupied by electrical = " + this.slotsOccupiedByElectrical() + ", slots broken = " + this.slotsBroken() + "]";
+	}
+	
+	
+	
+//*****************************************************************//
+//							EXCEPTIONS 							   //
+//*****************************************************************//
+	
 	
 	public class NoMoreElectricalException extends Exception{
 		public NoMoreElectricalException(){
