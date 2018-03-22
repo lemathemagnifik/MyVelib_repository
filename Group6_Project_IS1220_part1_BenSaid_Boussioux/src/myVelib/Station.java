@@ -1,10 +1,13 @@
 package myVelib;
 
 import java.sql.Timestamp;
-
+import java.time.Duration;
 import java.util.*;
 import java.util.Observable;
 import java.util.concurrent.ConcurrentSkipListMap;
+
+import myVelib.ParkingSlot.UnavailableSlotException;
+
 
 
 
@@ -18,7 +21,7 @@ public class Station extends Observable {
 	public enum StationType {Normal, Plus}
 	
 	static int IDcounter=0;
-	
+	static final Duration plusTimeCredit = Duration.ZERO.plusMinutes(5);
 	private Network network;
 	private int id;
 	private String name;
@@ -169,6 +172,16 @@ public class Station extends Observable {
 	public int getSize() {
 		return this.parkingSlots.size();
 	}
+	
+	public ParkingSlot getAFreeSlot() {
+		for (ParkingSlot p : this.getParkingSlots()) {
+			if (p.getStatus() == ParkingSlot.Status.Free) {
+				return p;
+			}
+		}
+		System.out.print("No free slots available.");
+		return null;
+	}
 
 	public int slotsFree() {
 		int counter = 0;
@@ -254,6 +267,29 @@ public class Station extends Observable {
 		for (int i=0;i<this.getParkingSlots().size();i++)
 			occupationTime +=this.getParkingSlots().get(i).occupationTime(t1, t2);
 		return (occupationTime / ((t2.getTime()-t1.getTime())*this.getParkingSlots().size()));
+	}
+	
+	
+	
+	
+	public void addBicycle (Bicycle bicycle, Timestamp t) throws UnavailableStationException, NoMoreAvailableSlotsException {
+		if (this.getStatus()==Station.Status.Offline) {
+			throw new UnavailableStationException();
+		}
+		else if (this.getStatus()==Station.Status.Full) {
+			throw new NoMoreAvailableSlotsException();
+		}
+		else {
+			ParkingSlot freeParkingSlot = this.getAFreeSlot();		
+			System.out.println("Please, put your bicycle at a free slot");
+			try {
+				freeParkingSlot.addBicycle(bicycle,t);
+			}
+			//TODO à vérifier le println ??
+			catch(UnavailableSlotException e) {e.toString();};
+		}
+		this.addEntryToStationHistory(t);
+		this.setNumberOfReturns(this.getNumberOfReturns()+1);
 	}
 	
 	
@@ -351,6 +387,12 @@ public class Station extends Observable {
 		  }  
 	}
 
+	public class NoMoreAvailableSlotsException extends Exception{
+		public NoMoreAvailableSlotsException(){
+		    System.out.println("Sorry, this station has no more available slots.");
+		  }  
+	}
+	
 
 
 

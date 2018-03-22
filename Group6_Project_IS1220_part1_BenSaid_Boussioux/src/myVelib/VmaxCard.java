@@ -4,81 +4,14 @@ import java.time.Duration;
 
 import myVelib.Bicycle.BicycleType;
 
-public class VmaxCard implements VelibCard {
+public class VmaxCard implements Card {
 	private User user;
 	private Duration timeCredit;
 	private int ID;
 	
 	private static int IDcounter=0;
-	private static Double costH1 = 0.0;
-	private static Double costH2 = 1.0;
-	private static Double costAfterH2 = 2.0;
-	
-	
-	
-	public User getUser() {
-		return user;
-	}
-
-
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-
-
-	public Duration getTimeCredit() {
-		return timeCredit;
-	}
-
-
-
-	public void setTimeCredit(Duration timeCredit) {
-		this.timeCredit = timeCredit;
-	}
-
-
-
-	public static Double getCostH1() {
-		return costH1;
-	}
-
-
-
-	public static void setCostH1(Double costH1) {
-		VmaxCard.costH1 = costH1;
-	}
-
-
-
-	public static Double getCostH2() {
-		return costH2;
-	}
-
-
-
-	public static void setCostH2(Double costH2) {
-		VmaxCard.costH2 = costH2;
-	}
-
-
-
-	public static Double getCostAfterH2() {
-		return costAfterH2;
-	}
-
-
-
-	public static void setCostAfterH2(Double costAfterH2) {
-		VmaxCard.costAfterH2 = costAfterH2;
-	}
-
-
-
-	public int getID() {
-		return ID;
-	}
+	private static double costH1 = 0.0;
+	private static double costAfterH1 = 1.0;
 
 
 
@@ -91,10 +24,67 @@ public class VmaxCard implements VelibCard {
 	}
 	
 	
+	public Double getCost(Duration duration, Bicycle.BicycleType bType) {
+		if (duration.toHours()<1) {
+				return VmaxCard.costH1;
+			}
+		else {
+			return VmaxCard.costAfterH1;
+		}
+	}
 
 	@Override
-	public void accept(CardVisitor visitor, Duration tripTime, BicycleType type) throws Exception {
-		visitor.visit(this, tripTime, type);		
+	public Double accept(CardVisitor visitor, Duration tripTime, BicycleType type) throws Exception {
+		return visitor.visit(this, tripTime, type);		
 	}
+
+	
+
+	public static double getCostH1() {
+		return costH1;
+	}
+
+
+	public static void setCostH1(double costH1) {
+		VmaxCard.costH1 = costH1;
+	}
+
+
+	public static double getCostAfterH1() {
+		return costAfterH1;
+	}
+
+
+	public static void setCostAfterH1(double costAfterH1) {
+		VmaxCard.costAfterH1 = costAfterH1;
+	}
+
+
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
+	public Duration getTimeCredit() {
+		return timeCredit;
+	}
+
+
+	public void setTimeCredit(Duration timeCredit) {
+		this.timeCredit = timeCredit;
+	}
+
+
+	public int getID() {
+		return ID;
+	}
+	
+	
+	
 
 }

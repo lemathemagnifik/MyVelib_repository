@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import Tests.Test;
 import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
+import myVelib.Station.NoMoreAvailableSlotsException;
 import myVelib.Station.NoMoreBikeException;
 
 
@@ -29,12 +30,11 @@ public class User implements Observer {
 	protected int id;
 	private String name;
 	private CreditCard creditCard;
-	private VelibCard velibCard;
+	private Card card;
 	private GPS position;
 	private Ride ride;
 	private UserBalance userBalance;
 	private Bicycle bicycle; //Pas sûr de l'utilité de Bicycle
-
 	private ArrayList<Message> messageBox;
 	private ArrayList<Observable> observedStations = new ArrayList<Observable>();
 	
@@ -62,8 +62,8 @@ public class User implements Observer {
 		super();
 		IDuserCounter++;
 		this.id=IDuserCounter;
-		this.velibCard = null;
 		this.creditCard = new CreditCard(this, 500);
+		this.card = this.creditCard;
 		this.name = name;
 		this.messageBox = new ArrayList <Message>();
 		this.position = new GPS(0,0);
@@ -99,6 +99,16 @@ public class User implements Observer {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
+	public CreditCard getCreditCard() {
+		return creditCard;
+	}
+
+	public void setCreditCard(CreditCard creditCard) {
+		this.creditCard = creditCard;
+	}
+	
 
 	public Card getCard() {
 		return card;
@@ -159,6 +169,8 @@ public class User implements Observer {
 	public static double getWalkingspeed() {
 		return walkingSpeed;
 	}
+	
+	
 
 
 //*****************************************************************//
@@ -239,69 +251,60 @@ public class User implements Observer {
 	 * @param s
 	 */
 	
-	public void returnBike(Station s, Timestamp t) throws UnavailableStationException, NoMoreAvailableSlotsException {
+	public void returnBike(Station s, Timestamp t) {
 		
-		if (s.getStatus()==Station.Status.Offline)
-			throw new UnavailableStationException();
-		if (s.getStatus()==Station.Status.Full)
-			throw new NoMoreAvailableSlotsException();
+		// return the bike to an available ParkingSlot
+		try {
+			s.addBicycle(this.bicycle, t);
+		} catch (myVelib.Station.UnavailableStationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoMoreAvailableSlotsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		this.setBicycle(null);
 		
-		else {
-			for (int i=0; i<s.getParkingSlots().size(); i++) {
-				if (s.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.Free)
-				{
-					System.out.println("Please, put your bicycle at slot "+ i);
-					//On gÃ¨re l'exception pour des questions de compilation
-					
-					try {
-						s.getParkingSlots().get(i).addBicycle(this.getBicycle(),t);
-						}
-					//le println ??
-					catch(UnavailableSlotException e) {System.out.println("no electrical: "  + e.toString());
-					}
-					
-				
-					// On signale Ã  la station qu'on a rendu un vÃ©lo.	
-					s.addEntryToStationHistory(t);
-					
-					//On met du crÃ©dit si c'est une plus station
-					if (s.getStationType()==Station.StationType.Plus) {
-						this.getCard().creditTime();
-						//TODO remplacer tout les 300000 par une constante et défiinir la constante.
-						this.ride.getTimeCredit().plusMillis(300000);
-						this.userBalance.getTotalTimeCredit().plusMillis(300000);
-					}
-					 
-					//We compute the duration of the trip in ms.
-					Duration duration = Duration.ZERO;
-					duration.plusMillis(t.getTime()-this.ride.getDepartureTime().getTime());
-					//We update the user's history
-					s.setNumberOfReturns(s.getNumberOfReturns()+1);
-					//We compute the cost of the trip
-					Double cost = (double) 0;
-					try {
-					cost = this.visit((BlueCard) this.card, duration, this.getBicycle().getType());
-					System.out.println("You have to pay" + cost + "euros.");
-					}
-					catch(Exception e) {System.out.println("no blueCard: "  + e.toString());
-					}
-					this.setBicycle(null);
-					
-					this.userBalance.setTotalCharges(this.userBalance.getTotalCharges() + cost);
-					this.userBalance.getTotalTime().plus(duration);
-					
-					this.ride.setArrivalTime(t);
-					this.ride.setArrivalStation(s);
-					this.ride.setDuration(duration);
-					this.ride.setCost(cost);
-					this.updateUserHistory(this.ride.getDepartureTime(), this.ride);
-					this.ride = new Ride();
-					// TODO Stocker ce coÃ»t dans Trip pour le retrouver ou bien dans Card
-					// TODO Faire sortir l'utilisateur des observateurs.
-					this.unsuscribe(s);
-				}
+		//We compute the duration of the trip in ms.
+		Duration tripDuration = Duration.ZERO;
+		tripDuration = tripDuration.plusMillis(t.getTime()-this.ride.getDepartureTime().getTime());
+			
+		//If the user has a VelibCard, if the Station is Plus we add timeCredit to the card, 
+		//then we reduce the number of hours to pay using that timeCredit.
+		if (this.card instanceof VelibCard) {
+			VelibCard vCard = (VelibCard) this.card;
+			if (s.getStationType()==Station.StationType.Plus) {
+				vCard.creditTime();
+				this.ride.getTimeCredit().plus(Station.plusTimeCredit);
+				this.userBalance.getTotalTimeCredit().plus(Station.plusTimeCredit);
 			}
+			ConcreteCardVisitor.applyVelibBonus(vCard.getTimeCredit(), tripDuration);
 		}
+				 		
+		
+		CardVisitor visitor = new ConcreteCardVisitor();
+			
+		Double cost = (double) 0;
+		try {
+			cost = this.card.accept(visitor, tripDuration, this.ride.getBicycle().getType());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("Please pay " + cost +".");
+		
+		this.userBalance.setTotalCharges(this.userBalance.getTotalCharges() + cost);
+		this.userBalance.getTotalTime().plus(tripDuration);
+		
+		this.ride.setArrivalTime(t);
+		this.ride.setArrivalStation(s);
+		this.ride.setDuration(tripDuration);
+		this.ride.setCost(cost);
+		this.updateUserHistory(this.ride.getDepartureTime(), this.ride);
+		this.ride = new Ride();
+		
+		this.unsuscribe(s);
 	}
 	
 	
@@ -461,12 +464,7 @@ public class User implements Observer {
 		  }  
 	}
 	
-	public class NoMoreAvailableSlotsException extends Exception{
-		public NoMoreAvailableSlotsException(){
-		    System.out.println("Sorry, this station has no more available slots.");
-		  }  
-	}
-	
+
 	
 	
 //*****************************************************************//

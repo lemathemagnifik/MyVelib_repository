@@ -2,7 +2,9 @@ package myVelib;
 
 import java.time.Duration;
 
-public abstract class Card {
+public interface Card {
+	
+	public Double accept(CardVisitor visitor, Duration tripTime, Bicycle.BicycleType type) throws Exception;
 //	public Id id;
 //	public User user;
 //	public Double costH1electrical;

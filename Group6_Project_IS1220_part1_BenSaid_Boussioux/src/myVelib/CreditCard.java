@@ -1,11 +1,18 @@
 package myVelib;
 
-public class CreditCard {
+import java.time.Duration;
+
+import myVelib.Bicycle.BicycleType;
+
+public class CreditCard implements Card {
 
 	private User user;
 	private int ID;
 	private double balance;
 	static double creditLimit=0;
+	
+	private static double cost1HElectrical = 2;
+	private static double cost1HMechanical = 1;
 	
 	static int IDcounter=0;
 
@@ -18,6 +25,16 @@ public class CreditCard {
 	}
 	
 	
+	public static double getCost1HElectrical() {
+		return cost1HElectrical;
+	}
+
+
+	public static double getCost1HMechanical() {
+		return cost1HMechanical;
+	}
+
+
 	public User getUser() {
 		return user;
 	}
@@ -51,4 +68,19 @@ public class CreditCard {
 		}
 	}
 
+	public Double getCost(Duration duration, Bicycle.BicycleType bType) {
+		if (bType == Bicycle.BicycleType.Electrical) {
+				return CreditCard.cost1HElectrical;
+			}
+		else if (bType == Bicycle.BicycleType.Mechanical) {
+			return CreditCard.getCost1HMechanical();
+		}
+		else return null;
+	}
+
+
+	@Override
+	public Double accept(CardVisitor visitor, Duration tripTime, BicycleType type) throws Exception {
+		return visitor.visit(this, tripTime, type);
+	}
 }
