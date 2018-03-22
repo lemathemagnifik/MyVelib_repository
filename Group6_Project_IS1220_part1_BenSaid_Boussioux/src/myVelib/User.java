@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 import Tests.Test;
 import myVelib.Bicycle.BicycleType;
+import myVelib.Station.NoAvailableFreeSlotsException;
 import myVelib.Station.NoBikesAvailableException;
 import myVelib.Station.OfflineStationException;
 
@@ -251,9 +252,11 @@ public class User implements Observer {
 	 * This function allows the User to drop Off his bicycle.
 	 * @param u
 	 * @param s
+	 * @throws NoAvailableFreeSlotsException 
+	 * @throws OfflineStationException 
 	 */
 	
-	public void returnBike(Station s, Timestamp t) {
+	public void returnBike(Station s, Timestamp t) throws OfflineStationException, NoAvailableFreeSlotsException   {
 		
 		// return the bike to an available ParkingSlot
 		s.returnBicycle(this.bicycle, t);
@@ -312,59 +315,7 @@ public class User implements Observer {
 	 * @param s
 	 * @throws NoMoreElectricalException 
 	 */
-//	public void rentBikeElectrical(Station s, Timestamp t) throws NoMoreElectricalException, AlreadyHasABikeException {
-//		if (s.slotsOccupiedByElectrical()==0)
-//			throw new NoMoreElectricalException(); 
-//		if (this.getBicycle()!=null)
-//			throw new AlreadyHasABikeException();
-//		try {
-//		int i = s.selectBicycleElectrical();
-//		//We get the bicycle
-//				Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
-//				// We set free the slot
-//				s.getParkingSlots().get(i).becomesFree(t);
-//				this.setBicycle(bicycle);
-//				// start counter for the user
-//				this.updateUserHistory(t, UserAction.dropped_on);
-//				//We need to begin the riding time and put something in the TimeStamp
-//				s.addEntryToStationHistory(t);
-//				s.setNumberOfRentals(s.getNumberOfRentals()+1);
-//		}
-//		catch(Station.NoMoreElectricalException e){System.out.println("no electrical: "  + e.toString());
-//		}	
-//	}
-	
-	/**
-	 * This function allows the User to drop on a mechanical bicycle.
-	 * @param u
-	 * @param s
-	 * @throws NoBikesAvailableException 
-	 * @throws OfflineStationException 
-	 * @throws NoMoreMechanicalException 
-	 */
-	
-//	
-//	public void rentBikeMechanical(Station s, Timestamp t) throws NoMoreMechanicalException, AlreadyHasABikeException {
-//		if (s.slotsOccupiedByMechanical()==0)
-//			throw new NoMoreMechanicalException(); 
-//		if (this.getBicycle()!=null)
-//			throw new AlreadyHasABikeException();
-//		try {
-//		int i = s.selectBicycleMechanical();
-//		//We get the bicycle
-//				Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
-//				// We set free the slot
-//				s.getParkingSlots().get(i).becomesFree(t);
-//				this.setBicycle(bicycle);
-//				// start counter for the user
-//				this.updateUserHistory(t, UserAction.dropped_on);
-//				//We need to begin the riding time and put something in the TimeStamp
-//				s.addEntryToStationHistory(t);
-//				s.setNumberOfRentals(s.getNumberOfRentals()+1);
-//		}
-//		catch(Station.NoMoreMechanicalException e){System.out.println("no electrical: "  + e.toString());
-//		}	
-//	}
+
 	
 	public void rentBike(Station s, Bicycle.BicycleType bType, Timestamp t) throws AlreadyHasABikeException, OfflineStationException, NoBikesAvailableException {
 		if (this.getBicycle()!=null) {
@@ -440,9 +391,6 @@ public class User implements Observer {
 
 		
 		
-	}
-
-
-
-	
 }
+
+
