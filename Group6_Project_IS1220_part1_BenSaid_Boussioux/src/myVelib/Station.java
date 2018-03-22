@@ -245,6 +245,13 @@ public class Station extends Observable {
 
 	public void addParkingSlot() {
 		ParkingSlot slot = new ParkingSlot(this);
+		slot.getSlotHistory().put(new Timestamp(0), ParkingSlot.Status.Free);
+		this.parkingSlots.add(slot);
+	}
+	
+	public void addParkingSlot(Timestamp t) {
+		ParkingSlot slot = new ParkingSlot(this);
+		slot.getSlotHistory().put(t, ParkingSlot.Status.Free);
 		this.parkingSlots.add(slot);
 	}
 	
@@ -261,7 +268,7 @@ public class Station extends Observable {
 
 	
 	
-	//[TODO]g√©rer exception du temps
+	//Computes the occupation rate.
 	public double occupationRate(Timestamp t1, Timestamp t2) {
 		long occupationTime = 0; 
 		for (int i=0;i<this.getParkingSlots().size();i++)
@@ -285,7 +292,7 @@ public class Station extends Observable {
 			try {
 				freeParkingSlot.addBicycle(bicycle,t);
 			}
-			//TODO ‡ vÈrifier le println ??
+			//TODO ÔøΩ vÔøΩrifier le println ??
 			catch(UnavailableSlotException e) {e.toString();};
 		}
 		this.addEntryToStationHistory(t);
