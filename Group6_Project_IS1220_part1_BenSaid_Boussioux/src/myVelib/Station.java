@@ -321,19 +321,25 @@ public class Station extends Observable {
 		
 	}
 	
-	public int selectBicycle (Bicycle.BicycleType bType) throws NoMoreBikeException{
-		Integer slotNumber = null ;
+	public Integer selectBicycle (Bicycle.BicycleType bType) throws NoMoreBikeException{
 		if (this.slotsOccupied(bType) == 0){
-				throw new NoMoreBikeException();}
+				throw new NoMoreBikeException();
+				}
 		else  {
 			for (int i=0; i<=this.getParkingSlots().size(); i++) {
-				if (this.getParkingSlots().get(i).getBicycle()!=null & this.getParkingSlots().get(i).getBicycle().getType() == bType) {
-					System.out.println("Go take the " + Bicycle.bicycleTypeString(bType) + " bicycle at slot "+ i);
-					slotNumber =  i;
+				if (this.getParkingSlots().get(i).getBicycle()!=null) {
+					if (bType==null) {
+						System.out.println("Go take the " + Bicycle.bicycleTypeString(bType) + " bicycle at slot "+ i);
+						return i;				}
+					else if (this.getParkingSlots().get(i).getBicycle().getType()==bType) {
+						System.out.println("Go take the " + Bicycle.bicycleTypeString(bType) + " bicycle at slot "+ i);
+						return i;
+					}
+
 				}
 			}
 		}
-		return slotNumber;
+		return null;
 	}
 	
 	/** 

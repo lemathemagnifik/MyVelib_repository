@@ -2,9 +2,6 @@ package myVelib;
 
 import java.util.ArrayList;
 
-import Tests.Test;
-import myVelib.ParkingSlot.UnavailableSlotException;
-
 
 
 abstract class TripPreference {
@@ -15,9 +12,10 @@ abstract class TripPreference {
 	 * @param arrival
 	 * @param network
 	 * @return
+	 * @throws Exception 
 	 */
 	
-	abstract Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus);
+	abstract Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus) throws Exception ;
 	
 	/**
 	 * Return the list of the closest stations from the ArrayList<Station> to GPS position. 

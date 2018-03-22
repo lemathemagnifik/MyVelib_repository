@@ -383,7 +383,6 @@ public class User implements Observer {
 				s.getParkingSlots().get(i).becomesFree(t);
 				this.setBicycle(bicycle);
 				// start counter for the user
-				this.ride=new Ride();
 				this.updateUserHistory(t, this.ride);
 				
 				this.userBalance.setNumberOfRides(this.userBalance.getNumberOfRides()+1);
@@ -408,7 +407,7 @@ public class User implements Observer {
 	
 	public void planRide(GPS destination,  boolean plus, boolean uniformity, boolean fastest) {
 		if (this.ride == null) {
-			this.ride = new PlannedRide(this.network, new GPS(0,0), new GPS(5,5), true, true, false, false);
+			this.ride = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, false);
 			System.out.println("We are finding the best path");
 		}
 		else {
@@ -471,7 +470,8 @@ public class User implements Observer {
 //								Main 							   //
 //*****************************************************************//	
 	
-	public static void main(String[] args) throws UnavailableSlotException {
+	@SuppressWarnings("deprecation")
+	public static void main(String[] args) throws UnavailableSlotException, NoMoreBikesException, AlreadyHasABikeException {
 		
 		Network myNetwork = Test.CreateTestNetwork();
 		User userTest = new User("Anis");
@@ -479,6 +479,8 @@ public class User implements Observer {
 		userTest.setRide( new PlannedRide(myNetwork, userTest.getPosition(), new GPS(5,5), true, true, false, false));
 		System.out.println(userTest.ride.getDepartureStation());
 		System.out.println(userTest.ride.getArrivalStation());
+		System.out.println(new Timestamp(118,2,22,10,30,0,0));
+		userTest.rentBike(userTest.ride.getDepartureStation(), BicycleType.Electrical, new Timestamp(118,2,22,10,30,0,0));
 		
 		
 		

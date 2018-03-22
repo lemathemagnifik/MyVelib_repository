@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.Duration;
 
 import Tests.Test;
+import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 
 public class Ride {
@@ -13,6 +14,7 @@ public class Ride {
 	public Station departureStation;
 	public Station arrivalStation;
 	public Bicycle bicycle;
+	public BicycleType bicycleTime;
 	public Double cost;
 	public Duration timeCredit;
 	

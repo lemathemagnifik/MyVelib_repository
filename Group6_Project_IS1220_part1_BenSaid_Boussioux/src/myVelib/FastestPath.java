@@ -8,12 +8,17 @@ import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station.StationType;
 
 public class FastestPath extends TripPreference {
+	private BicycleType bicycleType;
+	
+	public BicycleType getBicycleType() {
+		return bicycleType;
+	}
 
 	public FastestPath() {
 	}
 	
 	@Override
-	Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus ) {
+	Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus ) throws Exception {
 		ArrayList<Station> arrivalStations;
 		Station fastestDepartureStation;
 		double walkingDistance;
@@ -39,9 +44,14 @@ public class FastestPath extends TripPreference {
 				cyclingDistance = sPosition.distance(closestArrivalStationPosition);
 				if (s.slotsOccupiedByElectrical()!=0) {
 					cyclingSpeed = Bicycle.electricalSpeed;
+					this.bicycleType = BicycleType.Electrical;
+				}
+				else if (s.slotsOccupiedByMechanical()!=0){
+					cyclingSpeed = Bicycle.mechanicalSpeed;
+					this.bicycleType = BicycleType.Mechanical;
 				}
 				else {
-					cyclingSpeed = Bicycle.mechanicalSpeed;
+					continue;
 				}
 				travelTime = walkingDistance/User.walkingSpeed + cyclingDistance/cyclingSpeed;
 				System.out.println(travelTime);
@@ -52,15 +62,17 @@ public class FastestPath extends TripPreference {
 					Path[0] = fastestDepartureStation;
 					Path[1] = closestArrivalStation;
 				}
-
-			}	
+			}
+			if (this.bicycleType==null) {
+				throw new Exception("No path found.");
+			}
 		}
 		
 		return Path;
 
 	}
 	
-	public static void main(String[] args)  {
+	public static void main(String[] args) throws Exception  {
 		Network myNetwork = new Network();
 		try {
 			myNetwork = Test.CreateTestNetwork();

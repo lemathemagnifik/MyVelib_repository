@@ -1,6 +1,7 @@
 package myVelib;
 
 import Tests.Test;
+import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 
 public class PlannedRide extends Ride{
@@ -13,8 +14,10 @@ public class PlannedRide extends Ride{
 	private boolean fastest;
 	private boolean alreadyHaveBicycle;
 	private Station[] path;
+	private BicycleType bicycleType;
 	
 	public PlannedRide(Network network, GPS departure, GPS arrival, boolean plus, boolean uniformity, boolean fastest, boolean alreadyHaveBicycle) {
+		
 		this.network = network;
 		this.departure = departure;
 		this.arrival = arrival;
@@ -27,14 +30,21 @@ public class PlannedRide extends Ride{
 		else {
 			if (fastest) {
 				preference = new FastestPath();
+				this.bicycleType = ((FastestPath) preference).getBicycleType();
 			}
 			else {
 				preference = new ShortestPath();
 			}
 		}
-		this.path = preference.setPath(network, departure, arrival, uniformity, plus);
+		try {
+			this.path = preference.setPath(network, departure, arrival, uniformity, plus);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.departureStation=this.path[0];
 		this.arrivalStation=this.path[1];
+
 	}
 
 	public TripPreference getPreference() {
@@ -110,6 +120,15 @@ public class PlannedRide extends Ride{
 	}
 	
 	
+	
+	public BicycleType getBicycleType() {
+		return bicycleType;
+	}
+
+	public void setBicycleType(BicycleType bicycleType) {
+		this.bicycleType = bicycleType;
+	}
+
 	public static void main(String[] args) throws UnavailableSlotException {
 		Network myNetwork = Test.CreateTestNetwork();
 		PlannedRide plannedRide = new PlannedRide(myNetwork, new GPS(1,1), new GPS(3.4,5), true, true, false, false);

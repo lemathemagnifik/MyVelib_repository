@@ -6,9 +6,9 @@ import Tests.Test;
 import myVelib.ParkingSlot.UnavailableSlotException;
 
 public class ShortestPath extends TripPreference {
-
+	
+	
 	public ShortestPath() {
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -21,6 +21,7 @@ public class ShortestPath extends TripPreference {
 		arrivalStations = getArrivals(network, arrival, uniformity, plus);
 		return ClosestStations(departureStations, arrivalStations);
 	}
+	
 	
 	public static void main(String[] args)  {
 		
@@ -37,6 +38,9 @@ public class ShortestPath extends TripPreference {
 		
 		
 	}
+
+
+
 }
 
 
