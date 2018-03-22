@@ -1,6 +1,10 @@
 package myVelib;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Random;
 
 
 public class Network {
@@ -102,7 +106,7 @@ public class Network {
 	public ArrayList<User> getUsers() {
 		return users;
 	}
-	// trouver une solution pour affecter network à chacun des User/Bicycle/Station des ArrayList ou effacer ces méthode (kiss!)
+	// trouver une solution pour affecter network ï¿½ chacun des User/Bicycle/Station des ArrayList ou effacer ces mï¿½thode (kiss!)
 	public void setUsers(ArrayList<User> users) {
 		this.users = users;
 	}
@@ -129,6 +133,75 @@ public class Network {
 		this.getBicycles().add(bicycle);
 		bicycle.setNetwork(this);
 	}
+	
+	/**
+	 * Creates an ArrayList of n Stations randomly distributed in a square n*n
+	 * @param n
+	 * @return
+	 */
+	public ArrayList<Station> stationList (int n){
+		ArrayList<Station> stations = new ArrayList<Station>();
+		for (int i=0 ; i<n ; i++) {
+			
+			double random1 = Math.random() * n;
+			double random2 = Math.random() * n;
+			stations.add(new Station(String.valueOf(i), Station.StationType.Normal,new GPS(random1,random2),this));
+
+		}
+
+		return stations;
+	}
+	
+	public ArrayList<Station> stationWithSlotList (ArrayList<Station> stations, int m){
+		int slotsPerStation = m/stations.size(); 
+		int rest = m%stations.size();
+		for (int i=0 ; i<stations.size() ; i++) {
+			for (int j=0;j<slotsPerStation;j++) {
+				stations.get(i).addParkingSlot();
+			}
+		for (int k=0 ; k<rest;k++) {
+			stations.get(i).addParkingSlot();
+		}
+		}
+		return stations;
+	}
+	
+	public ArrayList<Station> stationWithBicycles (ArrayList<Station> stations, int pourcentage){
+		int slotsPerStation = m/stations.size(); 
+		int rest = m%stations.size();
+		for (int i=0 ; i<stations.size() ; i++) {
+			for (int j=0;j<slotsPerStation;j++) {
+				stations.get(i).addParkingSlot();
+			}
+		for (int k=0 ; k<rest;k++) {
+			stations.get(i).addParkingSlot();
+		}
+		}
+		return stations;
+	} 
+	
+//*****************************************************************//
+//					STATISTICAL FUNCTIONS 					     //
+//*****************************************************************//	
+	
+	public ArrayList<Station> mostUsedStations(){
+		ArrayList<Station> sortedStations = this.stations;
+		Collections.sort(sortedStations, Station.mostUsedComparator);
+		return sortedStations;
+	}
+	
+	public ArrayList<Station> leastOccupiedStations(Timestamp t1, Timestamp t2){
+		ArrayList<Station> sortedStations = this.stations;
+		Collections.sort(sortedStations, Station.leastOccupiedComparator(t1, t2));
+		return sortedStations;
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

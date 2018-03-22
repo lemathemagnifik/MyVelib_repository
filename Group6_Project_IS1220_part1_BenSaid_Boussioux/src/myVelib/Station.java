@@ -238,6 +238,13 @@ public class Station extends Observable {
 
 	public void addParkingSlot() {
 		ParkingSlot slot = new ParkingSlot(this);
+		slot.getSlotHistory().put(new Timestamp(0), ParkingSlot.Status.Free);
+		this.parkingSlots.add(slot);
+	}
+	
+	public void addParkingSlot(Timestamp t) {
+		ParkingSlot slot = new ParkingSlot(this);
+		slot.getSlotHistory().put(t, ParkingSlot.Status.Free);
 		this.parkingSlots.add(slot);
 	}
 	
@@ -254,7 +261,7 @@ public class Station extends Observable {
 
 	
 	
-	//[TODO]gérer exception du temps
+	//Computes the occupation rate.
 	public double occupationRate(Timestamp t1, Timestamp t2) {
 		long occupationTime = 0; 
 		for (int i=0;i<this.getParkingSlots().size();i++)
@@ -264,10 +271,54 @@ public class Station extends Observable {
 	
 	
 	
+<<<<<<< HEAD
 	public Integer selectFreeSlot() throws NoAvailableFreeSlotsException {
 		for (int i=0; i<=this.getParkingSlots().size(); i++) {
 			if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.Free) {
 					System.out.println("Please return your bicycle at slot "+ i);
+=======
+	
+	public void addBicycle (Bicycle bicycle, Timestamp t) throws UnavailableStationException, NoMoreAvailableSlotsException {
+		if (this.getStatus()==Station.Status.Offline) {
+			throw new UnavailableStationException();
+		}
+		else if (this.getStatus()==Station.Status.Full) {
+			throw new NoMoreAvailableSlotsException();
+		}
+		else {
+			ParkingSlot freeParkingSlot = this.getAFreeSlot();		
+			System.out.println("Please, put your bicycle at a free slot");
+			try {
+				freeParkingSlot.addBicycle(bicycle,t);
+			}
+			//TODO � v�rifier le println ??
+			catch(UnavailableSlotException e) {e.toString();};
+		}
+		this.addEntryToStationHistory(t);
+		this.setNumberOfReturns(this.getNumberOfReturns()+1);
+	}
+	
+	
+	public int selectBicycleMechanical () throws NoMoreMechanicalException{
+		if (this.slotsOccupiedByMechanical() == 0)
+				throw new NoMoreMechanicalException(); 
+		else {
+			for (int i=0; i<=this.getParkingSlots().size(); i++) {
+				if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByMechanical)
+				{
+					System.out.println("Go take mechanical bicycle at slot "+ i);
+					return i;	}}}return 0;}
+
+	public int selectBicycleElectrical  () throws NoMoreElectricalException{
+
+		if (this.slotsOccupiedByElectrical() == 0){
+				throw new NoMoreElectricalException();}
+		else {
+			for (int i=0; i<=this.getParkingSlots().size(); i++) {
+				if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByElectrical)
+				{
+					System.out.println("Go take electrical bicycle at slot "+ i);
+>>>>>>> ce0a5fafdc580ab2043912930eb2cf15fff048fc
 					return i;
 				}
 		}
@@ -367,12 +418,46 @@ public class Station extends Observable {
 		  }  
 	}
 	
+	//*****************************************************************//
+	//	COMPARATORS 							   //
+	//*****************************************************************//
 
 
+	public static Comparator<Station> mostUsedComparator = new Comparator<Station>() {
+		
+		public int compare(Station s1, Station s2){
+			
+			int numberOfOperations1 = s1.getNumberOfRentals()+s1.getNumberOfReturns();
+			int numberOfOperations2 = s2.getNumberOfRentals()+s2.getNumberOfReturns();
 
+			return numberOfOperations1-numberOfOperations2;
+		}      
+	
+	};
+	
+	public static Comparator<Station> leastOccupiedComparator(Timestamp t1, Timestamp t2){
+		return new Comparator<Station>(){
+	
+		
+		public int compare(Station s1, Station s2){
+			
+			double occupationRate1 = s1.occupationRate(t1, t2);
+			double occupationRate2 = s2.occupationRate(t1, t2); 
+
+			if (occupationRate1 > occupationRate2) {
+	              return -1;
+	            }
+			if (occupationRate1 < occupationRate2) {
+	              return 1;
+	            }
+	        return 0;
+		}      
+	
+	};}
 
 	
 	
 	
 	
 }
+
