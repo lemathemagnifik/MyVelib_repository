@@ -8,19 +8,26 @@ import myVelib.Station;
 import myVelib.Station.NoMoreBikeException;
 
 public class Test2 {
-	private String str;
-	
-	
-public static void main(String[] args) {
-	Duration d1 = Duration.ZERO;
-	Duration d2 = Duration.ZERO;
-	d2=d2.minusHours(5).plusMinutes(34);
-	
-	System.out.println(d1.compareTo(d1));
-	
-}
-
-
-
+	public Test2() throws NoMoreAvailableSlotsException {
+		throw new NoMoreAvailableSlotsException();
 	}
+
+
+	public class NoMoreAvailableSlotsException extends Exception{
+		public NoMoreAvailableSlotsException(){
+		    System.out.println("Sorry, this station has no more available slots.");
+		  }  
+	}
+	
+
+	
+	public static void main(String[] args) {
+		try {
+			Test2 t = new Test2();
+		} catch (NoMoreAvailableSlotsException e) {
+
+		}
+	}
+
+}
 

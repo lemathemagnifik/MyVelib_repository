@@ -11,9 +11,9 @@ import java.util.concurrent.ConcurrentSkipListMap;
 
 import Tests.Test;
 import myVelib.Bicycle.BicycleType;
-import myVelib.ParkingSlot.UnavailableSlotException;
-import myVelib.Station.NoMoreAvailableSlotsException;
-import myVelib.Station.NoMoreBikeException;
+import myVelib.Station.NoBikesAvailableException;
+import myVelib.Station.OfflineStationException;
+
 
 
 
@@ -256,15 +256,11 @@ public class User implements Observer {
 	public void returnBike(Station s, Timestamp t) {
 		
 		// return the bike to an available ParkingSlot
-		try {
-			s.addBicycle(this.bicycle, t);
-		} catch (myVelib.Station.UnavailableStationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoMoreAvailableSlotsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+		s.returnBicycle(this.bicycle, t);
+		// On signale à la station qu'on a rendu un vélo.	
+		s.addEntryToStationHistory(t);
+		s.setNumberOfReturns(s.getNumberOfReturns()+1);
+
 		this.setBicycle(null);
 		
 		//We compute the duration of the trip in ms.
@@ -292,8 +288,6 @@ public class User implements Observer {
 		try {
 			cost = this.card.accept(visitor, tripDuration, this.ride.getBicycle().getType());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		System.out.println("Please pay " + cost +".");
@@ -344,6 +338,8 @@ public class User implements Observer {
 	 * This function allows the User to drop on a mechanical bicycle.
 	 * @param u
 	 * @param s
+	 * @throws NoBikesAvailableException 
+	 * @throws OfflineStationException 
 	 * @throws NoMoreMechanicalException 
 	 */
 	
@@ -370,36 +366,24 @@ public class User implements Observer {
 //		}	
 //	}
 	
-	public void rentBike(Station s, Bicycle.BicycleType bType, Timestamp t) throws NoMoreBikesException, AlreadyHasABikeException {
+	public void rentBike(Station s, Bicycle.BicycleType bType, Timestamp t) throws AlreadyHasABikeException, OfflineStationException, NoBikesAvailableException {
 		if (this.getBicycle()!=null) {
 			throw new AlreadyHasABikeException();
 		}
-		else if (s.slotsOccupiedByMechanical()==0 & bType==Bicycle.BicycleType.Mechanical || s.slotsOccupiedByElectrical()==0 & bType==Bicycle.BicycleType.Electrical) {
-			throw new NoMoreBikesException();
-		}
-		
 		else {
-			try {
-				int i = s.selectBicycle(bType);
-				Bicycle bicycle = s.getParkingSlots().get(i).getBicycle();
-				// We set free the slot
-				s.getParkingSlots().get(i).becomesFree(t);
-				this.setBicycle(bicycle);
-				// start counter for the user
-				this.updateUserHistory(t, this.ride);
+			Bicycle bicycle = s.retrieveBicycle(bType, t);
+			this.setBicycle(bicycle);
+			// start counter for the user
+			this.updateUserHistory(t, this.ride);				
 				
-				this.userBalance.setNumberOfRides(this.userBalance.getNumberOfRides()+1);
+			this.userBalance.setNumberOfRides(this.userBalance.getNumberOfRides()+1);
 				
-				//We need to begin the riding time and put something in the TimeStamp
-				s.addEntryToStationHistory(t);
-				s.setNumberOfRentals(s.getNumberOfRentals()+1);
-				this.ride.setDepartureStation(s);
-				this.ride.setDepartureTime(t);
-				this.ride.setBicycle(bicycle);
-			}
-			catch (NoMoreBikeException e) {
-				e.toString();
-			}
+			//We need to begin the riding time and put something in the TimeStamp
+			s.addEntryToStationHistory(t);
+			s.setNumberOfRentals(s.getNumberOfRentals()+1);
+			this.ride.setDepartureStation(s);
+			this.ride.setDepartureTime(t);
+			this.ride.setBicycle(bicycle);		
 		}
 	}
 	
@@ -436,23 +420,8 @@ public class User implements Observer {
 //							EXCEPTIONS 							   //
 //*****************************************************************//	
 	
-	public class NoMoreElectricalException extends Exception{
-		public NoMoreElectricalException(){
-		    System.out.println("Sorry, no more electrical bikes available.");
-		  }  
-	}
-	
-	public class NoMoreMechanicalException extends Exception{
-		public NoMoreMechanicalException(){
-		    System.out.println("Sorry, no more electrical bikes available.");
-		  }  
-	}
-	
-	public class NoMoreBikesException extends Exception{
-		public NoMoreBikesException(){
-		    System.out.println("Sorry, no more bikes of the desired type available.");
-		  }  
-	}
+
+
 	
 	public class AlreadyHasABikeException extends Exception{
 		public AlreadyHasABikeException(){
@@ -460,11 +429,6 @@ public class User implements Observer {
 		  }  
 	}
 	
-	public class UnavailableStationException extends Exception{
-		public UnavailableStationException(){
-		    System.out.println("Sorry, this station is unavailable to drop off your bicycle.");
-		  }  
-	}
 	
 
 	
@@ -473,18 +437,7 @@ public class User implements Observer {
 //								Main 							   //
 //*****************************************************************//	
 	
-	@SuppressWarnings("deprecation")
-	public static void main(String[] args) throws UnavailableSlotException, NoMoreBikesException, AlreadyHasABikeException {
-		
-		Network myNetwork = Test.CreateTestNetwork();
-		User userTest = new User("Anis");
-		userTest.setNetwork(myNetwork);
-		userTest.setRide( new PlannedRide(myNetwork, userTest.getPosition(), new GPS(5,5), true, true, false, false));
-		System.out.println(userTest.ride.getDepartureStation());
-		System.out.println(userTest.ride.getArrivalStation());
-		System.out.println(new Timestamp(118,2,22,10,30,0,0));
-		userTest.rentBike(userTest.ride.getDepartureStation(), BicycleType.Electrical, new Timestamp(118,2,22,10,30,0,0));
-		
+
 		
 		
 	}

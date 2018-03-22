@@ -6,7 +6,9 @@ import java.util.*;
 import java.util.Observable;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
+import myVelib.Station.NoAvailableFreeSlotsException;
 
 
 
@@ -17,7 +19,7 @@ public class Station extends Observable {
 //							Attributes 							   //
 //*****************************************************************//
 
-	public enum Status {Full, Available, Offline};
+	public enum Status {OnService, Offline};
 	public enum StationType {Normal, Plus}
 	
 	static int IDcounter=0;
@@ -63,7 +65,7 @@ public class Station extends Observable {
 		this.type = type;
 		this.position = position;
 		this.parkingSlots = new ArrayList<ParkingSlot>();
-		this.status = Status.Available;
+		this.status = Status.OnService;
 		this.network=network;		
 	}
 	
@@ -172,16 +174,7 @@ public class Station extends Observable {
 	public int getSize() {
 		return this.parkingSlots.size();
 	}
-	
-	public ParkingSlot getAFreeSlot() {
-		for (ParkingSlot p : this.getParkingSlots()) {
-			if (p.getStatus() == ParkingSlot.Status.Free) {
-				return p;
-			}
-		}
-		System.out.print("No free slots available.");
-		return null;
-	}
+
 
 	public int slotsFree() {
 		int counter = 0;
@@ -237,7 +230,7 @@ public class Station extends Observable {
 //-----------------------------------------------------------------------------//
 // Network configuration  
 	
-
+	
 	public void addParkingSlot(ParkingSlot slot) {
 		this.parkingSlots.add(slot);
 	}
@@ -271,75 +264,48 @@ public class Station extends Observable {
 	
 	
 	
-	
-	public void addBicycle (Bicycle bicycle, Timestamp t) throws UnavailableStationException, NoMoreAvailableSlotsException {
-		if (this.getStatus()==Station.Status.Offline) {
-			throw new UnavailableStationException();
-		}
-		else if (this.getStatus()==Station.Status.Full) {
-			throw new NoMoreAvailableSlotsException();
-		}
-		else {
-			ParkingSlot freeParkingSlot = this.getAFreeSlot();		
-			System.out.println("Please, put your bicycle at a free slot");
-			try {
-				freeParkingSlot.addBicycle(bicycle,t);
-			}
-			//TODO à vérifier le println ??
-			catch(UnavailableSlotException e) {e.toString();};
-		}
-		this.addEntryToStationHistory(t);
-		this.setNumberOfReturns(this.getNumberOfReturns()+1);
-	}
-	
-	
-	public int selectBicycleMechanical () throws NoMoreMechanicalException{
-		if (this.slotsOccupiedByMechanical() == 0)
-				throw new NoMoreMechanicalException(); 
-		else {
-			for (int i=0; i<=this.getParkingSlots().size(); i++) {
-				if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByMechanical)
-				{
-					System.out.println("Go take mechanical bicycle at slot "+ i);
-					return i;	}}}return 0;}
-
-	public int selectBicycleElectrical  () throws NoMoreElectricalException{
-
-		if (this.slotsOccupiedByElectrical() == 0){
-				throw new NoMoreElectricalException();}
-		else {
-			for (int i=0; i<=this.getParkingSlots().size(); i++) {
-				if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByElectrical)
-				{
-					System.out.println("Go take electrical bicycle at slot "+ i);
+	public Integer selectFreeSlot() throws NoAvailableFreeSlotsException {
+		for (int i=0; i<=this.getParkingSlots().size(); i++) {
+			if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.Free) {
+					System.out.println("Please return your bicycle at slot "+ i);
 					return i;
-					
 				}
-			}
 		}
-		return 0;//for debugging purposes
-		
+		throw new NoAvailableFreeSlotsException();
 	}
 	
-	public Integer selectBicycle (Bicycle.BicycleType bType) throws NoMoreBikeException{
-		if (this.slotsOccupied(bType) == 0){
-				throw new NoMoreBikeException();
-				}
-		else  {
-			for (int i=0; i<=this.getParkingSlots().size(); i++) {
-				if (this.getParkingSlots().get(i).getBicycle()!=null) {
-					if (bType==null) {
-						System.out.println("Go take the " + Bicycle.bicycleTypeString(bType) + " bicycle at slot "+ i);
-						return i;				}
-					else if (this.getParkingSlots().get(i).getBicycle().getType()==bType) {
-						System.out.println("Go take the " + Bicycle.bicycleTypeString(bType) + " bicycle at slot "+ i);
-						return i;
-					}
-
-				}
-			}
+	public void returnBicycle (Bicycle bicycle, Timestamp t) throws OfflineStationException, NoAvailableFreeSlotsException {
+		if (this.getStatus()==Station.Status.Offline) {
+			throw new OfflineStationException();
 		}
-		return null;
+		int freeSlotNB = this.selectFreeSlot();
+		try {
+			this.getParkingSlots().get(freeSlotNB).addBicycle(bicycle,t);
+		} catch (UnavailableSlotException e) {
+		}
+}
+	
+
+
+	
+	public Integer selectBicycle (Bicycle.BicycleType bType) throws NoBikesAvailableException{
+		for (int i=0; i<=this.getParkingSlots().size(); i++) {
+			if (this.getParkingSlots().get(i).getStatus()==ParkingSlot.Status.Broken) {
+				continue;
+			}
+				
+			else if (this.getParkingSlots().get(i).getBicycle()!=null) {
+				if (bType==null) {
+					System.out.println("Go take the " + Bicycle.bicycleTypeString(bType) + " bicycle at slot "+ i);
+					return i;
+				}
+				else if (this.getParkingSlots().get(i).getBicycle().getType()==bType) {
+					System.out.println("Go take the " + Bicycle.bicycleTypeString(bType) + " bicycle at slot "+ i);
+					return i;
+				}	
+			}	
+		}
+		throw new NoBikesAvailableException();
 	}
 	
 	/** 
@@ -347,8 +313,22 @@ public class Station extends Observable {
 	 * @param s
 	 * @return i
 	 * i is the parking slot where the user can take the bicycle.
+	 * @throws OfflineStationException 
+	 * @throws NoBikesAvailableException 
+	 * @throws NoMoreBikeException 
 	 */
-
+	
+	public Bicycle retrieveBicycle(BicycleType bType, Timestamp t) throws OfflineStationException, NoBikesAvailableException {
+		Bicycle bicycle = null;
+		if (this.getStatus()==Status.Offline) {
+			throw new OfflineStationException();
+			} 
+		int slotNB = 0;
+		slotNB = this.selectBicycle(bType);
+		bicycle = this.getParkingSlots().get(slotNB).getBicycle();
+		this.getParkingSlots().get(slotNB).becomesFree(t);
+		return bicycle;
+	}
 	
 	
 //------------------------------------------------------------------------------//
@@ -368,33 +348,21 @@ public class Station extends Observable {
 //							EXCEPTIONS 							   //
 //*****************************************************************//
 	
-	
-	public class NoMoreElectricalException extends Exception{
-		public NoMoreElectricalException(){
-		    System.out.println("Sorry, no more electrical bikes available.");
-		  }  
-	}
-	
-	public class NoMoreMechanicalException extends Exception{
-		public NoMoreMechanicalException(){
-		    System.out.println("Sorry, no more mechanical bikes available.");
-		  }  
-	}
-	
-	public class NoMoreBikeException extends Exception{
-		public NoMoreBikeException(){
+
+	public class NoBikesAvailableException extends Exception{
+		public NoBikesAvailableException(){
 		    System.out.println("Sorry, no more bikes of the desired type available.");
 		  }  
 	}
 	
-	public class UnavailableStationException extends Exception{
-		public UnavailableStationException(){
-		    System.out.println("Sorry, this stations is unavailable to drop off your bicycle.");
+	public class OfflineStationException extends Exception{
+		public OfflineStationException(){
+		    System.out.println("Sorry, this stations is offline.");
 		  }  
 	}
 
-	public class NoMoreAvailableSlotsException extends Exception{
-		public NoMoreAvailableSlotsException(){
+	public class NoAvailableFreeSlotsException extends Exception{
+		public NoAvailableFreeSlotsException(){
 		    System.out.println("Sorry, this station has no more available slots.");
 		  }  
 	}
