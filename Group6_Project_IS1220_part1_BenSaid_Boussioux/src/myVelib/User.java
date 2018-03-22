@@ -201,6 +201,8 @@ public class User implements Observer {
 			Station station = (Station) o;
 			this.recieveMessage(new Message("The Station "+station.getName()+" is now "+station.getStatus()));
 			System.out.println("The Station "+station.getName()+" is now "+station.getStatus());
+			//TODO recalculate path
+//			this.planRide(destination, plus, uniformity, fastest);
 		}
 
 	}
@@ -268,6 +270,8 @@ public class User implements Observer {
 		//We compute the duration of the trip in ms.
 		Duration tripDuration = Duration.ZERO;
 		tripDuration = tripDuration.plusMillis(t.getTime()-this.ride.getDepartureTime().getTime());
+		this.ride.setDuration(tripDuration.plusMillis(t.getTime()-this.ride.getDepartureTime().getTime()));
+
 			
 		//If the user has a VelibCard, if the Station is Plus we add timeCredit to the card, 
 		//then we reduce the number of hours to pay using that timeCredit.
@@ -275,8 +279,8 @@ public class User implements Observer {
 			VelibCard vCard = (VelibCard) this.card;
 			if (s.getStationType()==Station.StationType.Plus) {
 				vCard.creditTime();
-				this.ride.getTimeCredit().plus(Station.plusTimeCredit);
-				this.userBalance.getTotalTimeCredit().plus(Station.plusTimeCredit);
+				this.ride.setTimeCredit(this.ride.getTimeCredit().plus(Station.plusTimeCredit));
+				this.userBalance.setTotalTimeCredit(this.userBalance.getTotalTimeCredit().plus(Station.plusTimeCredit));
 			}
 			ConcreteCardVisitor.applyVelibBonus(vCard.getTimeCredit(), tripDuration);
 		}
@@ -299,7 +303,6 @@ public class User implements Observer {
 		
 		this.ride.setArrivalTime(t);
 		this.ride.setArrivalStation(s);
-		this.ride.setDuration(tripDuration);
 		this.ride.setCost(cost);
 		this.updateUserHistory(this.ride.getDepartureTime(), this.ride);
 		this.ride = new Ride();
