@@ -139,7 +139,7 @@ public class Station extends Observable {
 	public Status getStatus() {
 		return status;
 	}
-
+//TODO
 	public void setStatus(Status status) {
 		this.status = status;
 		this.setChanged();
