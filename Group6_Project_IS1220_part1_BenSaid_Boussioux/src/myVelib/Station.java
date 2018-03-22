@@ -406,12 +406,46 @@ public class Station extends Observable {
 		  }  
 	}
 	
+	//*****************************************************************//
+	//	COMPARATORS 							   //
+	//*****************************************************************//
 
 
+	public static Comparator<Station> mostUsedComparator = new Comparator<Station>() {
+		
+		public int compare(Station s1, Station s2){
+			
+			int numberOfOperations1 = s1.getNumberOfRentals()+s1.getNumberOfReturns();
+			int numberOfOperations2 = s2.getNumberOfRentals()+s2.getNumberOfReturns();
 
+			return numberOfOperations1-numberOfOperations2;
+		}      
+	
+	};
+	
+	public static Comparator<Station> leastOccupiedComparator(Timestamp t1, Timestamp t2){
+		return new Comparator<Station>(){
+	
+		
+		public int compare(Station s1, Station s2){
+			
+			double occupationRate1 = s1.occupationRate(t1, t2);
+			double occupationRate2 = s2.occupationRate(t1, t2); 
+
+			if (occupationRate1 > occupationRate2) {
+	              return -1;
+	            }
+			if (occupationRate1 < occupationRate2) {
+	              return 1;
+	            }
+	        return 0;
+		}      
+	
+	};}
 
 	
 	
 	
 	
 }
+
