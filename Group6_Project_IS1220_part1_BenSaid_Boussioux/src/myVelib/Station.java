@@ -270,55 +270,10 @@ public class Station extends Observable {
 	}
 	
 	
-	
-<<<<<<< HEAD
 	public Integer selectFreeSlot() throws NoAvailableFreeSlotsException {
 		for (int i=0; i<=this.getParkingSlots().size(); i++) {
 			if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.Free) {
 					System.out.println("Please return your bicycle at slot "+ i);
-=======
-	
-	public void addBicycle (Bicycle bicycle, Timestamp t) throws UnavailableStationException, NoMoreAvailableSlotsException {
-		if (this.getStatus()==Station.Status.Offline) {
-			throw new UnavailableStationException();
-		}
-		else if (this.getStatus()==Station.Status.Full) {
-			throw new NoMoreAvailableSlotsException();
-		}
-		else {
-			ParkingSlot freeParkingSlot = this.getAFreeSlot();		
-			System.out.println("Please, put your bicycle at a free slot");
-			try {
-				freeParkingSlot.addBicycle(bicycle,t);
-			}
-			//TODO � v�rifier le println ??
-			catch(UnavailableSlotException e) {e.toString();};
-		}
-		this.addEntryToStationHistory(t);
-		this.setNumberOfReturns(this.getNumberOfReturns()+1);
-	}
-	
-	
-	public int selectBicycleMechanical () throws NoMoreMechanicalException{
-		if (this.slotsOccupiedByMechanical() == 0)
-				throw new NoMoreMechanicalException(); 
-		else {
-			for (int i=0; i<=this.getParkingSlots().size(); i++) {
-				if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByMechanical)
-				{
-					System.out.println("Go take mechanical bicycle at slot "+ i);
-					return i;	}}}return 0;}
-
-	public int selectBicycleElectrical  () throws NoMoreElectricalException{
-
-		if (this.slotsOccupiedByElectrical() == 0){
-				throw new NoMoreElectricalException();}
-		else {
-			for (int i=0; i<=this.getParkingSlots().size(); i++) {
-				if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.OccupiedByElectrical)
-				{
-					System.out.println("Go take electrical bicycle at slot "+ i);
->>>>>>> ce0a5fafdc580ab2043912930eb2cf15fff048fc
 					return i;
 				}
 		}
@@ -380,7 +335,8 @@ public class Station extends Observable {
 		this.getParkingSlots().get(slotNB).becomesFree(t);
 		return bicycle;
 	}
-	
+		
+
 	
 //------------------------------------------------------------------------------//
 	
