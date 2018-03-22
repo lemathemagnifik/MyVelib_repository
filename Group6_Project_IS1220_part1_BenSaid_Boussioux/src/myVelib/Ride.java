@@ -17,7 +17,7 @@ public class Ride {
 	public BicycleType bicycleTime;
 	public Double cost;
 	public Duration timeCredit;
-	
+	salut
 	
 	public Ride() {
 		super();
