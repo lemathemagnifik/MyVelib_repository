@@ -34,7 +34,7 @@ abstract class TripPreference {
 //			if (position.equals(location)){
 //				continue;
 //			}
-			if (station.getStatus()==Station.Status.Full || station.getStatus()==Station.Status.Offline) {
+			if (station.slotsFree()==0 || station.getStatus()==Station.Status.Offline) {
 				continue;
 			}
 			
