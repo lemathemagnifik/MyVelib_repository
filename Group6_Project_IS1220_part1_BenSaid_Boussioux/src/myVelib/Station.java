@@ -19,7 +19,7 @@ public class Station extends Observable {
 //							Attributes 							   //
 //*****************************************************************//
 
-	public enum Status {OnService, Offline, Full};
+	public enum Status {OnService, Offline};
 	public enum StationType {Normal, Plus}
 	
 	static int IDcounter=0;
