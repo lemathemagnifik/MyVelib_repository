@@ -3,8 +3,8 @@ import myVelib.*;
 
 import myVelib.ParkingSlot.UnavailableSlotException;
 
-public class Test {
-	public static Network CreateTestNetwork() throws UnavailableSlotException {
+public class CreateTestNetwork {
+	public static Network CreateTestingNetwork() throws UnavailableSlotException {
 		Network myNetwork= new Network();
 		
 		for (Integer i=1 ; i<=10; i++) {

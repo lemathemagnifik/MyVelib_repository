@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
 
+import myVelib.ParkingSlot.UnavailableSlotException;
+
 
 public class Network {
 	private String name;
@@ -198,11 +200,12 @@ public class Network {
 	 * @param percentageOfOccupation
 	 * @param percentageOfMechanical
 	 * @return
+	 * @throws UnavailableSlotException 
 	 */
 	
 	//TODO C'est un enfer car il faut rattrapper l'exception de addBicycle je ne sais combien de fois.
 	
-	public ArrayList<Station> stationWithBicycles (ArrayList<Station> stations, int numberOfSlots, int percentageOfOccupation, int percentageOfMechanical){
+	public ArrayList<Station> stationWithBicycles (ArrayList<Station> stations, int numberOfSlots, int percentageOfOccupation, int percentageOfMechanical) throws UnavailableSlotException{
 		int numberOfMechanical = numberOfSlots*percentageOfOccupation*percentageOfMechanical/100/100;
 		int numberOfElectrical = numberOfSlots*percentageOfOccupation*(100-percentageOfMechanical)/100/100;
 		
@@ -229,7 +232,7 @@ public class Network {
 		}
 		
 		return stations;}
-	} 
+	
 	
 //*****************************************************************//
 //					STATISTICAL FUNCTIONS 					     //

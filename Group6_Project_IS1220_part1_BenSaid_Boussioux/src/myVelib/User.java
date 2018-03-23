@@ -9,7 +9,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-import Tests.Test;
 import myVelib.Bicycle.BicycleType;
 import myVelib.Station.NoAvailableFreeSlotsException;
 import myVelib.Station.NoBikesAvailableException;
