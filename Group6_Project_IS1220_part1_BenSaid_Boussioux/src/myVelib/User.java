@@ -35,12 +35,12 @@ public class User implements Observer {
 	private GPS position;
 	private Ride ride;
 	private UserBalance userBalance;
-	private Bicycle bicycle; //Pas sûr de l'utilité de Bicycle
+	private Bicycle bicycle; //Pas sï¿½r de l'utilitï¿½ de Bicycle
 	private ArrayList<Message> messageBox;
 	private ArrayList<Observable> observedStations = new ArrayList<Observable>();
 	
-	/**A map representing a user's history: with Timestamps as keys and UserStates as values.
-	 * This type of map stores the key-value pairs in a specific order. This way it is easy to get the last user's state.
+	/**A map representing a user's history: with Timestamps as keys and Ride as values.
+	 * This type of map stores the key-value pairs in a specific order. This way it is easy to get the last ride.
 	 * 
 	 */
 	private ConcurrentSkipListMap <Timestamp, Ride> userHistory = new ConcurrentSkipListMap<Timestamp, Ride>();
@@ -126,7 +126,7 @@ public class User implements Observer {
 	public void setPosition(GPS position) {
 		this.position = position;
 	}
-//Pas sûr de l'utilité de Bicycle
+//Pas sï¿½r de l'utilitï¿½ de Bicycle
 	public Bicycle getBicycle() {
 		return bicycle;
 	}
@@ -260,7 +260,7 @@ public class User implements Observer {
 		
 		// return the bike to an available ParkingSlot
 		s.returnBicycle(this.bicycle, t);
-		// On signale à la station qu'on a rendu un vélo.	
+		// On signale ï¿½ la station qu'on a rendu un vï¿½lo.	
 		s.addEntryToStationHistory(t);
 		s.setNumberOfReturns(s.getNumberOfReturns()+1);
 
