@@ -160,24 +160,51 @@ public class Network {
 				stations.get(i).addParkingSlot();
 			}
 		for (int k=0 ; k<rest;k++) {
-			stations.get(i).addParkingSlot();
+			stations.get(k).addParkingSlot();
 		}
 		}
 		return stations;
 	}
 	
-	public ArrayList<Station> stationWithBicycles (ArrayList<Station> stations, int pourcentage){
-		int slotsPerStation = m/stations.size(); 
-		int rest = m%stations.size();
+	/**
+	 * This ugly method is able to put a uniform number of bicycles in all the stations according to given
+	 * percentages.
+	 * @param stations
+	 * @param numberOfSlots
+	 * @param percentageOfOccupation
+	 * @param percentageOfMechanical
+	 * @return
+	 */
+	
+	//TODO C'est un enfer car il faut rattrapper l'exception de addBicycle je ne sais combien de fois.
+	
+	public ArrayList<Station> stationWithBicycles (ArrayList<Station> stations, int numberOfSlots, int percentageOfOccupation, int percentageOfMechanical){
+		int numberOfMechanical = numberOfSlots*percentageOfOccupation*percentageOfMechanical/100/100;
+		int numberOfElectrical = numberOfSlots*percentageOfOccupation*(100-percentageOfMechanical)/100/100;
+		
+		int bicyclesElectricalPerStation = numberOfElectrical/stations.size(); 
+		int rest = numberOfElectrical%stations.size();
 		for (int i=0 ; i<stations.size() ; i++) {
-			for (int j=0;j<slotsPerStation;j++) {
-				stations.get(i).addParkingSlot();
+			for (int j=0;j<bicyclesElectricalPerStation;j++) {
+				stations.get(i).getParkingSlots().get(j).addBicycle(new Bicycle(Bicycle.BicycleType.Electrical));;
 			}
+		}
 		for (int k=0 ; k<rest;k++) {
-			stations.get(i).addParkingSlot();
+			stations.get(k).getParkingSlots().get(bicyclesElectricalPerStation).addBicycle(new Bicycle(Bicycle.BicycleType.Electrical));;
 		}
+		
+		int bicyclesMechanicalPerStation = numberOfMechanical/stations.size(); 
+		int rest2 = numberOfMechanical%stations.size();
+		for (int l=0 ; l<stations.size() ; l++) {
+			for (int j=0;j<bicyclesElectricalPerStation;j++) {
+				stations.get(l).getParkingSlots().get(j+bicyclesElectricalPerStation).addBicycle(new Bicycle(Bicycle.BicycleType.Mechanical));;
+			}
 		}
-		return stations;
+		for (int k=0 ; k<rest2;k++) {
+			stations.get(k).getParkingSlots().get(bicyclesElectricalPerStation+bicyclesMechanicalPerStation).addBicycle(new Bicycle(Bicycle.BicycleType.Mechanical));;
+		}
+		
+		return stations;}
 	} 
 	
 //*****************************************************************//
