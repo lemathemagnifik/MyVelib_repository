@@ -14,6 +14,7 @@ public class Ride {
 	public Station departureStation;
 	public Station arrivalStation;
 	public Bicycle bicycle;
+	public BicycleType bicycleTime;
 	public Double cost;
 	public Duration timeCredit;
 	
