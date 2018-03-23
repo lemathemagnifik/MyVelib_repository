@@ -339,9 +339,7 @@ public class User implements Observer {
 	}
 	
 
-	public void userBalance() {
-		
-	}
+	
 	
 	public void planRide(GPS destination,  boolean plus, boolean uniformity, boolean fastest) {
 		if (this.ride == null) {
@@ -353,6 +351,22 @@ public class User implements Observer {
 			System.out.println("You haven't reached your destination yet. We are looking for a new path.");
 			
 		}
+	}
+	
+	public int getNumberOfRides() {
+		return this.userBalance.getNumberOfRides();
+	}
+	
+	public Duration getTotalTime() {
+		return this.userBalance.getTotalTime();
+	}
+	
+	public Double getTotalCharges() {
+		return this.userBalance.getTotalCharges();
+	}
+	
+	public Duration getTotalTimeCredit() {
+		return this.userBalance.getTotalTimeCredit();
 	}
 	
 
