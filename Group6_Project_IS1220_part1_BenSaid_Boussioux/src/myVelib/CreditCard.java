@@ -54,11 +54,18 @@ public class CreditCard implements Card {
 		return creditLimit;
 	}
 
-
+	/**
+	 * add money to the card balance.
+	 * @param amount
+	 */
 	public void addMoney(double amount) {
 		this.balance = this.balance + amount;
 	}
 	
+	/**
+	 * retrieve the amount from the card balance.
+	 * @param amount
+	 */
 	public void pay(double amount) {
 		if ( (this.balance-amount) < CreditCard.creditLimit) {
 			System.out.println("Insufficient funds");
@@ -66,16 +73,6 @@ public class CreditCard implements Card {
 		else {
 			this.balance = this.balance - amount;
 		}
-	}
-
-	public Double getCost(Duration duration, Bicycle.BicycleType bType) {
-		if (bType == Bicycle.BicycleType.Electrical) {
-				return CreditCard.cost1HElectrical;
-			}
-		else if (bType == Bicycle.BicycleType.Mechanical) {
-			return CreditCard.getCost1HMechanical();
-		}
-		else return null;
 	}
 
 

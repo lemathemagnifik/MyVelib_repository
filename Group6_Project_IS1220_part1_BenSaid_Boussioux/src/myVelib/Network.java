@@ -14,7 +14,7 @@ public class Network {
 	private ArrayList<Bicycle> bicycles;
 	
 	
-	//TODO
+	
 	public Network() {
 		name ="MyNetwork";
 		stations= new ArrayList<Station>();
@@ -47,8 +47,53 @@ public class Network {
 
 	public void setStations(ArrayList<Station> stations) {
 		this.stations = stations;
+		for (Station s:stations) {
+			s.setNetwork(this);
+		}
 	}
 	
+	
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(ArrayList<User> users) {
+		this.users = users;
+		for (User u:users) {
+			u.setNetwork(this);
+		}
+	}
+
+	public ArrayList<Bicycle> getBicycles() {
+		return bicycles;
+	}
+
+	public void setBicycles(ArrayList<Bicycle> bicycles) {
+		this.bicycles = bicycles;
+		for (Bicycle b:bicycles) {
+			b.setNetwork(this);
+		}
+	}
+	
+	public void addStation(Station station) {
+		this.getStations().add(station);
+		station.setNetwork(this);
+	}
+	
+	public void addUser(User user) {
+		this.getUsers().add(user);
+		user.setNetwork(this);
+	}
+	
+	public void addBicycle(Bicycle bicycle) {
+		this.getBicycles().add(bicycle);
+		bicycle.setNetwork(this);
+	}
+	
+	/**
+	 * 
+	 * @return the plus stations.
+	 */
 	public ArrayList<Station> getPlusStation(){
 		ArrayList<Station> plusStations = new ArrayList<Station>();
 		for (Station s:stations) {
@@ -60,6 +105,11 @@ public class Network {
 		return plusStations;
 	}
 	
+	/**
+	 * 
+	 * @param position
+	 * @return the closest stations to GPS position.
+	 */
 	public ArrayList<Station> isClosest(GPS position) {
 		
 		ArrayList<Station> closest = new ArrayList<Station>();
@@ -71,7 +121,7 @@ public class Network {
 			if (position.equals(location)){
 				continue;
 			}
-			if (station.getStatus()==Station.Status.Full || station.getStatus()==Station.Status.Offline) {
+			if (station.slotsFree()==0 || station.getStatus()==Station.Status.Offline) {
 				continue;
 			}
 			
@@ -88,7 +138,12 @@ public class Network {
 		return closest;
 	}
 	
-
+	/**
+	 * 
+	 * @param position
+	 * @param percent
+	 * @return the station in a radius that equals the percent of the distance separating the GPS position and the closest station to it.
+	 */
 	public ArrayList<Station> getStationsInRadiusPercent( GPS position, Double percent ) {
 		ArrayList<Station> foundStations = new ArrayList<Station>();
 		ArrayList<Station> closestStations = this.isClosest(position);
@@ -101,37 +156,6 @@ public class Network {
 			}
 		}
 		return foundStations;
-	}
-	
-	public ArrayList<User> getUsers() {
-		return users;
-	}
-	// trouver une solution pour affecter network � chacun des User/Bicycle/Station des ArrayList ou effacer ces m�thode (kiss!)
-	public void setUsers(ArrayList<User> users) {
-		this.users = users;
-	}
-
-	public ArrayList<Bicycle> getBicycles() {
-		return bicycles;
-	}
-
-	public void setBicycles(ArrayList<Bicycle> bicycles) {
-		this.bicycles = bicycles;
-	}
-	
-	public void addStation(Station station) {
-		this.getStations().add(station);
-		station.setNetwork(this);
-	}
-	
-	public void addUser(User user) {
-		this.getUsers().add(user);
-		user.setNetwork(this);
-	}
-	
-	public void addBicycle(Bicycle bicycle) {
-		this.getBicycles().add(bicycle);
-		bicycle.setNetwork(this);
 	}
 	
 	/**

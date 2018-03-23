@@ -15,6 +15,16 @@ abstract class TripPreference {
 	 * @throws Exception 
 	 */
 	
+	/**
+	 * Based on the Strategy Patter.
+	 * @param network
+	 * @param departure
+	 * @param arrival
+	 * @param uniformity
+	 * @param plus
+	 * @return returns a list of 2 stations based on users trip preference. The first, represents the departure station and the second the arrival station.
+	 * @throws Exception
+	 */
 	abstract Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus) throws Exception ;
 	
 	/**
@@ -114,7 +124,7 @@ abstract class TripPreference {
 	}
 	
 	/**
-	 * returns the list of the stations who have the most 
+	 * Among the stations in a radius equal to 105% of the distance separating the user and the closest station, returns the list of station who have the most bicycles of the desired type.
 	 * @param stations
 	 * @param departure
 	 * @param bType
@@ -139,7 +149,14 @@ abstract class TripPreference {
 		return uniformStations;
 	}
 	
-	// remarque : ici le type de vélo n'est pas pris en compte. KISS method.
+	
+	/**
+	 * Among the stations in a radius equal to 105% of the distance separating the user's destination and the closest station, returns the list of station who have the most free slots.
+	 * @param stations
+	 * @param arrival
+	 * @return
+	 */
+	// remark : The bicycle type doesn't matter. KISS method.
 	public ArrayList<Station> uniformiseArrivals(ArrayList<Station> stations,GPS arrival){
 		
 		ArrayList<Station> uniformStations = new ArrayList<Station>();
@@ -157,12 +174,24 @@ abstract class TripPreference {
 		return uniformStations;
 	} 
 	
-	
+	/**
+	 * From a list of stations, returns the plus stations in a radius equal to 110% of the ditance separating the destination and the closest station among the list.
+	 * @param stations
+	 * @param arrival
+	 * @return
+	 */
 	public ArrayList<Station> onlyPlusStations(ArrayList<Station> stations, GPS arrival){		
 		return getStationsInRadiusPercent(stations, arrival, 1.10, true);
 		
 	}
 	
+	/**
+	 * returns the possible departure stations in network that fulfills the uniformity constraint considering the user position.
+	 * @param network
+	 * @param departure Position of the user
+	 * @param uniformity
+	 * @return
+	 */
 	public ArrayList<Station> getDepartures(Network network, GPS departure, boolean uniformity) {
 
 		if (uniformity) {
@@ -173,6 +202,13 @@ abstract class TripPreference {
 		}
 	}
 	
+	/**
+	 * returns the possible arrival stations in network that fulfills the uniformity constraint considering the user position.
+	 * @param network
+	 * @param departure Position of the user
+	 * @param uniformity
+	 * @return
+	 */
 	public ArrayList<Station> getArrivals(Network network, GPS arrival, boolean uniformity, boolean plus) {
 		ArrayList<Station> arrivalStations;
 		if (plus) {

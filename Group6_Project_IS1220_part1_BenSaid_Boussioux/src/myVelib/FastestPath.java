@@ -2,7 +2,6 @@ package myVelib;
 
 import java.util.ArrayList;
 
-import Tests.Test;
 import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station.StationType;
@@ -17,6 +16,8 @@ public class FastestPath extends TripPreference {
 	public FastestPath() {
 	}
 	
+	
+
 	@Override
 	Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus ) throws Exception {
 		ArrayList<Station> arrivalStations;
@@ -73,14 +74,14 @@ public class FastestPath extends TripPreference {
 	}
 	
 	public static void main(String[] args) throws Exception  {
-		Network myNetwork = new Network();
-		try {
-			myNetwork = Test.CreateTestNetwork();
-		} catch (UnavailableSlotException e) {
-			e.printStackTrace();
-		}
-		
-		
+//		Network myNetwork = new Network();
+//		try {
+//			myNetwork = Test.CreateTestNetwork();
+//		} catch (UnavailableSlotException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		
 		// Premier test avec le Network généré => On obtient le même résultat que Fastest.
 //		ArrayList<Station> arrivalStations;
 //		arrivalStations = new FastestPath().getArrivals(myNetwork, new GPS(2,2), false, true);

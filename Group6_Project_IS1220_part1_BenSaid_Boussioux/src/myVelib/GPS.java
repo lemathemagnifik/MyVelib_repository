@@ -1,7 +1,5 @@
 package myVelib;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GPS {
 	private double x;
@@ -35,6 +33,12 @@ public class GPS {
 		return false;
 	}
 	
+	
+	/**
+	 * returns the distance of this from the position GPS.
+	 * @param GPS
+	 * @return
+	 */
 	public double distance(GPS GPS) {
 		double lx=GPS.getX();
 		double ly=GPS.getY();
@@ -66,20 +70,20 @@ public double getX() {
 	}
 
 public static void main(String[] args) {
-	GPS l1=new GPS(0,1);
-	GPS l2= new GPS(0,0);
-	GPS l3= new GPS(1,0);
-	GPS l4= new GPS(1/Math.sqrt(2),1/Math.sqrt(2));
-	System.out.println(l1.equals(l3));
-	System.out.println(l1.equals(l2));
-	System.out.println(l2.distance(l1));
-	GPS[] desti = {l1,l2,l3,l4}; 
-	ArrayList<GPS> destinationss = new ArrayList<GPS>(Arrays.asList(desti));
-	System.out.println(l2.distance(l4));
-	System.out.println(l2.distance(l3)==l2.distance(l1));
-	int[] l = {1,2};
-	l[0]=4;
-	System.out.println(l[0]);
+//	GPS l1=new GPS(0,1);
+//	GPS l2= new GPS(0,0);
+//	GPS l3= new GPS(1,0);
+//	GPS l4= new GPS(1/Math.sqrt(2),1/Math.sqrt(2));
+//	System.out.println(l1.equals(l3));
+//	System.out.println(l1.equals(l2));
+//	System.out.println(l2.distance(l1));
+//	GPS[] desti = {l1,l2,l3,l4}; 
+//	ArrayList<GPS> destinationss = new ArrayList<GPS>(Arrays.asList(desti));
+//	System.out.println(l2.distance(l4));
+//	System.out.println(l2.distance(l3)==l2.distance(l1));
+//	int[] l = {1,2};
+//	l[0]=4;
+//	System.out.println(l[0]);
 }	
 	
 }

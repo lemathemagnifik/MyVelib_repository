@@ -7,13 +7,13 @@ import myVelib.Bicycle.BicycleType;
 public class ConcreteCardVisitor implements CardVisitor {
 
 	
+
+	
 	/**
-	 * cette classe compute le temps final. C'est � dire que tripTime est le temps moins le cr�dit en temps.
-	 * On facture par heures enti�res.
-	 * @throws Exception 
+	 * Apply the bonus of holding a VelibCard by using the card's time credit to reduce the charged trip duration.
+	 * @param timeCredit
+	 * @param tripDuration
 	 */
-	
-	
 	static void applyVelibBonus(Duration timeCredit, Duration tripDuration) {
 		if (timeCredit.compareTo(tripDuration)>=0) {
 			timeCredit = timeCredit.minus(tripDuration);
@@ -23,7 +23,7 @@ public class ConcreteCardVisitor implements CardVisitor {
 			// We substract the number of hours available in timeCredit
 			timeCredit=timeCredit.minusHours(timeCredit.toHours());
 			tripDuration=tripDuration.minusHours(timeCredit.toHours());
-			// if the remaining time in timeCredit is enough to lower the number of hours in tripDuration
+			// if the remaining time in timeCredit is enough to lower the number of hours in tripDuration we transfer the needed time credit to reduce the tripduration.
 			if (tripDuration.minus(timeCredit).toHours()<tripDuration.toHours()) {
 				Duration excess = tripDuration.minusHours(tripDuration.toHours());
 				timeCredit = timeCredit.minus(excess);
@@ -32,8 +32,14 @@ public class ConcreteCardVisitor implements CardVisitor {
 		}
 	}
 	
-	
-	//TODO Coder le duration trip
+	/** 
+	 * 
+	 * @param creditCard
+	 * @param tripDuration
+	 * @param type Bicycle Time
+	 * @return the cost of the trip concidering the bicycle type, the duration of the trip when the user has no VelibCard.
+	 * @throws Exception
+	 */
 	@Override
 	public double visit(CreditCard creditCard, Duration tripDuration, Bicycle.BicycleType type) throws Exception {
 		
@@ -52,6 +58,14 @@ public class ConcreteCardVisitor implements CardVisitor {
 		}
 	}
 	
+	/** 
+	 * 
+	 * @param creditCard
+	 * @param tripDuration
+	 * @param type Bicycle Time
+	 * @return the cost of the trip concidering the bicycle type, the duration of the trip when the user has a VlibreCard.
+	 * @throws Exception
+	 */
 	@Override
 	public double visit(VlibreCard vlibreCard, Duration tripDuration, Bicycle.BicycleType bType) throws Exception {	
 		
@@ -76,6 +90,14 @@ public class ConcreteCardVisitor implements CardVisitor {
 		}
 	}
 	
+	/** 
+	 * 
+	 * @param creditCard
+	 * @param tripDuration
+	 * @param type Bicycle Time
+	 * @return the cost of the trip concidering the bicycle type, the duration of the trip when the user has a VmaxCard.
+	 * @throws Exception
+	 */
 	@Override
 	public double visit(VmaxCard vmaxCard,  Duration tripDuration, BicycleType type) throws Exception {
 		
