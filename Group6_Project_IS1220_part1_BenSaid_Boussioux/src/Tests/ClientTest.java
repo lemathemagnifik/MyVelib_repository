@@ -67,11 +67,9 @@ public class ClientTest {
 		//Troisième test
 		
 		
-		PlannedRide plan = new PlannedRide(myNetwork, new GPS(0,0), new GPS(50,70), false, false, false, false);
 		GPS destination = new GPS(30,35);
-//		user.planRide(destination, false, false, false);
-		System.out.println(plan);
-		System.out.println(user.getBicycle());
+		user.planRide(destination, false, false, false);
+		
 
 	}
 		catch (UnavailableSlotException e) {e.toString() ;}
