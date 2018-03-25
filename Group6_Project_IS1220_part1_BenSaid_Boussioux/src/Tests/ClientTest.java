@@ -36,8 +36,6 @@ public class ClientTest {
 
 		User user = new User("Leonard");
 		user.setPosition(new GPS(10,10));
-		
-		//Premier test
 		try {
 			try {
 				try {
@@ -49,23 +47,13 @@ public class ClientTest {
 		}
 		catch(NoBikesAvailableException e) {e.toString();}
 		
-		
-		
-		//Deuxième test
 		try {
 			try {
 				user.returnBike(stations.get(9), new Timestamp(10000000));
-				System.out.println("Nous venons de tester avec succès le second use case : location et retour d'un vélo");
-
 				}
 			catch (NoAvailableFreeSlotsException e) {e.toString();}		
 			}
 		catch(OfflineStationException e) {e.toString();}
-		
-		//Troisième test
-		
-		GPS destination = new GPS(30,35);
-		user.planRide(destination, true, false, false);
 		
 	}
 		catch (UnavailableSlotException e) {e.toString() ;}
