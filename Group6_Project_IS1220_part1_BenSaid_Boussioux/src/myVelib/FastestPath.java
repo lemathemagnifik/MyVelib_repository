@@ -19,7 +19,7 @@ public class FastestPath extends TripPreference {
 	
 
 	@Override
-	Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus )  {
+	Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus ) throws Exception {
 		ArrayList<Station> arrivalStations;
 		Station fastestDepartureStation;
 		double walkingDistance;
@@ -65,7 +65,7 @@ public class FastestPath extends TripPreference {
 				}
 			}
 			if (this.bicycleType==null) {
-				System.out.println("NoPath");
+				throw new Exception("No path found.");
 			}
 		}
 		
