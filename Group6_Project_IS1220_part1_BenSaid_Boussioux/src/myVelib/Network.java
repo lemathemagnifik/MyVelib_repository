@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Random;
 
 import myVelib.ParkingSlot.UnavailableSlotException;
+import myVelib.Station.Status;
 
 
 public class Network {
@@ -64,6 +65,16 @@ public class Network {
 		for (User u:users) {
 			u.setNetwork(this);
 		}
+	}
+	
+	public ArrayList<Station> getOnServiceStations(){
+		ArrayList<Station> onService = new ArrayList();
+		for (Station s:this.getStations()) {
+			if (s.getStatus()==Status.OnService) {
+				onService.add(s);
+			}
+		}
+		return onService;
 	}
 
 	public ArrayList<Bicycle> getBicycles() {

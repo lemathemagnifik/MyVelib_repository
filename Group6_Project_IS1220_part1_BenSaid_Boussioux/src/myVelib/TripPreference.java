@@ -195,10 +195,10 @@ abstract class TripPreference {
 	public ArrayList<Station> getDepartures(Network network, GPS departure, boolean uniformity) {
 
 		if (uniformity) {
-			return isClosest(departure, uniformiseDepartures(network.getStations(), departure, null));
+			return isClosest(departure, uniformiseDepartures(network.getOnServiceStations(), departure, null));
 			}
 		else {
-			return isClosest(departure,network.getStations());
+			return isClosest(departure,network.getOnServiceStations());
 		}
 	}
 	
@@ -212,13 +212,13 @@ abstract class TripPreference {
 	public ArrayList<Station> getArrivals(Network network, GPS arrival, boolean uniformity, boolean plus) {
 		ArrayList<Station> arrivalStations;
 		if (plus) {
-			arrivalStations = onlyPlusStations(network.getStations(), arrival);
+			arrivalStations = onlyPlusStations(network.getOnServiceStations(), arrival);
 			if (arrivalStations.size()==0) {
-				arrivalStations = network.getStations();
+				arrivalStations = network.getOnServiceStations();
 			}
 		}
 		else {
-			arrivalStations = network.getStations();
+			arrivalStations = network.getOnServiceStations();
 		}
 			if (uniformity) {
 				ArrayList<Station> lessFullStations = uniformiseArrivals(arrivalStations, arrival);
