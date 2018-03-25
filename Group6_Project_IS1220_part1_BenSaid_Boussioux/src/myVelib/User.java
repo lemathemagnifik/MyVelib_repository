@@ -361,7 +361,7 @@ public class User implements Observer {
 	
 	
 	public void planRide(GPS destination,  boolean plus, boolean uniformity, boolean fastest) {
-		if (this.ride == null) {
+		if (this.bicycle == null) {
 			this.plannedRide = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, false);
 			System.out.println("We are finding the best path");
 		}
