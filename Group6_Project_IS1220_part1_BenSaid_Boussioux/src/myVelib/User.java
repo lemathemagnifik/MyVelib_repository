@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Scanner;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 import myVelib.Bicycle.BicycleType;
@@ -33,6 +34,7 @@ public class User implements Observer {
 	private Card card;
 	private GPS position;
 	private Ride ride;
+	public PlannedRide plannedRide;
 	private UserBalance userBalance;
 	private Bicycle bicycle; //Pas sûr de l'utilité de Bicycle
 	private ArrayList<Message> messageBox;
@@ -201,8 +203,26 @@ public class User implements Observer {
 			Station station = (Station) o;
 			this.recieveMessage(new Message("The Station "+station.getName()+" is now "+station.getStatus()));
 			System.out.println("The Station "+station.getName()+" is now "+station.getStatus());
-			//TODO recalculate path
-//			this.planRide(destination, plus, uniformity, fastest);
+			Scanner sc = new Scanner(System.in);
+			String str = "";
+			while (str != "Y" || str!="N") {
+				System.out.println("Voulez vous recalculer le chemin ? (Y/N)");
+				str = sc.nextLine();
+				if (str =="Y") {
+					GPS destination = this.plannedRide.getArrival();
+					boolean plus = this.plannedRide.isPlus();
+					boolean uniformity = this.plannedRide.isUniformity();
+					boolean fastest = this.plannedRide.isFastest();
+		 			this.planRide(destination, plus, uniformity, fastest);
+				}
+				else if (str =="N") {
+					System.out.println("Aucun chemin ne sera calculer.");
+
+				}
+				else{	System.out.println("Entrée invalide : veuillez saisir Y ou N.");}
+
+			}
+			sc.close();
 		}
 
 	}
@@ -342,14 +362,15 @@ public class User implements Observer {
 	
 	public void planRide(GPS destination,  boolean plus, boolean uniformity, boolean fastest) {
 		if (this.ride == null) {
-			this.ride = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, false);
+			this.plannedRide = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, false);
 			System.out.println("We are finding the best path");
 		}
 		else {
-			this.ride = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, true);
+			this.plannedRide = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, true);
 			System.out.println("You haven't reached your destination yet. We are looking for a new path.");
 			
 		}
+		this.ride = this.plannedRide;
 	}
 	
 	public int getNumberOfRides() {
