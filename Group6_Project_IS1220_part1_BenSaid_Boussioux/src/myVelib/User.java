@@ -215,7 +215,7 @@ public class User implements Observer {
 					boolean uniformity = this.plannedRide.isUniformity();
 					boolean fastest = this.plannedRide.isFastest();
 		 			this.planRide(destination, plus, uniformity, fastest);
-		 			System.out.println(this.plannedRide);
+		 			System.out.println("Go to this station :" + this.plannedRide.getArrivalStation());
 		 			break;
 				}
 				else if (str =='N') {

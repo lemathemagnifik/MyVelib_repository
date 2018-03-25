@@ -18,12 +18,12 @@ public class testUser {
 		System.out.println(user.getRide());
 	}
 	
-	public void testPlanRideFastestPath()
+	//public void testPlanRideFastestPath();
 	public static void main(String[] args) {
-		//On crée un Network adapté pour testé la fonction fastest.
+		//On crï¿½e un Network adaptï¿½ pour testï¿½ la fonction fastest.
 		Network fastestNetwork = new Network();
 		
-		//On crée une station contenant un vélo mécanique.
+		//On crï¿½e une station contenant un vï¿½lo mï¿½canique.
 		Station dm = new Station("",StationType.Normal, new GPS(0,0), fastestNetwork);
 		ParkingSlot pm = new ParkingSlot(dm);
 		Bicycle bm = new Bicycle(BicycleType.Mechanical);
@@ -31,14 +31,14 @@ public class testUser {
 		} catch (UnavailableSlotException e) {}
 		dm.addParkingSlot(pm);
 		
-		//On crée une station contenant un vélo éléctrique.
+		//On crï¿½e une station contenant un vï¿½lo ï¿½lï¿½ctrique.
 		Station de = new Station("",StationType.Normal, new GPS(5,0), fastestNetwork);
 		ParkingSlot pe = new ParkingSlot(de);
 		Bicycle be = new Bicycle(BicycleType.Electrical);
 		try {pe.addBicycle(be);} catch (UnavailableSlotException e) {}
 		de.addParkingSlot(pe);
 		
-		//On crée une station avec un emplacement vide qui sera la station d'arriver.
+		//On crï¿½e une station avec un emplacement vide qui sera la station d'arriver.
 		Station a = new Station("",StationType.Normal, new GPS(60,0), fastestNetwork);
 		ParkingSlot pa = new ParkingSlot(a);
 		a.addParkingSlot(pa);

@@ -345,8 +345,7 @@ public class Station extends Observable {
 	
 	public String toString() {
 		//return ""+this.getPosition();
-		return "Station [network = " + network + "id = " + id + ", name = " + name + ", GPS" + this.position+", freeSlots = "
-				+ this.slotsFree() + ", slots occupied by mechanical = " + this.slotsOccupiedByMechanical() + ", slots occupied by electrical = " + this.slotsOccupiedByElectrical() + ", slots broken = " + this.slotsBroken() + "]";
+		return "Station [name = " + name + ", GPS" + this.position + "]";
 	}
 	
 	
