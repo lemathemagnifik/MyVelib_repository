@@ -12,7 +12,11 @@ import myVelib.GPS;
 import myVelib.Network;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station;
+import myVelib.Station.NoAvailableFreeSlotsException;
+import myVelib.Station.NoBikesAvailableException;
+import myVelib.Station.OfflineStationException;
 import myVelib.User;
+import myVelib.User.AlreadyHasABikeException;
 
 public class ClientTest {
 
@@ -33,20 +37,27 @@ public class ClientTest {
 		User user = new User("Leonard");
 		user.setPosition(new GPS(10,10));
 		try {
-		user.rentBike(stations.get(5),Bicycle.BicycleType.Mechanical,new Timestamp(20));
-
+			try {
+				try {
+					user.rentBike(stations.get(5),Bicycle.BicycleType.Mechanical,new Timestamp(20));
+					}
+				catch(AlreadyHasABikeException e) {e.toString();}	
+				}
+			catch(OfflineStationException e) {e.toString();}
 		}
-		c
-			
-		}
-		catch (UnavailableSlotException e) {e.toString() ;}
+		catch(NoBikesAvailableException e) {e.toString();}
 		
-		////Test 2
+		try {
+			try {
+				user.returnBike(stations.get(9), new Timestamp(10000000));
+				}
+			catch (NoAvailableFreeSlotsException e) {e.toString();}		
+			}
+		catch(OfflineStationException e) {e.toString();}
 		
-		
-		
-
 	}
-	
+		catch (UnavailableSlotException e) {e.toString() ;}
 
+
+}
 }

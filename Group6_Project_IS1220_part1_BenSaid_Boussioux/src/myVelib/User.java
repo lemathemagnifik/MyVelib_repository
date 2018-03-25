@@ -34,7 +34,7 @@ public class User implements Observer {
 	private GPS position;
 	private Ride ride;
 	private UserBalance userBalance;
-	private Bicycle bicycle; //Pas sûr de l'utilité de Bicycle
+	private Bicycle bicycle; //Pas sï¿½r de l'utilitï¿½ de Bicycle
 	private ArrayList<Message> messageBox;
 	private ArrayList<Observable> observedStations = new ArrayList<Observable>();
 	
@@ -125,7 +125,7 @@ public class User implements Observer {
 	public void setPosition(GPS position) {
 		this.position = position;
 	}
-//Pas sûr de l'utilité de Bicycle
+//Pas sï¿½r de l'utilitï¿½ de Bicycle
 	public Bicycle getBicycle() {
 		return bicycle;
 	}
@@ -256,10 +256,10 @@ public class User implements Observer {
 	 */
 	
 	public void returnBike(Station s, Timestamp t) throws OfflineStationException, NoAvailableFreeSlotsException   {
-		
+		this.position = s.getPosition();
 		// return the bike to an available ParkingSlot
 		s.returnBicycle(this.bicycle, t);
-		// On signale à la station qu'on a rendu un vélo.	
+		// On signale ï¿½ la station qu'on a rendu un vï¿½lo.	
 		s.addEntryToStationHistory(t);
 		s.setNumberOfReturns(s.getNumberOfReturns()+1);
 
@@ -309,7 +309,7 @@ public class User implements Observer {
 	
 				
 	/**
-	 * This function allows the User to drop on an electrical bicycle.
+	 * This function allows the User to drop on a bicycle.
 	 * @param t
 	 * @param s
 	 * @throws NoMoreElectricalException 
@@ -324,8 +324,8 @@ public class User implements Observer {
 			Bicycle bicycle = s.retrieveBicycle(bType, t);
 			this.setBicycle(bicycle);
 			// start counter for the user
-			this.updateUserHistory(t, this.ride);				
-				
+			//this.updateUserHistory(t, this.ride);				
+			this.ride = new Ride();	
 			this.userBalance.setNumberOfRides(this.userBalance.getNumberOfRides()+1);
 				
 			//We need to begin the riding time and put something in the TimeStamp
