@@ -11,6 +11,7 @@ import myVelib.Bicycle;
 import myVelib.GPS;
 import myVelib.Network;
 import myVelib.ParkingSlot.UnavailableSlotException;
+import myVelib.PlannedRide;
 import myVelib.Station;
 import myVelib.Station.NoAvailableFreeSlotsException;
 import myVelib.Station.NoBikesAvailableException;
@@ -31,10 +32,12 @@ public class ClientTest {
 		
 		try {
 		ArrayList<Station> stations = myNetwork.stationWithBicycles(50, 2000, 70, 70);
-		System.out.println(stations);
+		myNetwork.setStations(stations);
+		System.out.println(myNetwork.getStations());
 		System.out.println("Nous venons de tester avec succès le premier use case de création d'un réseau Velib");
 
 		User user = new User("Leonard");
+		myNetwork.addUser(user);
 		user.setPosition(new GPS(10,10));
 		
 		//Premier test
@@ -56,7 +59,6 @@ public class ClientTest {
 			try {
 				user.returnBike(stations.get(9), new Timestamp(10000000));
 				System.out.println("Nous venons de tester avec succès le second use case : location et retour d'un vélo");
-
 				}
 			catch (NoAvailableFreeSlotsException e) {e.toString();}		
 			}
@@ -64,9 +66,13 @@ public class ClientTest {
 		
 		//Troisième test
 		
-		GPS destination = new GPS(30,35);
-		user.planRide(destination, true, false, false);
 		
+		PlannedRide plan = new PlannedRide(myNetwork, new GPS(0,0), new GPS(50,70), false, false, false, false);
+		GPS destination = new GPS(30,35);
+//		user.planRide(destination, false, false, false);
+		System.out.println(plan);
+		System.out.println(user.getBicycle());
+
 	}
 		catch (UnavailableSlotException e) {e.toString() ;}
 

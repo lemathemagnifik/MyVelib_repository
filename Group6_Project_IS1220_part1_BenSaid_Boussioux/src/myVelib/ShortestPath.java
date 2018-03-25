@@ -19,6 +19,9 @@ public class ShortestPath extends TripPreference {
 		
 		departureStations = getDepartures(network, departure, uniformity);
 		arrivalStations = getArrivals(network, arrival, uniformity, plus);
+		if (departureStations.isEmpty() | arrivalStations.isEmpty() ) {
+			System.out.println("NoPath.");
+		}
 		return ClosestStations(departureStations, arrivalStations);
 	}
 	
