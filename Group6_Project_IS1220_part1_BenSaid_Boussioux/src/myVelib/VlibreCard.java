@@ -11,9 +11,9 @@ public class VlibreCard extends VelibCard implements Card {
 	private static int IDcounter = 0;
 	private int ID;
 	private static Double cost1HElectrical = 0.0;
-	private static Double costAfter1HElectrical = 1.0;
+	private static Double costAfter1HElectrical = 2.0;
 	private static Double cost1HMechanical = 1.0;
-	private static Double costAfter1HMechanical = 2.0;
+	private static Double costAfter1HMechanical = 1.0;
 	
 	public Double getCost(Duration duration, Bicycle.BicycleType bType) {
 		if (duration.toHours()<1) {
