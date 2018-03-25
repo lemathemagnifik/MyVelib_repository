@@ -204,22 +204,25 @@ public class User implements Observer {
 			this.recieveMessage(new Message("The Station "+station.getName()+" is now "+station.getStatus()));
 			System.out.println("The Station "+station.getName()+" is now "+station.getStatus());
 			Scanner sc = new Scanner(System.in);
-			String str = "";
-			while (str != "Y" || str!="N") {
+			char str = ' ';
+			while (str != 'Y' || str!='N') {
 				System.out.println("Voulez vous recalculer le chemin ? (Y/N)");
-				str = sc.nextLine();
-				if (str =="Y") {
+				str = sc.nextLine().charAt(0);
+				
+				if (str =='Y') {
 					GPS destination = this.plannedRide.getArrival();
 					boolean plus = this.plannedRide.isPlus();
 					boolean uniformity = this.plannedRide.isUniformity();
 					boolean fastest = this.plannedRide.isFastest();
 		 			this.planRide(destination, plus, uniformity, fastest);
+		 			System.out.println(this.plannedRide);
+		 			break;
 				}
-				else if (str =="N") {
-					System.out.println("Aucun chemin ne sera calculer.");
-
+				else if (str =='N') {
+					System.out.println("Aucun chemin ne sera calculé.");
+					break;
 				}
-				else{	System.out.println("Entr�e invalide : veuillez saisir Y ou N.");}
+				else{	System.out.println("Entrée invalide : veuillez saisir Y ou N.");}
 
 			}
 			sc.close();

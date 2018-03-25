@@ -66,10 +66,23 @@ public class ClientTest {
 		
 		//Troisième test
 		
-		
+		System.out.println(user.getBicycle());
 		GPS destination = new GPS(30,35);
 		user.planRide(destination, false, false, false);
-		
+		System.out.println(user.plannedRide);
+		//Premier test
+				try {
+					try {
+						try {
+							user.rentBike(user.plannedRide.getDepartureStation(),Bicycle.BicycleType.Mechanical,new Timestamp(200000000));
+							user.subscribeStation(user.plannedRide.getArrivalStation());
+							}
+						catch(AlreadyHasABikeException e) {e.toString();}	
+						}
+					catch(OfflineStationException e) {e.toString();}
+				}
+				catch(NoBikesAvailableException e) {e.toString();}
+		user.plannedRide.getArrivalStation().setStatus(Station.Status.Offline);
 
 	}
 		catch (UnavailableSlotException e) {e.toString() ;}

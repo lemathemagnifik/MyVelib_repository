@@ -41,7 +41,7 @@ public class PlannedRide extends Ride{
 		}
 
 			this.path = preference.setPath(network, departure, arrival, uniformity, plus);
-			System.out.println(this.path);
+			
 
 		this.departureStation=this.path[0];
 		this.arrivalStation=this.path[1];
