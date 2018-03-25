@@ -25,7 +25,7 @@ abstract class TripPreference {
 	 * @return returns a list of 2 stations based on users trip preference. The first, represents the departure station and the second the arrival station.
 	 * @throws Exception
 	 */
-	abstract Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus)  ;
+	abstract Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus) throws Exception ;
 	
 	/**
 	 * Return the list of the closest stations from the ArrayList<Station> to GPS position. 
