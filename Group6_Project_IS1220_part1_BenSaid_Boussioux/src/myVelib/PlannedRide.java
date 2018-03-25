@@ -2,6 +2,9 @@ package myVelib;
 
 import java.util.Arrays;
 
+import junit.framework.Test;
+import myVelib.ParkingSlot.UnavailableSlotException;
+import Tests.*;
 
 public class PlannedRide extends Ride{
 	private TripPreference preference;
@@ -14,7 +17,7 @@ public class PlannedRide extends Ride{
 	private boolean alreadyHaveBicycle;
 	private Station[] path;
 	
-	public PlannedRide(Network network, GPS departure, GPS arrival, boolean plus, boolean uniformity, boolean fastest, boolean alreadyHaveBicycle) {
+	public PlannedRide(Network network, GPS departure, GPS arrival, boolean plus, boolean uniformity, boolean fastest, boolean alreadyHaveBicycle)  {
 		super();
 		this.network = network;
 		this.departure = departure;
@@ -36,9 +39,10 @@ public class PlannedRide extends Ride{
 				preference = new ShortestPath();
 			}
 		}
-		try {
+
 			this.path = preference.setPath(network, departure, arrival, uniformity, plus);
-		} catch (Exception e) {	}
+			System.out.println(this.path);
+
 		this.departureStation=this.path[0];
 		this.arrivalStation=this.path[1];
 
@@ -124,14 +128,20 @@ public class PlannedRide extends Ride{
 
 	
 	
-//	public static void main(String[] args) throws UnavailableSlotException {
-//		Network myNetwork = Test.CreateTestNetwork();
-//		PlannedRide plannedRide = new PlannedRide(myNetwork, new GPS(1,1), new GPS(3.4,5), true, true, false, false);
-//		System.out.println(plannedRide.getPath()[0]);
-//		System.out.println(plannedRide.getPath()[1]);
-//
-//	}
-//	
+	public static void main(String[] args)  {
+		Network myNetwork = new Network();
+		try {
+			myNetwork = CreateTestNetwork.CreateTestingNetwork();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		PlannedRide plannedRide = new PlannedRide(myNetwork, new GPS(1,1), new GPS(3.4,5), true, true, false, false);
+		System.out.println(plannedRide.getPath()[0]);
+		System.out.println(plannedRide.getPath()[1]);
+
+	}
+	
 	
 }
 	
