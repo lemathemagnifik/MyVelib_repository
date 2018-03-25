@@ -4,11 +4,8 @@ import java.time.Duration;
 
 import myVelib.Bicycle.BicycleType;
 
-public class VmaxCard implements Card {
-	private User user;
-	private Duration timeCredit;
+public class VmaxCard extends VelibCard implements Card {
 	private int ID;
-	
 	private static int IDcounter=0;
 	private static double costH1 = 0.0;
 	private static double costAfterH1 = 1.0;
@@ -16,7 +13,7 @@ public class VmaxCard implements Card {
 
 
 	public VmaxCard(User user, Duration timeCredit) {
-		super();
+		super(timeCredit, user);
 		IDcounter++;
 		this.user = user;
 		this.timeCredit = timeCredit;
