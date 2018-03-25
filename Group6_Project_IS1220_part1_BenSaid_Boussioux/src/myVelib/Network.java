@@ -178,7 +178,8 @@ public class Network {
 		return stations;
 	}
 	
-	public ArrayList<Station> stationWithSlotList (ArrayList<Station> stations, int m){
+	public ArrayList<Station> stationWithSlotList (int n, int m){
+		ArrayList<Station> stations = this.stationList(n);
 		int slotsPerStation = m/stations.size(); 
 		int rest = m%stations.size();
 		for (int i=0 ; i<stations.size() ; i++) {
@@ -195,7 +196,8 @@ public class Network {
 	/**
 	 * This ugly method is able to put a uniform number of bicycles in all the stations according to given
 	 * percentages.
-	 * @param stations
+	 * @param n
+	 * @param m
 	 * @param numberOfSlots
 	 * @param percentageOfOccupation
 	 * @param percentageOfMechanical
@@ -205,12 +207,14 @@ public class Network {
 	
 	//TODO C'est un enfer car il faut rattrapper l'exception de addBicycle je ne sais combien de fois.
 	
-	public ArrayList<Station> stationWithBicycles (ArrayList<Station> stations, int numberOfSlots, int percentageOfOccupation, int percentageOfMechanical) throws UnavailableSlotException{
+	public ArrayList<Station> stationWithBicycles (int numberofStations, int numberOfSlots, int percentageOfOccupation, int percentageOfMechanical) throws UnavailableSlotException{
+		ArrayList<Station> stations = this.stationWithSlotList(numberofStations, numberOfSlots);
+		try {
 		int numberOfMechanical = numberOfSlots*percentageOfOccupation*percentageOfMechanical/100/100;
 		int numberOfElectrical = numberOfSlots*percentageOfOccupation*(100-percentageOfMechanical)/100/100;
 		
-		int bicyclesElectricalPerStation = numberOfElectrical/stations.size(); 
-		int rest = numberOfElectrical%stations.size();
+		int bicyclesElectricalPerStation = numberOfElectrical/numberofStations; 
+		int rest = numberOfElectrical%numberofStations;
 		for (int i=0 ; i<stations.size() ; i++) {
 			for (int j=0;j<bicyclesElectricalPerStation;j++) {
 				stations.get(i).getParkingSlots().get(j).addBicycle(new Bicycle(Bicycle.BicycleType.Electrical));;
@@ -220,18 +224,21 @@ public class Network {
 			stations.get(k).getParkingSlots().get(bicyclesElectricalPerStation).addBicycle(new Bicycle(Bicycle.BicycleType.Electrical));;
 		}
 		
-		int bicyclesMechanicalPerStation = numberOfMechanical/stations.size(); 
-		int rest2 = numberOfMechanical%stations.size();
+		int bicyclesMechanicalPerStation = numberOfMechanical/numberofStations; 
+		int rest2 = numberOfMechanical%numberofStations;
 		for (int l=0 ; l<stations.size() ; l++) {
-			for (int j=0;j<bicyclesElectricalPerStation;j++) {
-				stations.get(l).getParkingSlots().get(j+bicyclesElectricalPerStation).addBicycle(new Bicycle(Bicycle.BicycleType.Mechanical));;
+			for (int j=0;j<bicyclesMechanicalPerStation;j++) {
+				stations.get(l).getParkingSlots().get(j+bicyclesElectricalPerStation+1).addBicycle(new Bicycle(Bicycle.BicycleType.Mechanical));;
 			}
 		}
-		for (int k=0 ; k<rest2;k++) {
-			stations.get(k).getParkingSlots().get(bicyclesElectricalPerStation+bicyclesMechanicalPerStation).addBicycle(new Bicycle(Bicycle.BicycleType.Mechanical));;
+		for (int m=0 ; m<rest2;m++) {
+			stations.get(m).getParkingSlots().get(bicyclesElectricalPerStation+bicyclesMechanicalPerStation+1).addBicycle(new Bicycle(Bicycle.BicycleType.Mechanical));;
 		}
 		
 		return stations;}
+	catch(UnavailableSlotException e) {return stations;}
+		
+	}
 	
 	
 //*****************************************************************//

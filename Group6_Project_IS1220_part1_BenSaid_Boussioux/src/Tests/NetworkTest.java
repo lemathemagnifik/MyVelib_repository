@@ -54,7 +54,6 @@ public class NetworkTest {
 
 		
 		//We add a new user
-		Id id = new Id();
 		User user = new User("Leonard");
 		
 		BlueCard cardTest = new BlueCard(user);
