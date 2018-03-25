@@ -13,23 +13,28 @@ public class ConcreteCardVisitor implements CardVisitor {
 	 * Apply the bonus of holding a VelibCard by using the card's time credit to reduce the charged trip duration.
 	 * @param timeCredit
 	 * @param tripDuration
+	 * @return 
 	 */
-	static void applyVelibBonus(Duration timeCredit, Duration tripDuration) {
+	public static Duration[] applyVelibBonus(Duration timeCredit, Duration tripDuration) {
+		Duration [ ] results = new Duration[2];
 		if (timeCredit.compareTo(tripDuration)>=0) {
 			timeCredit = timeCredit.minus(tripDuration);
 			tripDuration = Duration.ZERO;
 		}
 		else {
 			// We substract the number of hours available in timeCredit
-			timeCredit=timeCredit.minusHours(timeCredit.toHours());
 			tripDuration=tripDuration.minusHours(timeCredit.toHours());
+			timeCredit=timeCredit.minusHours(timeCredit.toHours());
 			// if the remaining time in timeCredit is enough to lower the number of hours in tripDuration we transfer the needed time credit to reduce the tripduration.
 			if (tripDuration.minus(timeCredit).toHours()<tripDuration.toHours()) {
 				Duration excess = tripDuration.minusHours(tripDuration.toHours());
-				timeCredit = timeCredit.minus(excess);
-				tripDuration = tripDuration.minus(excess);
+				timeCredit = timeCredit.minus(excess.plusNanos(1));
+				tripDuration = tripDuration.minus(excess.plusNanos(1));
 			}
 		}
+		results[0]= timeCredit;
+		results[1]= tripDuration;
+		return results;
 	}
 	
 	/** 

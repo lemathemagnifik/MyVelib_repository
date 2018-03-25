@@ -14,7 +14,7 @@ public class Ride {
 	public Station departureStation;
 	public Station arrivalStation;
 	public Bicycle bicycle;
-	public BicycleType bicycleTime;
+	public BicycleType bicycleType;
 	public Double cost;
 	public Duration timeCredit;
 	
@@ -111,10 +111,16 @@ public class Ride {
 	
 	
 	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+
+
+	@Override
 	public String toString() {
 		return "Ride [departureTime=" + departureTime + ", arrivalTime=" + arrivalTime + ", duration=" + duration
 				+ ", departureStation=" + departureStation + ", arrivalStation=" + arrivalStation + ", bicycle="
-				+ bicycle + ", bicycleTime=" + bicycleTime + ", cost=" + cost + ", timeCredit=" + timeCredit + "]";
+				+ bicycle + ", bicycleType=" + bicycleType + ", cost=" + cost + ", timeCredit=" + timeCredit + "]";
 	}
 
 

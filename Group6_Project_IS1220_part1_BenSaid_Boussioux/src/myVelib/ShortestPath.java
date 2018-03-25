@@ -2,7 +2,7 @@ package myVelib;
 
 import java.util.ArrayList;
 
-import Tests.Test;
+import Tests.CreateTestNetwork;
 import myVelib.ParkingSlot.UnavailableSlotException;
 
 public class ShortestPath extends TripPreference {
@@ -27,7 +27,7 @@ public class ShortestPath extends TripPreference {
 		
 		Network myNetwork = new Network();
 		try {
-			myNetwork = Test.CreateTestNetwork();
+			myNetwork = CreateTestNetwork.CreateTestingNetwork();
 		} catch (UnavailableSlotException e) {
 			e.printStackTrace();
 		}

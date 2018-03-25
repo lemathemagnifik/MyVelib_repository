@@ -1,8 +1,7 @@
 package myVelib;
 
-import Tests.Test;
-import myVelib.Bicycle.BicycleType;
-import myVelib.ParkingSlot.UnavailableSlotException;
+import java.util.Arrays;
+
 
 public class PlannedRide extends Ride{
 	private TripPreference preference;
@@ -14,10 +13,9 @@ public class PlannedRide extends Ride{
 	private boolean fastest;
 	private boolean alreadyHaveBicycle;
 	private Station[] path;
-	private BicycleType bicycleType;
 	
 	public PlannedRide(Network network, GPS departure, GPS arrival, boolean plus, boolean uniformity, boolean fastest, boolean alreadyHaveBicycle) {
-		
+		super();
 		this.network = network;
 		this.departure = departure;
 		this.arrival = arrival;
@@ -30,7 +28,9 @@ public class PlannedRide extends Ride{
 		else {
 			if (fastest) {
 				preference = new FastestPath();
-				this.bicycleType = ((FastestPath) preference).getBicycleType();
+				FastestPath f =  new FastestPath();
+				try{f.setPath(network, departure, arrival, uniformity, plus);} catch (Exception e) {}
+				this.bicycleType = f.getBicycleType();
 			}
 			else {
 				preference = new ShortestPath();
@@ -38,10 +38,7 @@ public class PlannedRide extends Ride{
 		}
 		try {
 			this.path = preference.setPath(network, departure, arrival, uniformity, plus);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (Exception e) {	}
 		this.departureStation=this.path[0];
 		this.arrivalStation=this.path[1];
 
@@ -121,22 +118,20 @@ public class PlannedRide extends Ride{
 	
 	
 	
-	public BicycleType getBicycleType() {
-		return bicycleType;
-	}
 
-	public void setBicycleType(BicycleType bicycleType) {
-		this.bicycleType = bicycleType;
-	}
 
-	public static void main(String[] args) throws UnavailableSlotException {
-		Network myNetwork = Test.CreateTestNetwork();
-		PlannedRide plannedRide = new PlannedRide(myNetwork, new GPS(1,1), new GPS(3.4,5), true, true, false, false);
-		System.out.println(plannedRide.getPath()[0]);
-		System.out.println(plannedRide.getPath()[1]);
-
-	}
 	
+
+	
+	
+//	public static void main(String[] args) throws UnavailableSlotException {
+//		Network myNetwork = Test.CreateTestNetwork();
+//		PlannedRide plannedRide = new PlannedRide(myNetwork, new GPS(1,1), new GPS(3.4,5), true, true, false, false);
+//		System.out.println(plannedRide.getPath()[0]);
+//		System.out.println(plannedRide.getPath()[1]);
+//
+//	}
+//	
 	
 }
 	

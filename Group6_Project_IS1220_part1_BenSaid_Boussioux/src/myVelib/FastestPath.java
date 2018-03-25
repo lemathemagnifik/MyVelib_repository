@@ -28,6 +28,7 @@ public class FastestPath extends TripPreference {
 		double travelTime;
 		double minTravelTime;
 		Station[] Path = new Station[2];
+		BicycleType bType;
 		
 		arrivalStations = getArrivals(network, arrival, uniformity, plus);
 		
@@ -45,23 +46,22 @@ public class FastestPath extends TripPreference {
 				cyclingDistance = sPosition.distance(closestArrivalStationPosition);
 				if (s.slotsOccupiedByElectrical()!=0) {
 					cyclingSpeed = Bicycle.electricalSpeed;
-					this.bicycleType = BicycleType.Electrical;
+					bType = BicycleType.Electrical;
 				}
 				else if (s.slotsOccupiedByMechanical()!=0){
 					cyclingSpeed = Bicycle.mechanicalSpeed;
-					this.bicycleType = BicycleType.Mechanical;
+					bType = BicycleType.Mechanical;
 				}
 				else {
 					continue;
 				}
 				travelTime = walkingDistance/User.walkingSpeed + cyclingDistance/cyclingSpeed;
-				System.out.println(travelTime);
-				System.out.println(s);
 				if (travelTime<=minTravelTime) {
 					minTravelTime = travelTime;
 					fastestDepartureStation = s;
 					Path[0] = fastestDepartureStation;
 					Path[1] = closestArrivalStation;
+					this.bicycleType = bType;
 				}
 			}
 			if (this.bicycleType==null) {

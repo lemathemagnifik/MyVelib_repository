@@ -63,7 +63,7 @@ public class Bicycle {
 	 * @param bType bicycle type
 	 * @return a String containing the bicycle Type
 	 */
-	static String bicycleTypeString(Bicycle.BicycleType bType) {
+	public static String bicycleTypeString(Bicycle.BicycleType bType) {
 		String str = "";
 		if (bType==Bicycle.BicycleType.Electrical) {
 			str = "electrical";
