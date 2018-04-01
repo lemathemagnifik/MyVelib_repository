@@ -10,9 +10,6 @@ import java.time.Duration;
 
 
 import myVelib.User.AlreadyHasABikeException;
-import myVelib.User.NoMoreAvailableSlotsException;
-import myVelib.User.NoMoreElectricalException;
-import myVelib.User.UnavailableStationException;
 import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station.StationType;
