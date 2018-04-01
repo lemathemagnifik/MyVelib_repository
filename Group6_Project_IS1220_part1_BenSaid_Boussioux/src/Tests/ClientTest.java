@@ -95,6 +95,7 @@ public class ClientTest {
 		
 		//Test de mostUsedStations()
 		System.out.println(myNetwork.mostUsedStations());
+		System.out.println(myNetwork.leastOccupiedStations(new Timestamp(0), new Timestamp(100)));
 
 
 }

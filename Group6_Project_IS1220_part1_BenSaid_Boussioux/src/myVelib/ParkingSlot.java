@@ -99,11 +99,15 @@ public class ParkingSlot {
 		if (bicycle.getType()==Bicycle.BicycleType.Mechanical) {
 		this.status = Status.OccupiedByMechanical;
 		this.bicycle = bicycle;
+		this.updateSlotHistory(new Timestamp(1));
 		
 		}
 		else {
 			this.status = Status.OccupiedByElectrical;
 			this.bicycle = bicycle;
+			//We add a value in the history.
+			this.updateSlotHistory(new Timestamp(1));
+
 		}
 	}
 	
@@ -161,8 +165,9 @@ public class ParkingSlot {
 		ConcurrentNavigableMap <Timestamp,ParkingSlot.Status> toCompute = this.slotHistory.subMap(t, true, r, true);
 		
 		//gérer le cas où on obtient 
+		if (this.slotHistory.lowerEntry(t)!=null){
 		if (this.slotHistory.lowerEntry(t).getValue()==ParkingSlot.Status.Free)
-			acc = acc + toCompute.firstKey().getTime()-t.getTime();
+			acc = acc + toCompute.firstKey().getTime()-t.getTime();}
 		
 		for (Timestamp time : toCompute.keySet() ) {
 			if (toCompute.get(time)==ParkingSlot.Status.Free) {

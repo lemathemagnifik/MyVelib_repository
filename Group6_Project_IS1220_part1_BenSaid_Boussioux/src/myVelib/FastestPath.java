@@ -82,7 +82,7 @@ public class FastestPath extends TripPreference {
 //		}
 //		
 //		
-		// Premier test avec le Network généré => On obtient le même résultat que Fastest.
+		// Premier test avec le Network genere => On obtient le meme resultat que Fastest.
 //		ArrayList<Station> arrivalStations;
 //		arrivalStations = new FastestPath().getArrivals(myNetwork, new GPS(2,2), false, true);
 //		System.out.println(arrivalStations);
