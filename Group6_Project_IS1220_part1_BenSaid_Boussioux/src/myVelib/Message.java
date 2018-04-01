@@ -5,6 +5,12 @@ package myVelib;
  */
 public class Message {
 	
+	public Message(String text){
+		super();
+		this.text= text;
+		this.read=false;
+		System.out.println("A new message is created!");
+	}
 
 		@Override
 		public String toString() {
@@ -43,11 +49,5 @@ public class Message {
 			this.text = text;
 		}
 		
-		public Message(String text){
-			super();
-			this.text= text;
-			this.read=false;
-			System.out.println("A new message is created!");
-		}
 
 }

@@ -4,7 +4,7 @@ public class Bicycle {
 	static int counter = 0 ; 
 	private Network network;
 	private BicycleType type;
-	private boolean isUsed;
+	private boolean isUsed;  	//TODO is it needed ?
 	private int ID;
 	private double speed;
 	final static double electricalSpeed = 20;
@@ -13,12 +13,13 @@ public class Bicycle {
 	
 	public enum BicycleType{Electrical, Mechanical};
 	
+	
 	public Bicycle(BicycleType type) {
 		super();
 		counter++;
 		this.type = type;
 		this.ID = counter;
-		this.isUsed = false;
+		this.isUsed = false; //TODO is it needed ?
 		if (type==BicycleType.Electrical) {
 			this.speed=electricalSpeed;
 		}
@@ -28,11 +29,9 @@ public class Bicycle {
 			}
 	}
 	
-	public boolean isUsed() {
+	public boolean isUsed() { //TODO is it needed ?
 		return isUsed;
 	}
-	
-	
 	
 	public Network getNetwork() {
 		return network;
@@ -46,12 +45,13 @@ public class Bicycle {
 		return type;
 	}
 	
-	public double getSpeed() {
-		return speed;
-	}
-	
+
 	public void setType(BicycleType type) {
 		this.type = type;
+	}
+	
+	public double getSpeed() {
+		return speed;
 	}
 	
 	
@@ -59,12 +59,11 @@ public class Bicycle {
 		return ID;
 	}
 	
-	
-	public void setID(int iD) {
-		ID = iD;
-	}
-
-	static String bicycleTypeString(Bicycle.BicycleType bType) {
+	/** 
+	 * @param bType bicycle type
+	 * @return a String containing the bicycle Type
+	 */
+	public static String bicycleTypeString(Bicycle.BicycleType bType) {
 		String str = "";
 		if (bType==Bicycle.BicycleType.Electrical) {
 			str = "electrical";

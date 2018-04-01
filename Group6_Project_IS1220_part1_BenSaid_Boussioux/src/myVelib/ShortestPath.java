@@ -2,13 +2,13 @@ package myVelib;
 
 import java.util.ArrayList;
 
-import Tests.Test;
+import Tests.CreateTestNetwork;
 import myVelib.ParkingSlot.UnavailableSlotException;
 
 public class ShortestPath extends TripPreference {
-
+	
+	
 	public ShortestPath() {
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -19,14 +19,18 @@ public class ShortestPath extends TripPreference {
 		
 		departureStations = getDepartures(network, departure, uniformity);
 		arrivalStations = getArrivals(network, arrival, uniformity, plus);
+		if (departureStations.isEmpty() | arrivalStations.isEmpty() ) {
+			System.out.println("NoPath.");
+		}
 		return ClosestStations(departureStations, arrivalStations);
 	}
+	
 	
 	public static void main(String[] args)  {
 		
 		Network myNetwork = new Network();
 		try {
-			myNetwork = Test.CreateTestNetwork();
+			myNetwork = CreateTestNetwork.CreateTestingNetwork();
 		} catch (UnavailableSlotException e) {
 			e.printStackTrace();
 		}
@@ -37,6 +41,9 @@ public class ShortestPath extends TripPreference {
 		
 		
 	}
+
+
+
 }
 
 

@@ -30,6 +30,46 @@ public class UserBalance {
 		this.totalCharges = (double) 0;
 		this.totalTimeCredit = Duration.ZERO;
 	}
+
+
+	public int getNumberOfRides() {
+		return numberOfRides;
+	}
+
+
+	public void setNumberOfRides(int numberOfRides) {
+		this.numberOfRides = numberOfRides;
+	}
+
+
+	public Duration getTotalTime() {
+		return totalTime;
+	}
+
+
+	public void setTotalTime(Duration totalTime) {
+		this.totalTime = totalTime;
+	}
+
+
+	public Double getTotalCharges() {
+		return totalCharges;
+	}
+
+
+	public void setTotalCharges(Double totalCharges) {
+		this.totalCharges = totalCharges;
+	}
+
+
+	public Duration getTotalTimeCredit() {
+		return totalTimeCredit;
+	}
+
+
+	public void setTotalTimeCredit(Duration totalTimeCredit) {
+		this.totalTimeCredit = totalTimeCredit;
+	}
 	
 	
 	

@@ -7,12 +7,19 @@ import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station.StationType;
 
 public class FastestPath extends TripPreference {
+	private BicycleType bicycleType;
+	
+	public BicycleType getBicycleType() {
+		return bicycleType;
+	}
 
 	public FastestPath() {
 	}
 	
+	
+
 	@Override
-	Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus ) {
+	Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus )  {
 		ArrayList<Station> arrivalStations;
 		Station fastestDepartureStation;
 		double walkingDistance;
@@ -21,6 +28,7 @@ public class FastestPath extends TripPreference {
 		double travelTime;
 		double minTravelTime;
 		Station[] Path = new Station[2];
+		BicycleType bType;
 		
 		arrivalStations = getArrivals(network, arrival, uniformity, plus);
 		
@@ -38,36 +46,42 @@ public class FastestPath extends TripPreference {
 				cyclingDistance = sPosition.distance(closestArrivalStationPosition);
 				if (s.slotsOccupiedByElectrical()!=0) {
 					cyclingSpeed = Bicycle.electricalSpeed;
+					bType = BicycleType.Electrical;
+				}
+				else if (s.slotsOccupiedByMechanical()!=0){
+					cyclingSpeed = Bicycle.mechanicalSpeed;
+					bType = BicycleType.Mechanical;
 				}
 				else {
-					cyclingSpeed = Bicycle.mechanicalSpeed;
+					continue;
 				}
 				travelTime = walkingDistance/User.walkingSpeed + cyclingDistance/cyclingSpeed;
-				System.out.println(travelTime);
-				System.out.println(s);
 				if (travelTime<=minTravelTime) {
 					minTravelTime = travelTime;
 					fastestDepartureStation = s;
 					Path[0] = fastestDepartureStation;
 					Path[1] = closestArrivalStation;
+					this.bicycleType = bType;
 				}
-
-			}	
+			}
+			if (this.bicycleType==null) {
+				System.out.println("NoPath");
+			}
 		}
 		
 		return Path;
 
 	}
 	
-	public static void main(String[] args)  {
-		Network myNetwork = new Network();
-		try {
-			myNetwork = Test.CreateTestNetwork();
-		} catch (UnavailableSlotException e) {
-			e.printStackTrace();
-		}
-		
-		
+	public static void main(String[] args) throws Exception  {
+//		Network myNetwork = new Network();
+//		try {
+//			myNetwork = Test.CreateTestNetwork();
+//		} catch (UnavailableSlotException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		
 		// Premier test avec le Network généré => On obtient le même résultat que Fastest.
 //		ArrayList<Station> arrivalStations;
 //		arrivalStations = new FastestPath().getArrivals(myNetwork, new GPS(2,2), false, true);

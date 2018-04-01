@@ -2,15 +2,12 @@ package Tests;
 
 import static org.junit.Assert.*;
 
-
-
 import org.junit.Test;
 
-import myVelib.User;
+public class CardVisitorTest {
 
-public class CardTest {
-
-
-	
+	@Test
+	public void test() {
+	}
 
 }

@@ -15,14 +15,7 @@ public class ParkingSlot {
 	private ConcurrentSkipListMap <Timestamp, ParkingSlot.Status> slotHistory = new ConcurrentSkipListMap<Timestamp, ParkingSlot.Status>();
 	public enum Status {Free, OccupiedByElectrical, OccupiedByMechanical, Broken};
 	static int counter;
-	public ConcurrentSkipListMap<Timestamp, ParkingSlot.Status> getSlotHistory() {
-		return slotHistory;
-	}
-
-
-	public void setSlotHistory(ConcurrentSkipListMap<Timestamp, ParkingSlot.Status> slotHistory) {
-		this.slotHistory = slotHistory;
-	}
+	
 
 	private int id;
 	private Station station;
@@ -38,9 +31,18 @@ public class ParkingSlot {
 		this.station = station;
 		this.status = ParkingSlot.Status.Free;
 		this.bicycle=null;
+		this.slotHistory.put(new Timestamp(0), ParkingSlot.Status.Free);
 	}
 	
+	public ConcurrentSkipListMap<Timestamp, ParkingSlot.Status> getSlotHistory() {
+		return slotHistory;
+	}
 
+
+	public void setSlotHistory(ConcurrentSkipListMap<Timestamp, ParkingSlot.Status> slotHistory) {
+		this.slotHistory = slotHistory;
+	}
+	
 	public Station getStation() {
 		return station;
 	}
@@ -139,13 +141,21 @@ public class ParkingSlot {
 			System.out.println("The slot's history is updated: the slot is now "+this.getStatus().toString()+" at time "+t.toString());
 		}
 	}
-	//On doit prendre en compte le fait que r soit plus grand que t
-	//On doit vérifier que la liste est non vide
 	
-	//Cette fontion est ultra relou. Je ne suis pas sûr que toCompute soit effectivement créé correctement
-	// si problème de clé. En tout cas il faut gérer le temps avant et après.
-	//Ya sans doute des exceptions relous que je n'ai pas gérées.
+	
+
 	public long occupationTime(Timestamp t, Timestamp r) {
+		
+		if  (t.compareTo(r)>0)
+			return occupationTime(r,t);
+		
+		//[TODO] If there is no slot history we consider the slot has been free all along.
+		if (this.slotHistory==null)
+			return 0;
+		
+		if (this.slotHistory.lowerEntry(t)==null)
+			t = this.slotHistory.firstKey();
+		
 		long acc = 0;
 		
 		ConcurrentNavigableMap <Timestamp,ParkingSlot.Status> toCompute = this.slotHistory.subMap(t, true, r, true);
@@ -169,4 +179,7 @@ public class ParkingSlot {
 		
 		return (r.getTime()-t.getTime()-acc);
 	}
+	
+	
+	
 }

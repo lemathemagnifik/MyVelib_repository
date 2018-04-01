@@ -1,7 +1,10 @@
 package myVelib;
 
-import Tests.Test;
+import java.util.Arrays;
+
+import junit.framework.Test;
 import myVelib.ParkingSlot.UnavailableSlotException;
+import Tests.*;
 
 public class PlannedRide extends Ride{
 	private TripPreference preference;
@@ -14,7 +17,8 @@ public class PlannedRide extends Ride{
 	private boolean alreadyHaveBicycle;
 	private Station[] path;
 	
-	public PlannedRide(Network network, GPS departure, GPS arrival, boolean plus, boolean uniformity, boolean fastest, boolean alreadyHaveBicycle) {
+	public PlannedRide(Network network, GPS departure, GPS arrival, boolean plus, boolean uniformity, boolean fastest, boolean alreadyHaveBicycle)  {
+		super();
 		this.network = network;
 		this.departure = departure;
 		this.arrival = arrival;
@@ -27,14 +31,21 @@ public class PlannedRide extends Ride{
 		else {
 			if (fastest) {
 				preference = new FastestPath();
+				FastestPath f =  new FastestPath();
+				try{f.setPath(network, departure, arrival, uniformity, plus);} catch (Exception e) {}
+				this.bicycleType = f.getBicycleType();
 			}
 			else {
 				preference = new ShortestPath();
 			}
 		}
-		this.path = preference.setPath(network, departure, arrival, uniformity, plus);
+
+			this.path = preference.setPath(network, departure, arrival, uniformity, plus);
+			
+
 		this.departureStation=this.path[0];
 		this.arrivalStation=this.path[1];
+
 	}
 
 	public TripPreference getPreference() {
@@ -110,8 +121,21 @@ public class PlannedRide extends Ride{
 	}
 	
 	
-	public static void main(String[] args) throws UnavailableSlotException {
-		Network myNetwork = Test.CreateTestNetwork();
+	
+
+
+	
+
+	
+	
+	public static void main(String[] args)  {
+		Network myNetwork = new Network();
+		try {
+			myNetwork = CreateTestNetwork.CreateTestingNetwork();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		PlannedRide plannedRide = new PlannedRide(myNetwork, new GPS(1,1), new GPS(3.4,5), true, true, false, false);
 		System.out.println(plannedRide.getPath()[0]);
 		System.out.println(plannedRide.getPath()[1]);

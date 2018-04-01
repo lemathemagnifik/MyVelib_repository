@@ -2,9 +2,6 @@ package myVelib;
 
 import java.util.ArrayList;
 
-import Tests.Test;
-import myVelib.ParkingSlot.UnavailableSlotException;
-
 
 
 abstract class TripPreference {
@@ -15,9 +12,20 @@ abstract class TripPreference {
 	 * @param arrival
 	 * @param network
 	 * @return
+	 * @throws Exception 
 	 */
 	
-	abstract Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus);
+	/**
+	 * Based on the Strategy Patter.
+	 * @param network
+	 * @param departure
+	 * @param arrival
+	 * @param uniformity
+	 * @param plus
+	 * @return returns a list of 2 stations based on users trip preference. The first, represents the departure station and the second the arrival station.
+	 * @throws Exception
+	 */
+	abstract Station[] setPath(Network network, GPS departure, GPS arrival, boolean uniformity, boolean plus)  ;
 	
 	/**
 	 * Return the list of the closest stations from the ArrayList<Station> to GPS position. 
@@ -36,7 +44,7 @@ abstract class TripPreference {
 //			if (position.equals(location)){
 //				continue;
 //			}
-			if (station.getStatus()==Station.Status.Full || station.getStatus()==Station.Status.Offline) {
+			if (station.slotsFree()==0 || station.getStatus()==Station.Status.Offline) {
 				continue;
 			}
 			
@@ -116,7 +124,7 @@ abstract class TripPreference {
 	}
 	
 	/**
-	 * returns the list of the stations who have the most 
+	 * Among the stations in a radius equal to 105% of the distance separating the user and the closest station, returns the list of station who have the most bicycles of the desired type.
 	 * @param stations
 	 * @param departure
 	 * @param bType
@@ -141,7 +149,14 @@ abstract class TripPreference {
 		return uniformStations;
 	}
 	
-	// remarque : ici le type de vélo n'est pas pris en compte. KISS method.
+	
+	/**
+	 * Among the stations in a radius equal to 105% of the distance separating the user's destination and the closest station, returns the list of station who have the most free slots.
+	 * @param stations
+	 * @param arrival
+	 * @return
+	 */
+	// remark : The bicycle type doesn't matter. KISS method.
 	public ArrayList<Station> uniformiseArrivals(ArrayList<Station> stations,GPS arrival){
 		
 		ArrayList<Station> uniformStations = new ArrayList<Station>();
@@ -159,32 +174,51 @@ abstract class TripPreference {
 		return uniformStations;
 	} 
 	
-	
+	/**
+	 * From a list of stations, returns the plus stations in a radius equal to 110% of the ditance separating the destination and the closest station among the list.
+	 * @param stations
+	 * @param arrival
+	 * @return
+	 */
 	public ArrayList<Station> onlyPlusStations(ArrayList<Station> stations, GPS arrival){		
 		return getStationsInRadiusPercent(stations, arrival, 1.10, true);
 		
 	}
 	
+	/**
+	 * returns the possible departure stations in network that fulfills the uniformity constraint considering the user position.
+	 * @param network
+	 * @param departure Position of the user
+	 * @param uniformity
+	 * @return
+	 */
 	public ArrayList<Station> getDepartures(Network network, GPS departure, boolean uniformity) {
 
 		if (uniformity) {
-			return isClosest(departure, uniformiseDepartures(network.getStations(), departure, null));
+			return isClosest(departure, uniformiseDepartures(network.getOnServiceStations(), departure, null));
 			}
 		else {
-			return isClosest(departure,network.getStations());
+			return isClosest(departure,network.getOnServiceStations());
 		}
 	}
 	
+	/**
+	 * returns the possible arrival stations in network that fulfills the uniformity constraint considering the user position.
+	 * @param network
+	 * @param departure Position of the user
+	 * @param uniformity
+	 * @return
+	 */
 	public ArrayList<Station> getArrivals(Network network, GPS arrival, boolean uniformity, boolean plus) {
 		ArrayList<Station> arrivalStations;
 		if (plus) {
-			arrivalStations = onlyPlusStations(network.getStations(), arrival);
+			arrivalStations = onlyPlusStations(network.getOnServiceStations(), arrival);
 			if (arrivalStations.size()==0) {
-				arrivalStations = network.getStations();
+				arrivalStations = network.getOnServiceStations();
 			}
 		}
 		else {
-			arrivalStations = network.getStations();
+			arrivalStations = network.getOnServiceStations();
 		}
 			if (uniformity) {
 				ArrayList<Station> lessFullStations = uniformiseArrivals(arrivalStations, arrival);
