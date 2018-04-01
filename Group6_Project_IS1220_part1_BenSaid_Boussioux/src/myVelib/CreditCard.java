@@ -80,4 +80,13 @@ public class CreditCard implements Card {
 	public Double accept(CardVisitor visitor, Duration tripTime, BicycleType type) throws Exception {
 		return visitor.visit(this, tripTime, type);
 	}
+
+
+	@Override
+	public String toString() {
+		return "CreditCard : user=" + user.getName() + ", ID=" + ID + ", balance=" + balance;
+	}
+	
+	
+	
 }

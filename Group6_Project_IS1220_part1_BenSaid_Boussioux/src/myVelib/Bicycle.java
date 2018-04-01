@@ -74,4 +74,16 @@ public class Bicycle {
 		return str;
 	}
 
+	@Override
+	public String toString() {
+		if (isUsed) {
+			return "Bicycle : ID=" + ID + ", network=" + network.getName() + ", type=" + bicycleTypeString(type) + ", is used.";	
+		}
+		else {
+			return "Bicycle : ID =" + ID + network.getName() + ", type=" + bicycleTypeString(type) + ", is free.";
+		}
+	}
+	
+	
+
 }

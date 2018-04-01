@@ -66,7 +66,7 @@ public double getX() {
 	
 	@Override
 	public String toString() {
-		return "Point [x=" + x + ", y=" + y + "]";
+		return "GPS : x=" + x + ", y=" + y + ";";
 	}
 
 public static void main(String[] args) {

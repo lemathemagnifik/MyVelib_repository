@@ -14,7 +14,7 @@ public class Message {
 
 		@Override
 		public String toString() {
-			return "Message [read=" + read + ", text=" + text + "]";
+			return "Message : read=" + read + ", text=" + text + ";";
 		}
 
 		//attributes
@@ -49,5 +49,7 @@ public class Message {
 			this.text = text;
 		}
 		
-
+		
+		
+		
 }

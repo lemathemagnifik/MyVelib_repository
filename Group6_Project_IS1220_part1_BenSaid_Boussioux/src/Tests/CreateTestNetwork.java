@@ -35,4 +35,14 @@ public class CreateTestNetwork {
 		}
 		return myNetwork;
 	}
+	
+	public static void main(String[] args) {
+		try {
+			Network network = CreateTestingNetwork();
+			System.out.println(network);
+
+		} catch (UnavailableSlotException e) {
+			e.printStackTrace();
+		}
+	}
 }

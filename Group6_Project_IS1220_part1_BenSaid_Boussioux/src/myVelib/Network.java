@@ -267,6 +267,30 @@ public class Network {
 		Collections.sort(sortedStations, Station.leastOccupiedComparator(t1, t2));
 		return sortedStations;
 	}
+
+	@Override
+	public String toString() {
+		String str = "Network \n";
+		str+= "Network name : " + name +"\n";
+		str+= "=== Stations === \n";
+		str+= "Number of stations : "+ stations.size() + "\n";
+		str+= "Number of Plus stations : "+ this.getPlusStation().size() + "\n";
+		str+= "Number of Normal stations : "+ (stations.size() - this.getPlusStation().size()) + "\n";
+
+
+		for (Station s:stations) {
+			str+= s.toString() + "\n";
+		}
+		str+= "=== Users === \n";
+		str+= "Number of Users : "+ users.size() + "\n";
+		for (User u:users) {
+			str+= u.toString() + "\n";
+		}
+
+		return str;
+		
+	}
+	
 	
 	
 	

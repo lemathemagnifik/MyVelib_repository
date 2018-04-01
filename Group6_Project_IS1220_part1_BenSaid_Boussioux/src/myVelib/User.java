@@ -398,8 +398,12 @@ public class User implements Observer {
 // toString METHOD
 		
 		public String toString() {
-			return "User [id=" + id + ", name=" + name + ", card="
-					+ card + "]";
+			String strCard ="";
+			if (card instanceof VlibreCard) {strCard = "Vlibre";}
+			else if (card instanceof VmaxCard) {strCard = "Vmax";}
+			else {strCard="Credit Card";};
+
+			return "User : ID = " + id + ", User Name = " + name + ", Card Type = " + strCard;
 		}
 
 

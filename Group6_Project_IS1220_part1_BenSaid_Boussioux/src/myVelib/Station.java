@@ -344,8 +344,16 @@ public class Station extends Observable {
 	
 	
 	public String toString() {
-		//return ""+this.getPosition();
-		return "Station [name = " + name + ", GPS" + this.position + "]";
+		String strType = "";
+		String strStatus = "";
+		
+		if (status == Status.OnService) {strStatus = "On Service";}
+		else {strStatus = "Offline";}
+		if (type == type.Normal) {strType = "Normal";}
+		else {strType = "Plus";}
+		
+		//return "Station name : " + name + " | Type : " + strType + " | Position " + this.position + " | Status : "+ strStatus + " | Free Slots : " + slotsFree() + " | Broken Slots : " + slotsBroken() + " |  Occupied Slots : " + slotsOccupied(BicycleType.Electrical) + " (Electrical) + " + slotsOccupied(BicycleType.Mechanical) + " (Mechanical) ;";	
+		return String.format("%s %s %s %5s %3s %3s %3s %3s %3s %10s %10s %10s %10s %10s ", name, "|", strType, "|", this.position, "|", strStatus, "|", slotsFree(), "|", slotsBroken(), "|" + slotsOccupied(BicycleType.Electrical), "|", slotsOccupied(BicycleType.Mechanical));
 	}
 	
 	
@@ -412,7 +420,10 @@ public class Station extends Observable {
 
 	
 	
-	
+	public static void main(String[] args) {
+		Station s = new Station("Staion", StationType.Normal, new GPS(1,1), new Network());
+		System.out.println(s);
+	}
 	
 }
 
