@@ -21,7 +21,7 @@ public class CLUI {
 	public void execute() throws InstantiationException, IllegalAccessException {
 		Scanner in = new Scanner(System.in);
 		String line;
-		System.out.println("Welcome to the Emergency Department Simulation System. Enter help to get help ! ;)");
+		System.out.println("Welcome to the MyVelib Network Management Center. Enter help to get help !");
 		
 		do {
 			line = in.nextLine();

@@ -24,6 +24,10 @@ public class CommandFactory {
 			return new CommandHelp(myVelib, args);
 		}
 		
+		if(cmd.equalsIgnoreCase("Setup")) {
+			return new CommandCreateNetwork(myVelib, args);
+		}
+		
 //		if(cmd.equalsIgnoreCase("createED")) {
 //			return new CommandCreateED(simergy, args);
 //		}
