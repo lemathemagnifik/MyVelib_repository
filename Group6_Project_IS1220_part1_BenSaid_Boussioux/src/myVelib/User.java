@@ -406,7 +406,14 @@ public class User implements Observer {
 			return "User : ID = " + id + ", User Name = " + name + ", Card Type = " + strCard;
 		}
 
-
+		public String toArray() {
+			String strCard ="";
+			if (card instanceof VlibreCard) {strCard = "Vlibre";}
+			else if (card instanceof VmaxCard) {strCard = "Vmax";}
+			else {strCard="Credit Card";};
+			
+			return String.format("%-7s %1s %-20s %1s %-11s %1s", id, "|",name, "|",strCard, "|"  );
+		}
 	
 //*****************************************************************//
 //							EXCEPTIONS 							   //
@@ -420,6 +427,10 @@ public class User implements Observer {
 		    System.out.println("Sorry, you already have a bike.");
 		  }  
 	}
+
+
+
+
 	
 	
 

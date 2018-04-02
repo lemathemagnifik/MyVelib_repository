@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
 
+import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station.Status;
 
@@ -275,16 +276,25 @@ public class Network {
 		str+= "=== Stations === \n";
 		str+= "Number of stations : "+ stations.size() + "\n";
 		str+= "Number of Plus stations : "+ this.getPlusStation().size() + "\n";
-		str+= "Number of Normal stations : "+ (stations.size() - this.getPlusStation().size()) + "\n";
-
-
+		str+= "Number of Normal stations : "+ (stations.size() - this.getPlusStation().size()) + "\n\n";
+		
+		str+= "========================================================================  Stations =================================================================== \n";
+		str+= String.format("%-20s %1s %-6s %1s %-25s %1s %-10s %1s %-13s %1s %-15s %1s %-19s %1s %-20s %1s", "Station Name", "|", "Type", "|", "Location", "|", "Status", "|", "Nb Free Slots", "|", "Nb Broken Slots", "|", "Nb Electrical Bikes", "|", "Nb Mechanical Bikes","|");
+		str+="\n=======================================================================================================================================================\n";
+				
 		for (Station s:stations) {
-			str+= s.toString() + "\n";
+			str+= s.toArray() + "\n";
 		}
+		str+="=======================================================================================================================================================";
+		str+="\n\n";
 		str+= "=== Users === \n";
 		str+= "Number of Users : "+ users.size() + "\n";
+		
+		str+= "==================== Users ===================\n";
+		str+= String.format("%-7s %1s %-20s %1s %-11s %1s", "User ID", "|","User Name", "|","Card Type", "|"  );
+		str+="\n==============================================";
 		for (User u:users) {
-			str+= u.toString() + "\n";
+			str+= u.toArray() + "\n";
 		}
 
 		return str;
