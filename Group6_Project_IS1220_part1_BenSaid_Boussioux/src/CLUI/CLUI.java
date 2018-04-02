@@ -3,27 +3,22 @@ package CLUI;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import fr.ecp.is1220.project.core.SimErgy;
-import fr.ecp.is1220.project.distributions.WrongParametersException;
-import fr.ecp.is1220.project.humanresources.NotReleasedYetException;
-import fr.ecp.is1220.project.humanresources.NotVisitedYetException;
-import fr.ecp.is1220.project.resources.NotProbability;
+import myVelib.*;
 
 public class CLUI {
 
 	private CommandFactory cmdFactory;
 	private CmdParser currentCMD;
-	private SimErgy simergy;
+	private MyVelib myVelib;
 	
-	public CLUI(SimErgy simergy) throws InstantiationException, IllegalAccessException {
+	public CLUI(MyVelib myVelib) throws InstantiationException, IllegalAccessException {
 		super();
-		this.simergy = simergy;
-		this.cmdFactory = new CommandFactory(simergy);
+		this.myVelib = myVelib;
+		this.cmdFactory = new CommandFactory(myVelib);
 		this.currentCMD = new CmdParser();		
 	}
 	
-	public void execute() throws InstantiationException, IllegalAccessException, WrongParametersException, NotProbability, NotReleasedYetException, NotVisitedYetException, BadTimeFormatException {
+	public void execute() throws InstantiationException, IllegalAccessException {
 		Scanner in = new Scanner(System.in);
 		String line;
 		System.out.println("Welcome to the Emergency Department Simulation System. Enter help to get help ! ;)");
@@ -36,7 +31,7 @@ public class CLUI {
 		System.out.println("Simulation finished.");
 	}
 	
-	public boolean parseLine(String line) throws InstantiationException, IllegalAccessException, WrongParametersException, NotProbability, NotReleasedYetException, NotVisitedYetException, BadTimeFormatException {
+	public boolean parseLine(String line) throws InstantiationException, IllegalAccessException {
 		if (line == null) {
 			return true; 
 		}
@@ -58,7 +53,7 @@ public class CLUI {
 	}
 	
 	private void interpret() 
-			throws SyntaxErrorException, MisuseException, InstantiationException, IllegalAccessException, WrongParametersException, NotProbability, NotReleasedYetException, NotVisitedYetException, BadTimeFormatException {
+			throws SyntaxErrorException, MisuseException, InstantiationException, IllegalAccessException {
 		
 		String cmd = currentCMD.getCmd();
 		ArrayList<String> args = currentCMD.getArgs();
@@ -87,13 +82,15 @@ public class CLUI {
 		this.currentCMD = currentCMD;
 	}
 
-	public SimErgy getSimergy() {
-		return simergy;
+	public MyVelib getMyVelib() {
+		return myVelib;
 	}
 
-	public void setSimergy(SimErgy simergy) {
-		this.simergy = simergy;
+	public void setMyVelib(MyVelib myVelib) {
+		this.myVelib = myVelib;
 	}
+
+
 
 }
 

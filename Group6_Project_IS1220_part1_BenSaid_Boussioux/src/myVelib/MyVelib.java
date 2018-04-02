@@ -28,9 +28,8 @@ public class MyVelib {
 	
 	
 	
-	public MyVelib(int n, int m) {
-		
-		Network paris = new Network();
+	public MyVelib() {
+	
 		
 	}
 	

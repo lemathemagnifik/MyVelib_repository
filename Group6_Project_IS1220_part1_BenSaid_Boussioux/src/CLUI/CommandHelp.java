@@ -2,23 +2,17 @@ package CLUI;
 
 import java.util.ArrayList;
 
-import fr.ecp.is1220.project.core.SimErgy;
-import fr.ecp.is1220.project.distributions.WrongParametersException;
-import fr.ecp.is1220.project.humanresources.NotReleasedYetException;
-import fr.ecp.is1220.project.humanresources.NotVisitedYetException;
-import fr.ecp.is1220.project.resources.NotProbability;
+import myVelib.*;
 
 public class CommandHelp extends Command {
 
-	public CommandHelp(SimErgy simergy, ArrayList<String> args) throws SyntaxErrorException, MisuseException {
-		super(simergy, args);
+	public CommandHelp(MyVelib myVelib, ArrayList<String> args) throws SyntaxErrorException, MisuseException {
+		super(myVelib, args);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void execute()
-			throws MisuseException, WrongParametersException, InstantiationException, IllegalAccessException,
-			SyntaxErrorException, NotProbability, NotReleasedYetException, NotVisitedYetException {
+	public void execute(){
 		String help = "Commands available:\n";
 		
 		help += "\n- createED <EDname>:\n";
