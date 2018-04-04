@@ -20,18 +20,20 @@ public class MyVelib {
 		return null;
 	}
 	
-	public void addUser(String userName, String cardType, String networkName) {
-		 Network network = this.getNetwork(networkName);
-		 User user = new User();
-		 if (cardType.equalsIgnoreCase("Vlibre")){
-			 user = new User(userName, new VlibreCard(user, Duration.ZERO), network);
-		 }
-		 else if (cardType.equalsIgnoreCase("VMax")) {
-			 user = new User(userName, new VmaxCard(user, Duration.ZERO), network);
-		 }
-		 else {user = new User(userName, new CreditCard(user), network);}
-		 network.addUser(user); ;
+	public Station getStation(String strstationID) {
+		int stationID=Integer.parseInt(strstationID);
+		for (Network network:this.networks) {
+			for (Station s:network.getStations()) {
+				if (s.getId() == stationID) {
+					return s;
+				}
+			}
+		}
+		System.out.println("There are no stations with the given ID.");
+		return null;
 	}
+	
+
 	
 	public void addNetwork(Network network) {
 		this.networks.add(network);

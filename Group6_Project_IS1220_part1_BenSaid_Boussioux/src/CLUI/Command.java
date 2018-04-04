@@ -18,7 +18,7 @@ public abstract class Command {
 		check();
 	}
 
-	public abstract void execute();	
+	public abstract void execute() throws SyntaxErrorException;	
 	public abstract void check() throws SyntaxErrorException;
 	public void checkNumOfArgs(int num) throws SyntaxErrorException{
 		if(args.size() != num) {
