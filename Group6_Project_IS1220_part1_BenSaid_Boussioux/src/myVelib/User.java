@@ -292,20 +292,19 @@ public class User implements Observer {
 	 * @throws OfflineStationException 
 	 */
 	
-	public void returnBike(Station s, Timestamp t) throws OfflineStationException, NoAvailableFreeSlotsException   {
+	public void returnBike(Station s, Duration tripDuration) throws OfflineStationException, NoAvailableFreeSlotsException   {
+		Timestamp returnTime = new Timestamp(this.ride.getDepartureTime().getTime()+tripDuration.toMillis());
 		this.position = s.getPosition();
 		// return the bike to an available ParkingSlot
-		s.returnBicycle(this.bicycle, t);
+		s.returnBicycle(this.bicycle, returnTime);
 		// On signale � la station qu'on a rendu un v�lo.	
-		s.addEntryToStationHistory(t);
+		s.addEntryToStationHistory(returnTime);
 		s.setNumberOfReturns(s.getNumberOfReturns()+1);
 
 		this.setBicycle(null);
 		
 		//We compute the duration of the trip in ms.
-		Duration tripDuration = Duration.ZERO;
-		tripDuration = tripDuration.plusMillis(t.getTime()-this.ride.getDepartureTime().getTime());
-		this.ride.setDuration(tripDuration.plusMillis(t.getTime()-this.ride.getDepartureTime().getTime()));
+		this.ride.setDuration(tripDuration);
 
 			
 		//If the user has a VelibCard, if the Station is Plus we add timeCredit to the card, 
@@ -334,7 +333,7 @@ public class User implements Observer {
 		this.userBalance.setTotalCharges(this.userBalance.getTotalCharges() + cost);
 		this.userBalance.getTotalTime().plus(tripDuration);
 		
-		this.ride.setArrivalTime(t);
+		this.ride.setArrivalTime(returnTime);
 		this.ride.setArrivalStation(s);
 		this.ride.setCost(cost);
 		this.updateUserHistory(this.ride.getDepartureTime(), this.ride);
@@ -353,7 +352,8 @@ public class User implements Observer {
 	 */
 
 	
-	public void rentBike(Station s, Bicycle.BicycleType bType, Timestamp t) throws AlreadyHasABikeException, OfflineStationException, NoBikesAvailableException {
+	public void rentBike(Station s, Bicycle.BicycleType bType) throws AlreadyHasABikeException, OfflineStationException, NoBikesAvailableException {
+		Timestamp t = new Timestamp(System.currentTimeMillis());
 		if (this.getBicycle()!=null) {
 			throw new AlreadyHasABikeException();
 		}
