@@ -1,29 +1,51 @@
 package myVelib;
 
+import java.time.Duration;
 import java.util.ArrayList;
 
 public class MyVelib {
 	private String name;
-	private ArrayList<User> userList = new ArrayList <User>();
-	private ArrayList<Station> stationList = new ArrayList <Station>();
+	private ArrayList<Network> networks;
 	
-	public void addUser(User user) {
-		
+	
+	public Network getNetwork(String networkName) {
+		for (Network n:networks) {
+			if (n.getName().equalsIgnoreCase(networkName)) {
+				return n;
+			}
+			else {
+				System.out.println("Non existant network.");
+			}
+		}
+		return null;
 	}
 	
-	public void addStation(Station station) {
-		
+	public void addUser(String userName, String cardType, String networkName) {
+		 Network network = this.getNetwork(networkName);
+		 User user = new User();
+		 if (cardType.equalsIgnoreCase("Vlibre")){
+			 user = new User(userName, new VlibreCard(user, Duration.ZERO), network);
+		 }
+		 else if (cardType.equalsIgnoreCase("VMax")) {
+			 user = new User(userName, new VmaxCard(user, Duration.ZERO), network);
+		 }
+		 else {user = new User(userName, new CreditCard(user), network);}
+		 network.addUser(user); ;
 	}
 	
-	public ArrayList<Station> mostUsedStation() {
-		return stationList;
-		
+	public void addNetwork(Network network) {
+		this.networks.add(network);
 	}
 	
-	public ArrayList<Station> leastOccupiedStation(){
-		return stationList;
-		
-	}
+//	public ArrayList<Station> mostUsedStation() {
+//		return stationList;
+//		
+//	}
+//	
+//	public ArrayList<Station> leastOccupiedStation(){
+//		return stationList;
+//		
+//	}
 	
 	
 	

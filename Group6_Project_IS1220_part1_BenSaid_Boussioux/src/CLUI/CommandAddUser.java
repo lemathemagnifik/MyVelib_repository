@@ -10,15 +10,17 @@ public class CommandAddUser extends Command {
 
 	public CommandAddUser(MyVelib myvelib, ArrayList<String> args) throws SyntaxErrorException, MisuseException {
 		super(myvelib,args);
-		// TODO Auto-generated constructor stub
 	}
 
 
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		MyVelib myVelib = this.getMyVelib();
+		String userName = getArgs().get(0);
+		String cardType = getArgs().get(1);
+		String velibnetworkName = getArgs().get(2);
+		myVelib.addUser(userName, cardType, velibnetworkName);
 	}
 
 	@Override

@@ -64,13 +64,27 @@ public class User implements Observer {
 		super();
 		IDuserCounter++;
 		this.id=IDuserCounter;
-		this.creditCard = new CreditCard(this, 500);
+		this.creditCard = new CreditCard(this);
 		this.card = this.creditCard;
 		this.name = name;
 		this.messageBox = new ArrayList <Message>();
 		this.position = new GPS(0,0);
 		this.userBalance = new UserBalance();
 	}
+	
+	public User(String name, Card card, Network network) {
+		super();
+		IDuserCounter++;
+		this.id=IDuserCounter;
+		this.network= network;
+		this.creditCard = new CreditCard(this);
+		this.card = card;
+		this.name = name;
+		this.messageBox = new ArrayList <Message>();
+		this.position = new GPS(0,0);
+		this.userBalance = new UserBalance();
+	}
+	
 	
 	public User() {
 		super();
