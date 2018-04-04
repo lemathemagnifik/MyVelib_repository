@@ -16,7 +16,10 @@ public class CommandOnline extends Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		
+		MyVelib myVelib = this.getMyVelib();
+		String network = getArgs().get(0);
+		String stationID = getArgs().get(1);
+		myVelib.offline(network,stationID);
 	}
 
 	@Override

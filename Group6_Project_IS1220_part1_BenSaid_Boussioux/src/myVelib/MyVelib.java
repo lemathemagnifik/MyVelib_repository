@@ -37,6 +37,16 @@ public class MyVelib {
 		this.networks.add(network);
 	}
 	
+	public void offline(String networkName, String stationName) {
+		Network network = this.getNetwork(networkName);
+		network.getStation(stationName).setStatus(Station.Status.Offline);
+	}
+	
+	public void online(String networkName, String stationName) {
+		Network network = this.getNetwork(networkName);
+		network.getStation(stationName).setStatus(Station.Status.OnService);
+	}
+	
 //	public ArrayList<Station> mostUsedStation() {
 //		return stationList;
 //		

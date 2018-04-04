@@ -3,6 +3,7 @@ package CLUI;
 import java.util.ArrayList;
 
 import myVelib.MyVelib;
+import myVelib.Network;
 
 public class CommandOffline extends Command {
 
@@ -16,7 +17,10 @@ public class CommandOffline extends Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		
+		MyVelib myVelib = this.getMyVelib();
+		String network = getArgs().get(0);
+		String stationID = getArgs().get(1);
+		myVelib.online(network,stationID);
 	}
 
 	@Override
