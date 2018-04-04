@@ -1,9 +1,8 @@
 package CLUI;
 
 import java.util.ArrayList;
+import myVelib.*;
 
-import myVelib.MyVelib;
-import myVelib.Station;
 
 public class CommandOffline extends Command {
 

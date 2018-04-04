@@ -15,7 +15,7 @@ public class CommandOnline extends Command {
 
 
 	@Override
-	public void execute() {
+	public void execute() throws SyntaxErrorException {
 		String stationID=getArgs().get(0);
 		Station station = this.getMyVelib().getStation(stationID);
 		if (station!=null) {
@@ -23,6 +23,7 @@ public class CommandOnline extends Command {
 			System.out.println("The station with ID "+stationID+ " is On Service.");
 			}
 		else {throw new SyntaxErrorException("Please check the station ID.");}		
+
 	}
 
 	@Override

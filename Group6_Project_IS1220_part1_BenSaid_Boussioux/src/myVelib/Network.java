@@ -77,6 +77,18 @@ public class Network {
 		}
 		return onService;
 	}
+	
+	public Station getStation(String stationName) {
+		for (Station s:this.getStations()) {
+			if (s.getName().equalsIgnoreCase(stationName)) {
+				return s;
+			}
+			else {
+				System.out.println("Non existant station.");
+			}
+		}
+		return null;
+	}
 
 	public ArrayList<Bicycle> getBicycles() {
 		return bicycles;
