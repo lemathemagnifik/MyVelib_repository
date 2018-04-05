@@ -351,6 +351,7 @@ public class Station extends Observable {
 		String strType = "";
 		String strStatus = "";
 		String str = "";
+		int operations = getNumberOfReturns()+getNumberOfRentals();
 		if (status == Status.OnService) {strStatus = "On Service";}
 		else {strStatus = "Offline";}
 		if (type == StationType.Normal) {strType = "Normal";}
@@ -370,7 +371,7 @@ public class Station extends Observable {
 		str+= "======= Station Balance =======" +"\n";
 		str+= String.format("%-20s %1s", "Nb of Rentals", " : ")+ getNumberOfRentals() +"\n";
 		str+= String.format("%-20s %1s", "Nb of Returns", " : ")+ getNumberOfReturns() +"\n";
-		str+= String.format("%-20s %1s", "Nb of OPS", " : ")+ getNumberOfReturns()+getNumberOfRentals() +"\n";
+		str+= String.format("%-20s %1s", "Nb of OPS", " : ")+ operations +"\n";
 		str+= String.format("%-20s %1s", "Occupation Rate", " : ")+ occupationRate(new Timestamp(0),new Timestamp(System.currentTimeMillis())) +"\n";
 
 		return str;
@@ -405,6 +406,7 @@ public class Station extends Observable {
 		String strType = "";
 		String strStatus = "";
 		String str = "";
+		int operations = getNumberOfReturns()+getNumberOfRentals();
 		if (status == Status.OnService) {strStatus = "On Service";}
 		else {strStatus = "Offline";}
 		if (type == StationType.Normal) {strType = "Normal";}
@@ -424,7 +426,7 @@ public class Station extends Observable {
 		str+= "======= Station Balance =======" +"\n";
 		str+= String.format("%-20s %1s", "Nb of Rentals", " : ")+ getNumberOfRentals() +"\n";
 		str+= String.format("%-20s %1s", "Nb of Returns", " : ")+ getNumberOfReturns() +"\n";
-		str+= String.format("%-20s %1s", "Nb of OPS", " : ")+ getNumberOfReturns()+getNumberOfRentals() +"\n";
+		str+= String.format("%-20s %1s", "Nb of OPS", " : ") + operations +"\n";
 		str+= String.format("%-20s %1s", "Occupation Rate", " : ")+ occupationRate(new Timestamp(0),new Timestamp(System.currentTimeMillis())) +"\n";
 		System.out.println(str);
 	}
