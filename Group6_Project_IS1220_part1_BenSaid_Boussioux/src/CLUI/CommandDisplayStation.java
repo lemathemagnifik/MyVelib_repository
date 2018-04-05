@@ -1,5 +1,6 @@
 package CLUI;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import myVelib.MyVelib;
@@ -24,7 +25,11 @@ public class CommandDisplayStation extends Command {
 		if (station==null) {
 			throw new SyntaxErrorException("Please check the user ID or the network name.");
 		}
-		else station.displayStation();
+		
+		
+		Timestamp t = new Timestamp(System.currentTimeMillis());
+
+		station.displayStation(new Timestamp(0),t);
 		// TODO Auto-generated method stub
 		
 	}
