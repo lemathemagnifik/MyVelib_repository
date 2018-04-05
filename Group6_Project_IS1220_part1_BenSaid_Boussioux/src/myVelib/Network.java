@@ -291,6 +291,8 @@ public class Network {
 		return sortedStations;
 	}
 
+	public String str(s)
+	
 	@Override
 	public String toString() {
 		String str = "Network \n";

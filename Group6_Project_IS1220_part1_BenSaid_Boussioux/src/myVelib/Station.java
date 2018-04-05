@@ -365,6 +365,26 @@ public class Station extends Observable {
 
 	}
 	
+	public String toArrayBalance(Timestamp t1, Timestamp t2) {
+		String strType = "";
+		String strStatus = "";
+		
+		if (status == Status.OnService) {strStatus = "On Service";}
+		else {strStatus = "Offline";}
+		if (type == StationType.Normal) {strType = "Normal";}
+		else {strType = "Plus";}
+		return String.format("%-20s %1s %-10s %1s %-6s %1s %-25s %1s %-10s %1s %-13s %1s %-15s %1s %-19s %1s %-20s %1s", name, "|", this.id, "|", strType, "|", this.position, "|", strStatus, "|", getNumberOfRentals(), "|", getNumberOfReturns(), "|", getNumberOfRentals()+getNumberOfReturns(), "|", occupationRate(t1, t2),"|");
+
+	}
+	
+	public void displayStation(Timestamp t1, Timestamp t2) {
+		String str ="";
+		str+="\n====================================================================================================================================================================\n";
+		str+= String.format("%-20s %1s %-10s %1s %-6s %1s %-25s %1s %-10s %1s %-13s %1s %-15s %1s %-19s %1s %-20s %1s", "Station Name", "|", "Station ID", "|", "Type", "|", "Location", "|", "Status", "|", "Nb Free Slots", "|", "Nb Broken Slots", "|", "Nb Electrical Bikes", "|", "Nb Mechanical Bikes","|");
+		str+="\n====================================================================================================================================================================\n";
+		str+=this.toArrayBalance(t1, t2);
+		System.out.println(str);		
+	}
 	
 //*****************************************************************//
 //							EXCEPTIONS 							   //
