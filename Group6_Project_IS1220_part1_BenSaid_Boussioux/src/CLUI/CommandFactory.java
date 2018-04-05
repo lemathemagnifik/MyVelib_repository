@@ -63,6 +63,10 @@ public class CommandFactory {
 		if(cmd.equalsIgnoreCase("sortStation")) {
 			return new CommandSortStation(myVelib, args);
 		}
+		
+		if(cmd.equalsIgnoreCase("runtest")) {
+			return new CommandRunTest(myVelib, args);
+		}
 
 		throw new SyntaxErrorException("No such command.");
 	}
