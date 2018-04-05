@@ -2,6 +2,8 @@ package CLUI;
 
 import java.util.ArrayList;
 
+import javax.sql.rowset.spi.SyncFactoryException;
+
 import myVelib.*;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import Tests.*;
@@ -16,7 +18,7 @@ public class CommandSetUp extends Command {
 
 
 	@Override
-	public void execute() {
+	public void execute() throws SyntaxErrorException {
 		MyVelib myVelib = getMyVelib();
 		String networkName = getArgs().get(0);
 		
@@ -32,20 +34,15 @@ public class CommandSetUp extends Command {
 			e.printStackTrace();
 		}}
 		
-		if (getArgs().size()==5) {
+		else if (getArgs().size()==5) {
 			try {
 				//myVelib.addNetwork(CreateTestNetwork.CreateTestingNetwork());
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				myVelib.addNetwork(networkName,nstations, nslots, sidea, nbikes);
+				int nstations = stringToInt(getArgs().get(1),"nstations");
+				int nslots = stringToInt(getArgs().get(2),"nslots");
+				double sidearea  = stringToDouble(getArgs().get(3),"sidearea");
+				int nbikes = stringToInt(getArgs().get(4),"nbikes");
+
+				myVelib.addNetwork(networkName,nstations, nslots, sidearea, nbikes);
 				 System.out.println("The network "+networkName+" has been created.");
 
 			} catch (UnavailableSlotException e) {

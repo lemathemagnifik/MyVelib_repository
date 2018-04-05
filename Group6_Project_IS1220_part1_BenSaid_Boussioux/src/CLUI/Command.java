@@ -34,28 +34,28 @@ public abstract class Command {
 	}
 	
 	public void checkNumOfArgs(int num, int num2) throws SyntaxErrorException{
-		if(args.size() != num || args.size() != num2) {
+		if(args.size() != num && args.size() != num2) {
 			throw new SyntaxErrorException("This cmd requires "+num+" or " + num2+ " arguments.");
 		}
 	}
 
-	public static int stringToInt(String str, String arg) throws SyncFactoryException {
+	public static int stringToInt(String str, String arg) throws SyntaxErrorException {
 		try {
 			return Integer.parseInt(str); 
 		}
 		catch(NumberFormatException e) {
-			throw new SyncFactoryException("The argument "+arg+ " should be an integer.");
+			throw new SyntaxErrorException("The argument "+arg+ " should be an integer.");
 		}
 			
 		
 	}
 	
-	public static double stringToDouble(String str, String arg) throws SyncFactoryException {
+	public static double stringToDouble(String str, String arg) throws SyntaxErrorException  {
 		try {
 			return Double.parseDouble(str); 
 		}
 		catch(NumberFormatException e) {
-			throw new SyncFactoryException("The argument "+arg+ " should be a double.");
+			throw new SyntaxErrorException("The argument "+arg+ " should be a double.");
 		}
 			
 		
@@ -79,12 +79,7 @@ public abstract class Command {
 
 	public static void main(String[] args) {
 		
-		try {
-			System.out.println(stringToDouble("A", "bla"));
-		} catch (SyncFactoryException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-		}
+		
 	}
 	
 }
