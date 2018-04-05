@@ -15,81 +15,44 @@ public class CommandHelp extends Command {
 	public void execute(){
 		String help = "Commands available:\n";
 		
-		help += "\n- createED <EDname>:\n";
-		help += "create an Emergency Department system with assigned name.\n";
+		help += "\n- setup <velibnetworkName>:\n";
+		help += "to create a myVelib network with given name and consisting of 10 stations each of which has 10 parking slots and such that stations are arranged on a square grid whose of side 4km and initially populated with a 75% bikes randomly distributed over the 10 stations\n";
 		
-		help += "\n- addRoom <RoomType> <RoomName> (<RoomSize>):\n";
-		help += "add one room in ED system. Room types available:\n";
-		help += "Box- Shock- BloodTest- MRI- Radio- WaitingExam- WaitingRoom\n";
-		help += "(If you choose WaitingExamRoom or WaitingRoom, you need also to precise its size.)\n";
+		help += "\n- setup <name> <nstations> <nslots> <sidearea> <nbikes>:\n";
+		help += "to create a myVelib net- work with given name and consisting of nstations stations each of which has nslots parking slots and such that stations are arranged on a square grid whose of side sidearea and initially populated with a nbikes bikes randomly distributed over the nstations stations\n";
 		
-		help += "\n- generateRooms <RoomType> <RoomNumber> (<RoomSize>):\n";
-		help += "generate a certain number of rooms in ED system. Room types available:\n";
-		help += "Box- Shock- BloodTest- MRI- Radio- WaitingExam- WaitingRoom\n";
-		help += "(If you choose WaitingExamRoom or WaitingRoom, you need also to precise its size).\n";
+		help += "\n- addUser <userName,cardType, velibnetworkName>:\n";
+		help += "to add a user with name userName and card cardType (i.e. ‘‘none’’ if the user has no card) to a myVelib network velibnetworkName. Card types available :\n";
+		help += "Vlibre - Vmax\n";
 		
-		help += "\n- addBloodTest <DistributionType> <DistributionParameter1> (<DistributionParameter2>):\n";
-		help += "choose the distribution of the duration of a bloodtest.\n";
-		help += "Distribution types:\n";
-		help += "Dirac: 1 parameter, double a>0\n";
-		help += "Exp: 1 parameter, double lambda>0\n";
-		help += "Gamma: 2 parameters, integer alpha>0, double beta>0\n";
-		help += "LogNorm: 2 parameters, double mean, double sigma>0\n";
-		help += "Normal: 2 parameters, double mean, double sigma>0\n";
-		help += "Poisson: 1 parameter, alpha>0\n";
-		help += "Uniform: 2 parameters, double a, double b, a<b\n";
+		help += "\n- offline <velibnetworkName, stationID>:\n";
+		help += "to put offline the station stationID of the myVelib network velibnetworkName.\n";
 		
-		help += "\n- addMRI <DistributionType> <DistributionParameter1> (<DistributionParameter2>):\n";
-		help += "choose the distribution of the duration of a MRI test.\n";
 		
-		help += "\n- addXRay <DistributionType> <DistributionParameter1> (<DistributionParameter2>):\n";
-		help += "choose the distribution of the duration of a X-ray test.\n";
+		help += "\n- online <velibnetworkName, stationID>:\n";
+		help += "to put online the station stationID of the myVelib network velibnetworkName.\n";
 		
-		help += "\n- addL1Arrival <DistributionType> <DistributionParameter1> (<DistributionParameter2>):\n";
-		help += "choose the distribution of L1-priority arrivals.\n";
+		help += "\n- rentBike <userID, stationID>:\n";
+		help += "to let the user userID renting a bike from station stationID (if no bikes are available it behaves accordingly).\n";
 		
-		help += "\n- addL2Arrival <DistributionType> <DistributionParameter1> (<DistributionParameter2>):\n";
-		help += "choose the distribution of L2-priority arrivals.\n";
+		help += "\n- returnBike <userID, stationID, time>:\n";
+		help += "to let the user userID returning a bike to station stationID at a given instant of time time (if no parking bay is available it behaves accordingly). This command displays also the cost of the rent.\n";
 		
-		help += "\n- addL3Arrival <DistributionType> <DistributionParameter1> (<DistributionParameter2>):\n";
-		help += "choose the distribution of L3-priority arrivals.\n";
+		help += "\n- displayStation<velibnetworkName, stationID>:\n";
+		help += "to display the statistics of station stationID of a myVelib network velibnetwork.\n";
 		
-		help += "\n- addL4Arrival <DistributionType> <DistributionParameter1> (<DistributionParameter2>):\n";
-		help += "choose the distribution of L4-priority arrivals.\n";
-	
-		help += "\n- addL5Arrival <DistributionType> <DistributionParameter1> (<DistributionParameter2>):\n";
-		help += "choose the distribution of L5-priority arrivals.\n";
+		help += "\n- displayUser<velibnetworkName, userID>:\n";
+		help += "to display the statistics of user userID of a myVelib network velibnetwork.\n";
 		
-		help += "\n- addVisit <DistributionType> <DistributionParameter1> (<DistributionParameter2>):\n";
-		help += "choose the distribution of the duration of a visit.\n";
+		help += "\n- sortStation<velibnetworkName, sortpolicy>:\n";
+		help += "to display the stations in increasing order w.r.t. to the sorting policy of user sortpolicy. Sort Policies available :\n";
+		help += "mostUsedStations - leastOccupiedStations\n";
+
 		
-		help += "\n- addVisitverdict <no_exam_proportion> <x_ray_proportion> <blood_test_proportion>:\n";
-		help += "choose the visit's verdict proportion (no exam, X-ray, bloodtest, MRI needed or not).\n";
-		help += "The 3 parameters should be of type double and respect no_exam_proportion+x_ray_proportion+blood_test_proportion<1.\n";
 		
-		help += "\n- addNurse <NurseName> <NurseSurname> <NurseUserName>:\n";
-		help += "add one nurse with a name, surname and username.\n";
+		help += "\n- display <velibnetworkName>:\n";
+		help += "to display the entire status (stations, parking bays, users) of an a myVelib network velibnetworkName.\n";
 		
-		help += "\n- generateNurses <Number>:\n";
-		help += "add a certain number of nurses.\n";
-		
-		help += "\n- addPhysis <PhysisName> <PhysisSurname> <PhysisUserName>:\n";
-		help += "add one physician with a name, surname and username.\n";
-		
-		help += "\n- generatePhysis <Number>:\n";
-		help += "add a certain number of physicians.\n";
-		
-		help += "\n- addTransporter <TransporterName> <TransporterSurname> <TransporterUserName>:\n";
-		help += "add one transporter with a name and surname.\n";
-		
-		help += "\n- generateTransporters <Number>:\n";
-		help += "add a certain number of transporters.\n";
-		
-		help += "\n- execute <hour> <minute>:\n";
-		help += "execute the simulation of the system up to a certain time. We must have 0<a<24 and 0<b<60.\n";
-		
-		help += "\n- display :\n";
-		help += "display the number of released and visited patients of the simulation.\n";
 		
 		help += "\n- help:\n";
 		help += "get help with commands.\n";

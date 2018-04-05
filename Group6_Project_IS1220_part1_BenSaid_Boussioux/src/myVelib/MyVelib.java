@@ -60,7 +60,8 @@ public class MyVelib {
 	
 
 	
-	public void addNetwork(Network network) {
+	public void addNetwork(String network) {
+		Network network = new Network()
 		this.networks.add(network);
 	}
 	
