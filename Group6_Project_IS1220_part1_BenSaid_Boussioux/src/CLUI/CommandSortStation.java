@@ -1,5 +1,6 @@
 package CLUI;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import myVelib.MyVelib;
@@ -15,13 +16,21 @@ public class CommandSortStation extends Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		MyVelib myVelib = getMyVelib();
+		String networkName = getArgs().get(0);
+		String sortpolicy = getArgs().get(1);
+		if(sortpolicy.equalsIgnoreCase("mostUsedStations")) {
+			myVelib.getNetwork(networkName).mostUsedStations();
+		}
+		if(sortpolicy.equalsIgnoreCase("leastOccupiedStations")) {
+			Timestamp t = new Timestamp(System.currentTimeMillis());
+			myVelib.getNetwork(networkName).leastOccupiedStations(new Timestamp(0),t);
+		}
 	}
 
 	@Override
 	public void check() throws SyntaxErrorException {
-		// TODO Auto-generated method stub
+		checkNumOfArgs(2);
 		
 	}
 

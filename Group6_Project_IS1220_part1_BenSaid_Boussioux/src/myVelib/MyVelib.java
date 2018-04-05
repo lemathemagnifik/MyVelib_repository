@@ -57,6 +57,20 @@ public class MyVelib {
 		return null;
 	}
 	
+	public Station getStation(String networkName, int stationID) {
+		Network network = this.getNetwork(networkName);
+		if (network!=null) {
+			for (Station s:network.getStations()) {
+				if (s.getId()==stationID) {
+					return s;
+				}
+			}
+			System.out.println("There is no station with the ID : "+stationID+".");
+			return null;
+		}
+		return null;
+	}
+	
 
 	
 	public void addNetwork(Network network) {
@@ -79,6 +93,7 @@ public class MyVelib {
 		network2.setStations(stations);
 		network2.setName(network);
 		this.networks.add(network2);
+		
 
 	}
 	
