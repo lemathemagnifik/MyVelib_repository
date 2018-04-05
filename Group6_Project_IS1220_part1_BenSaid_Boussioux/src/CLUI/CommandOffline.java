@@ -30,7 +30,7 @@ public class CommandOffline extends Command {
 	}
 
 	public static void main(String[] args) {
-		int a=Integer.parseInt("A");
+		Double a=Double.parseDouble("1");
 		System.out.println(a);
 	}
 }
