@@ -238,7 +238,8 @@ public class Station extends Observable {
 
 	public void addParkingSlot() {
 		ParkingSlot slot = new ParkingSlot(this);
-		slot.getSlotHistory().put(new Timestamp(0), ParkingSlot.Status.Free);
+		Timestamp t2 = new Timestamp(System.currentTimeMillis());
+		slot.getSlotHistory().put(t2, ParkingSlot.Status.Free);
 		this.parkingSlots.add(slot);
 	}
 	
@@ -263,12 +264,13 @@ public class Station extends Observable {
 	
 	//Computes the occupation rate.
 	public double occupationRate(Timestamp t1, Timestamp t2) {
-		long occupationTime = 0; 
+		double occupationTime = 0.0; 
 		for (int i=0;i<this.getParkingSlots().size();i++)
 			occupationTime +=this.getParkingSlots().get(i).occupationTime(t1, t2);
 		
-
-		return Math.round((double)occupationTime*1000.0 / ((t2.getTime()-t1.getTime())*this.getParkingSlots().size()))/1000.0;
+		//System.out.println(occupationTime);
+		//System.out.println(((t2.getTime()-t1.getTime())*this.getParkingSlots().size()));
+		return Math.round( (double) occupationTime*1000.0 / this.getParkingSlots().size())/1000.0;
 	}
 	
 	

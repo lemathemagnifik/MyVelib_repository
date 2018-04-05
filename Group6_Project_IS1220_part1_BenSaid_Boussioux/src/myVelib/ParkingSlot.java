@@ -31,7 +31,7 @@ public class ParkingSlot {
 		this.station = station;
 		this.status = ParkingSlot.Status.Free;
 		this.bicycle=null;
-		this.slotHistory.put(new Timestamp(0), ParkingSlot.Status.Free);
+		this.slotHistory.put(new Timestamp(System.currentTimeMillis()), ParkingSlot.Status.Free);
 	}
 	
 	public ConcurrentSkipListMap<Timestamp, ParkingSlot.Status> getSlotHistory() {
@@ -99,14 +99,17 @@ public class ParkingSlot {
 		if (bicycle.getType()==Bicycle.BicycleType.Mechanical) {
 		this.status = Status.OccupiedByMechanical;
 		this.bicycle = bicycle;
-		this.updateSlotHistory(new Timestamp(1));
+		Timestamp t2 = new Timestamp(System.currentTimeMillis());
+		this.updateSlotHistory(t2);
 		
 		}
 		else {
 			this.status = Status.OccupiedByElectrical;
 			this.bicycle = bicycle;
 			//We add a value in the history.
-			this.updateSlotHistory(new Timestamp(1));
+			Timestamp t2 = new Timestamp(System.currentTimeMillis());
+
+			this.updateSlotHistory(t2);
 
 		}
 	}
@@ -148,7 +151,7 @@ public class ParkingSlot {
 	
 	
 
-	public long occupationTime(Timestamp t, Timestamp r) {
+	public double occupationTime(Timestamp t, Timestamp r) {
 		
 		if  (t.compareTo(r)>0)
 			return occupationTime(r,t);
@@ -181,8 +184,11 @@ public class ParkingSlot {
 					
 			}
 		}
-		//System.out.println(r.getTime()-t.getTime()-acc);
-		return (r.getTime()-t.getTime()-acc);
+		//System.out.println("acc" +(double) (r.getTime()-t.getTime()-acc));
+		//System.out.println("sansacc " +(double) (r.getTime()-t.getTime()));
+		//System.out.println((double) (r.getTime()-t.getTime()-acc)/(double)(r.getTime()-t.getTime()));
+
+		return (double) (r.getTime()-t.getTime()-acc)/(double)(r.getTime()-t.getTime());
 	}
 	
 	public static void main(String[] args) {
