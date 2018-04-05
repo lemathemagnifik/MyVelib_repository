@@ -3,26 +3,30 @@ package CLUI;
 import java.util.ArrayList;
 
 import myVelib.MyVelib;
+import myVelib.Network;
 
 public class CommandDisplay extends Command{
 
 	public CommandDisplay(MyVelib myvelib, ArrayList<String> args) throws SyntaxErrorException, MisuseException {
 		super(myvelib,args);
-		// TODO Auto-generated constructor stub
 	}
 
 
 
 	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-		
+	public void execute() throws SyntaxErrorException {
+		MyVelib myVelib = this.getMyVelib();
+		String velibnetworkName = getArgs().get(2);
+		Network network = myVelib.getNetwork(velibnetworkName);
+		if (network==null) {
+			throw new SyntaxErrorException("Please check the network name.");
+		}
+		System.out.println(network);
 	}
 
 	@Override
 	public void check() throws SyntaxErrorException {
-		// TODO Auto-generated method stub
-		
+		checkNumOfArgs(1);
 	}
 
 }

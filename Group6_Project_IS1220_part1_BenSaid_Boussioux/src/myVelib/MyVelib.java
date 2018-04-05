@@ -82,6 +82,5 @@ public class MyVelib {
 		
 	}
 	public static void main(String[] args) {
-		System.out.println(Duration.ofMinutes(50).);
 	}
 }
