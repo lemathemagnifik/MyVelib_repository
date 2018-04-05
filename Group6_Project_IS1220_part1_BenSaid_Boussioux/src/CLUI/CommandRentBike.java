@@ -33,7 +33,7 @@ public class CommandRentBike extends Command {
 		if (station==null) {
 			throw new SyntaxErrorException("Please check the station ID.");
 		}
-		
+		System.out.println(station.getNetwork().getName().compareTo(user.getNetwork().getName()));
 		if (station.getNetwork().getName().compareTo(user.getNetwork().getName())==0) {
 			throw new MisuseException("The user and the station do not belong to the same network.");
 			}

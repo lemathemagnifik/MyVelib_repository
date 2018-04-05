@@ -346,13 +346,27 @@ public class Station extends Observable {
 	public String toString() {
 		String strType = "";
 		String strStatus = "";
-		
+		String str = "";
 		if (status == Status.OnService) {strStatus = "On Service";}
 		else {strStatus = "Offline";}
 		if (type == StationType.Normal) {strType = "Normal";}
 		else {strType = "Plus";}
-		return "Station name : " + name + " | ID : "+this.id+ "| Type : " + strType + " | Position " + this.position + " | Status : "+ strStatus + " | Free Slots : " + slotsFree() + " | Broken Slots : " + slotsBroken() + " |  Occupied Slots : " + slotsOccupied(BicycleType.Electrical) + " (Electrical) + " + slotsOccupied(BicycleType.Mechanical) + " (Mechanical) ;";	
+		
+		str+= String.format("%-20s %1s", "Station Name", " : ")+ this.name;
+		str+= String.format("%-20s %1s", "Station ID", " : ")+ this.id;
+		str+= String.format("%-20s %1s", "Type", " : ")+ strType;
+		str+= String.format("%-20s %1s", "Localisation", " : ")+ this.position;
+		str+= String.format("%-20s %1s", "Status", " : ")+ strStatus;
+		str+= String.format("%-20s %1s", "Free Slots", " : ")+ slotsFree();
+		str+= String.format("%-20s %1s", "Broken Slots", " : ")+ slotsBroken();
+		str+= String.format("%-20s %1s", "Occupied Slots", " : ")+ slotsOccupied(null);
+		str+= String.format("%-20s %1s", "Nb Electrical Bikes", " : ")+ slotsOccupied(BicycleType.Electrical);
+		str+= String.format("%-20s %1s", "Nb Mechanical Bikes", " : ")+ slotsOccupied(BicycleType.Mechanical);
+
+		return str;
 	}
+	
+	
 	public String toArray() {
 		String strType = "";
 		String strStatus = "";
