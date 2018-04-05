@@ -117,5 +117,13 @@ public class MyVelib {
 	}
 	
 	public static void main(String[] args) {
+		MyVelib myV = new MyVelib();
+		try {
+			myV.addNetwork("network", 10, 10 , 10, 50);
+			System.out.println(myV.getNetwork("network").getStations().get(1).getNetwork());
+		} catch (UnavailableSlotException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
