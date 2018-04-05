@@ -78,9 +78,9 @@ public class MyVelib {
 	
 	
 	public MyVelib() {
-	
-		
+		this.networks = new ArrayList<Network>();
 	}
+	
 	public static void main(String[] args) {
 	}
 }

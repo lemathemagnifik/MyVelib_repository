@@ -2,7 +2,9 @@ package CLUI;
 
 import java.util.ArrayList;
 
-import myVelib.MyVelib;
+import myVelib.*;
+import myVelib.ParkingSlot.UnavailableSlotException;
+import Tests.*;
 
 public class CommandSetUp extends Command {
 
@@ -15,8 +17,13 @@ public class CommandSetUp extends Command {
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-		
+		MyVelib myVelib = getMyVelib();
+		try {
+			myVelib.addNetwork(CreateTestNetwork.CreateTestingNetwork());
+		} catch (UnavailableSlotException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -304,7 +304,7 @@ public class Network {
 		
 		str+= "==================== Users ===================\n";
 		str+= String.format("%-7s %1s %-20s %1s %-11s %1s", "User ID", "|","User Name", "|","Card Type", "|"  );
-		str+="\n==============================================";
+		str+="\n==============================================\n";
 		for (User u:users) {
 			str+= u.toArray() + "\n";
 		}
