@@ -185,16 +185,16 @@ public class Network {
 	}
 	
 	/**
-	 * Creates an ArrayList of n Stations randomly distributed in a square n*n
-	 * @param n
+	 * Creates an ArrayList of n Stations randomly distributed in a square side*side
+	 * @param n : number of stations
 	 * @return
 	 */
-	public ArrayList<Station> stationList (int n){
+	public ArrayList<Station> stationList (int n, double side){
 		ArrayList<Station> stations = new ArrayList<Station>();
 		for (int i=0 ; i<n ; i++) {
 			
-			double random1 = Math.random() * n;
-			double random2 = Math.random() * n;
+			double random1 = Math.round(Math.random() * side * 1000.0)/1000.0;
+			double random2 = Math.round(Math.random() * side * 1000.0)/1000.0;
 			stations.add(new Station(String.valueOf(i), Station.StationType.Normal,new GPS(random1,random2),this));
 
 		}
@@ -202,8 +202,17 @@ public class Network {
 		return stations;
 	}
 	
-	public ArrayList<Station> stationWithSlotList (int n, int m){
-		ArrayList<Station> stations = this.stationList(n);
+	/**
+	 * 
+	 * 
+	 * @param n : number of stations
+	 * @param m : total number of slots
+	 * @param side : square side of the repartition
+	 * @return
+	 */
+	
+	public ArrayList<Station> stationWithSlotList (int n, int m, double side){
+		ArrayList<Station> stations = this.stationList(n,side);
 		int slotsPerStation = m/stations.size(); 
 		int rest = m%stations.size();
 		for (int i=0 ; i<stations.size() ; i++) {
@@ -220,22 +229,23 @@ public class Network {
 	/**
 	 * This ugly method is able to put a uniform number of bicycles in all the stations according to given
 	 * percentages.
-	 * @param n
-	 * @param m
+	 * @param numberOfStations
 	 * @param numberOfSlots
 	 * @param percentageOfOccupation
 	 * @param percentageOfMechanical
+	 * @param side area
+
 	 * @return
 	 * @throws UnavailableSlotException 
 	 */
 	
 	//TODO C'est un enfer car il faut rattrapper l'exception de addBicycle je ne sais combien de fois.
 	
-	public ArrayList<Station> stationWithBicycles (int numberofStations, int numberOfSlots, int percentageOfOccupation, int percentageOfMechanical) throws UnavailableSlotException{
-		ArrayList<Station> stations = this.stationWithSlotList(numberofStations, numberOfSlots);
+	public ArrayList<Station> stationWithBicycles (int numberofStations, int numberOfSlots, double percentageOfOccupation, double percentageOfMechanical, double side) throws UnavailableSlotException{
+		ArrayList<Station> stations = this.stationWithSlotList(numberofStations, numberOfSlots, side);
 		try {
-		int numberOfMechanical = numberOfSlots*percentageOfOccupation*percentageOfMechanical/100/100;
-		int numberOfElectrical = numberOfSlots*percentageOfOccupation*(100-percentageOfMechanical)/100/100;
+		int numberOfMechanical = (int) (numberOfSlots*percentageOfOccupation*percentageOfMechanical/100/100);
+		int numberOfElectrical = (int) (numberOfSlots*percentageOfOccupation*(100-percentageOfMechanical)/100/100);
 		
 		int bicyclesElectricalPerStation = numberOfElectrical/numberofStations; 
 		int rest = numberOfElectrical%numberofStations;

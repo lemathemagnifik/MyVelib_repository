@@ -3,6 +3,8 @@ package myVelib;
 import java.time.Duration;
 import java.util.ArrayList;
 
+import myVelib.ParkingSlot.UnavailableSlotException;
+
 public class MyVelib {
 	private String name;
 	private ArrayList<Network> networks;
@@ -63,6 +65,27 @@ public class MyVelib {
 	public void addNetwork(Network network) {
 		this.networks.add(network);
 	}
+	
+	public void addNetwork(String network) throws UnavailableSlotException  {
+		Network network2 = new Network();
+		ArrayList<Station> stations = network2.stationWithBicycles(10,100,75,70,4);
+		network2.setStations(stations);
+		network2.setName(network);
+		this.networks.add(network2);
+
+	}
+	
+	public void addNetwork(String network, int nstations, int nslots, double sidea, int nbikes) throws UnavailableSlotException  {
+		Network network2 = new Network();
+		double pourcentage = nbikes*100 / (nslots*nstations);
+		ArrayList<Station> stations = network2.stationWithBicycles(nstations,nstations*nslots,pourcentage,70,sidea);
+		network2.setStations(stations);
+		network2.setName(network);
+		this.networks.add(network2);
+
+	}
+	
+	
 	
 //	public ArrayList<Station> mostUsedStation() {
 //		return stationList;
