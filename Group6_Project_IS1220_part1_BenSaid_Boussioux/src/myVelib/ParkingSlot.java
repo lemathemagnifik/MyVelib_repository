@@ -181,10 +181,12 @@ public class ParkingSlot {
 					
 			}
 		}
-		
+		//System.out.println(r.getTime()-t.getTime()-acc);
 		return (r.getTime()-t.getTime()-acc);
 	}
 	
-	
+	public static void main(String[] args) {
+		
+	}
 	
 }
