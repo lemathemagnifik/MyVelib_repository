@@ -14,7 +14,7 @@ public class CommandDisplayUser extends Command {
 	@Override
 	public void execute() throws SyntaxErrorException, MisuseException {
 		MyVelib myVelib = getMyVelib();
-		String userID = getArgs().get(0);
+		int userID = stringToInt(getArgs().get(0),"userID");
 		String networkName = getArgs().get(1);
 		User user = myVelib.getUser(networkName, userID);
 		if (user==null) {
