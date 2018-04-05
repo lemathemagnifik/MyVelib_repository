@@ -2,9 +2,11 @@ package CLUI;
 
 import java.util.ArrayList;
 
+import javax.sql.rowset.spi.SyncFactoryException;
 
 import myVelib.*;
 import myVelib.ParkingSlot.UnavailableSlotException;
+import Tests.*;
 
 public class CommandSetUp extends Command {
 
@@ -40,8 +42,7 @@ public class CommandSetUp extends Command {
 				double sidearea  = stringToDouble(getArgs().get(3),"sidearea");
 				int nbikes = stringToInt(getArgs().get(4),"nbikes");
 				if (nbikes>nstations*nslots) {
-					System.out.println("Too many bikes for this network.");
-					throw new MisuseException();}
+					throw new MisuseException("Too many bikes for this network.");}
 				myVelib.addNetwork(networkName,nstations, nslots, sidearea, nbikes);
 				System.out.println("The network "+networkName+" has been created.");
 
