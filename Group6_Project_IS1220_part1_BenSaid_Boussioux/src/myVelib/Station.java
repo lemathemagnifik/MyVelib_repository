@@ -266,8 +266,7 @@ public class Station extends Observable {
 		long occupationTime = 0; 
 		for (int i=0;i<this.getParkingSlots().size();i++)
 			occupationTime +=this.getParkingSlots().get(i).occupationTime(t1, t2);
-		System.out.println(occupationTime);
-		System.out.println(((t2.getTime()-t1.getTime())*this.getParkingSlots().size()));
+		
 
 		return Math.round((double)occupationTime*1000.0 / ((t2.getTime()-t1.getTime())*this.getParkingSlots().size()))/1000.0;
 	}
@@ -305,11 +304,11 @@ public class Station extends Observable {
 				
 			else if (this.getParkingSlots().get(i).getBicycle()!=null) {
 				if (bType==null) {
-					System.out.println("Go take the " + Bicycle.bicycleTypeString(bType) + " bicycle at slot "+ i);
+					System.out.println("The user has taken the" + Bicycle.bicycleTypeString(bType) + " bicycle at slot number "+ i);
 					return i;
 				}
 				else if (this.getParkingSlots().get(i).getBicycle().getType()==bType) {
-					System.out.println("Go take the " + Bicycle.bicycleTypeString(bType) + " bicycle at slot "+ i);
+					System.out.println("The user has taken the" + Bicycle.bicycleTypeString(bType) + " bicycle at slot number "+ i);
 					return i;
 				}	
 			}	

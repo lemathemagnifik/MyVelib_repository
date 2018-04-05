@@ -33,7 +33,7 @@ public class CommandReturnBike extends Command {
 			throw new SyntaxErrorException("Please check the station ID.");
 		}
 		
-		if (station.getNetwork().getName().compareTo(user.getNetwork().getName())==0) {
+		if (station.getNetwork().getName().compareTo(user.getNetwork().getName())==1) {
 			throw new MisuseException("The user and the station do not belong to the same network.");
 			}
 		
