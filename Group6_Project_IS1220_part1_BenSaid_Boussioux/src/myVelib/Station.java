@@ -380,9 +380,10 @@ public class Station extends Observable {
 	public void displayStation(Timestamp t1, Timestamp t2) {
 		String str ="";
 		str+="\n====================================================================================================================================================================\n";
-		str+= String.format("%-20s %1s %-10s %1s %-6s %1s %-25s %1s %-10s %1s %-13s %1s %-15s %1s %-19s %1s %-20s %1s", "Station Name", "|", "Station ID", "|", "Type", "|", "Location", "|", "Status", "|", "Nb Free Slots", "|", "Nb Broken Slots", "|", "Nb Electrical Bikes", "|", "Nb Mechanical Bikes","|");
+		str+= String.format("%-20s %1s %-10s %1s %-6s %1s %-25s %1s %-10s %1s %-13s %1s %-15s %1s %-19s %1s %-20s %1s", "Station Name", "|", "Station ID", "|", "Type", "|", "Location", "|", "Status", "|", "Nb of rentals", "|", "Nb of returns", "|", "Nb of ops", "|", "Occupation rate","|");
 		str+="\n====================================================================================================================================================================\n";
 		str+=this.toArrayBalance(t1, t2);
+		str+="====================================================================================================================================================================\n";
 		System.out.println(str);		
 	}
 	
