@@ -291,6 +291,17 @@ public class Network {
 		return sortedStations;
 	}
 
+	public static void displayArrayStations(ArrayList<Station> stations, Timestamp t1, Timestamp t2) {
+		String str ="";
+		str+="\n====================================================================================================================================================================\n";
+		str+= String.format("%-20s %1s %-10s %1s %-6s %1s %-25s %1s %-10s %1s %-13s %1s %-15s %1s %-19s %1s %-20s %1s", "Station Name", "|", "Station ID", "|", "Type", "|", "Location", "|", "Status", "|", "Nb of rentals", "|", "Nb of returns", "|", "Nb of ops", "|", "Occupation rate","|");
+		str+="\n====================================================================================================================================================================\n";
+		for (Station s:stations) {
+			str+=s.toArrayBalance(t1, t2) + "\n";
+		}
+		str+="====================================================================================================================================================================\n";
+		System.out.println(str);
+	}
 	
 	@Override
 	public String toString() {

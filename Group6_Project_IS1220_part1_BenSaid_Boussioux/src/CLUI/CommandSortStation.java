@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import myVelib.MyVelib;
+import myVelib.Network;
 
 public class CommandSortStation extends Command {
 
@@ -19,12 +20,13 @@ public class CommandSortStation extends Command {
 		MyVelib myVelib = getMyVelib();
 		String networkName = getArgs().get(0);
 		String sortpolicy = getArgs().get(1);
+		Timestamp t2 = new Timestamp(System.currentTimeMillis());
+		Timestamp t1 = new Timestamp(0);
 		if(sortpolicy.equalsIgnoreCase("mostUsedStations")) {
-			myVelib.getNetwork(networkName).mostUsedStations();
+			Network.displayArrayStations(myVelib.getNetwork(networkName).mostUsedStations(), t1, t2);
 		}
 		if(sortpolicy.equalsIgnoreCase("leastOccupiedStations")) {
-			Timestamp t = new Timestamp(System.currentTimeMillis());
-			myVelib.getNetwork(networkName).leastOccupiedStations(new Timestamp(0),t);
+			Network.displayArrayStations(myVelib.getNetwork(networkName).leastOccupiedStations(t1,t2),t1,t2);
 		}
 	}
 

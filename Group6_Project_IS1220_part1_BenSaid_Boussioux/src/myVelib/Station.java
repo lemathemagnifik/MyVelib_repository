@@ -400,15 +400,31 @@ public class Station extends Observable {
 	}
 	
 	public void displayStation(Timestamp t1, Timestamp t2) {
-		String str ="";
-		str+="\n====================================================================================================================================================================\n";
-		str+= String.format("%-20s %1s %-10s %1s %-6s %1s %-25s %1s %-10s %1s %-13s %1s %-15s %1s %-19s %1s %-20s %1s", "Station Name", "|", "Station ID", "|", "Type", "|", "Location", "|", "Status", "|", "Nb of rentals", "|", "Nb of returns", "|", "Nb of ops", "|", "Occupation rate","|");
-		str+="\n====================================================================================================================================================================\n";
-		str+=this.toArrayBalance(t1, t2);
-		str+="\n====================================================================================================================================================================\n";
+		String strType = "";
+		String strStatus = "";
+		String str = "";
+		if (status == Status.OnService) {strStatus = "On Service";}
+		else {strStatus = "Offline";}
+		if (type == StationType.Normal) {strType = "Normal";}
+		else {strType = "Plus";}
+		str+= "======== Station Infos ========" +"\n";
+		str+= String.format("%-20s %1s", "Station Name", " : ")+ this.name +"\n";
+		str+= String.format("%-20s %1s", "Station ID", " : ")+ this.id +"\n";
+		str+= String.format("%-20s %1s", "Type", " : ")+ strType +"\n";
+		str+= String.format("%-20s %1s", "Localisation", " : ")+ this.position +"\n";
+		str+= String.format("%-20s %1s", "Status", " : ")+ strStatus +"\n";
+		str+= "====== Station Occupation ======" +"\n";
+		str+= String.format("%-20s %1s", "Free Slots", " : ")+ slotsFree() +"\n";
+		str+= String.format("%-20s %1s", "Broken Slots", " : ")+ slotsBroken() +"\n";
+		str+= String.format("%-20s %1s", "Occupied Slots", " : ")+ slotsOccupied(null) +"\n";
+		str+= String.format("%-20s %1s", "Nb Electrical Bikes", " : ")+ slotsOccupied(BicycleType.Electrical) +"\n";
+		str+= String.format("%-20s %1s", "Nb Mechanical Bikes", " : ")+ slotsOccupied(BicycleType.Mechanical) +"\n";
+		str+= "======= Station Balance =======" +"\n";
+		str+= String.format("%-20s %1s", "Nb of Rentals", " : ")+ getNumberOfRentals() +"\n";
+		str+= String.format("%-20s %1s", "Nb of Returns", " : ")+ getNumberOfReturns() +"\n";
+		str+= String.format("%-20s %1s", "Nb of OPS", " : ")+ getNumberOfReturns()+getNumberOfRentals() +"\n";
+		str+= String.format("%-20s %1s", "Occupation Rate", " : ")+ occupationRate(new Timestamp(0),new Timestamp(System.currentTimeMillis())) +"\n";
 		System.out.println(str);
-		
-		System.out.println(this);
 	}
 	
 //*****************************************************************//
