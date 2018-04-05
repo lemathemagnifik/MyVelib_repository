@@ -437,6 +437,11 @@ public class User implements Observer {
 
 	
 	public class AlreadyHasABikeException extends Exception{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -8282649192773856116L;
+
 		public AlreadyHasABikeException(){
 		    System.out.println("Sorry, you already have a bike.");
 		  }  

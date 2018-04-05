@@ -372,18 +372,33 @@ public class Station extends Observable {
 	
 
 	public class NoBikesAvailableException extends Exception{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2205326446857393950L;
+
 		public NoBikesAvailableException(){
 		    System.out.println("Sorry, no more bikes of the desired type available.");
 		  }  
 	}
 	
 	public class OfflineStationException extends Exception{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -2527155476397485679L;
+
 		public OfflineStationException(){
 		    System.out.println("Sorry, this stations is offline.");
 		  }  
 	}
 
 	public class NoAvailableFreeSlotsException extends Exception{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -1974553296026094071L;
+
 		public NoAvailableFreeSlotsException(){
 		    System.out.println("Sorry, this station has no more available slots.");
 		  }  

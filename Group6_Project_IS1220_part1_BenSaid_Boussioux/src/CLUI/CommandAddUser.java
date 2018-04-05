@@ -17,8 +17,7 @@ public class CommandAddUser extends Command {
 
 	@Override
 	public void execute() throws SyntaxErrorException {
-		Card card;
-		User user = new User();
+		User user = null;
 		MyVelib myVelib = this.getMyVelib();
 		String userName = getArgs().get(0);
 		String cardType = getArgs().get(1);

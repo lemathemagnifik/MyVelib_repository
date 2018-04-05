@@ -7,16 +7,26 @@ public class MyVelib {
 	private String name;
 	private ArrayList<Network> networks;
 	
+	public User getUser(String struserID) {
+		int userID=Integer.parseInt(struserID);
+		for (Network n:networks) {
+			for (User u:n.getUsers()) {
+				if (u.getId()==userID) {
+					return u;
+				}
+			}
+		}
+		System.out.println("There is no user with the ID : "+struserID+".");
+		return null;
+	}
 	
 	public Network getNetwork(String networkName) {
 		for (Network n:networks) {
 			if (n.getName().equalsIgnoreCase(networkName)) {
 				return n;
 			}
-			else {
-				System.out.println("Non existant network.");
-			}
 		}
+		System.out.println("Non existant network.");
 		return null;
 	}
 	
@@ -29,7 +39,7 @@ public class MyVelib {
 				}
 			}
 		}
-		System.out.println("There are no stations with the given ID.");
+		System.out.println("There is no station with the ID : "+strstationID+".");
 		return null;
 	}
 	
