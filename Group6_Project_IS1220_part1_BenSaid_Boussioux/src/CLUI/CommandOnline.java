@@ -28,8 +28,7 @@ public class CommandOnline extends Command {
 
 	@Override
 	public void check() throws SyntaxErrorException {
-		// TODO Auto-generated method stub
-		
+		checkNumOfArgs(1);
 	}
 
 }

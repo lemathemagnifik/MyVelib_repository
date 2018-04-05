@@ -142,7 +142,7 @@ public class ParkingSlot {
 			//Vérifier que c'est bien fait
 			this.slotHistory.put(t,this.getStatus());
 			// vérifier le toString()
-			System.out.println("The slot's history is updated: the slot is now "+this.getStatus().toString()+" at time "+t.toString());
+			//System.out.println("The slot's history is updated: the slot is now "+this.getStatus().toString()+" at time "+t.toString());
 		}
 	}
 	

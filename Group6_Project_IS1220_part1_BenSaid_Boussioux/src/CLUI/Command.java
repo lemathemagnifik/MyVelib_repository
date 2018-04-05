@@ -2,6 +2,8 @@ package CLUI;
 
 import java.util.ArrayList;
 
+import javax.sql.rowset.spi.SyncFactoryException;
+
 import myVelib.*;
 import myVelib.Station.NoBikesAvailableException;
 import myVelib.Station.OfflineStationException;
@@ -22,27 +24,41 @@ public abstract class Command {
 	}
 
 	public abstract void execute() throws SyntaxErrorException, MisuseException;	
+	
 	public abstract void check() throws SyntaxErrorException;
+	
 	public void checkNumOfArgs(int num) throws SyntaxErrorException{
 		if(args.size() != num) {
 			throw new SyntaxErrorException("This cmd requires "+num+" arguments.");
 		}
 	}
-
-	public static boolean isInteger(String s) {
-	    return isInteger(s,10);
+	
+	public void checkNumOfArgs(int num, int num2) throws SyntaxErrorException{
+		if(args.size() != num || args.size() != num2) {
+			throw new SyntaxErrorException("This cmd requires "+num+" or " + num2+ " arguments.");
+		}
 	}
 
-	public static boolean isInteger(String s, int radix) {
-	    if(s.isEmpty()) return false;
-	    for(int i = 0; i < s.length(); i++) {
-	        if(i == 0 && s.charAt(i) == '-') {
-	            if(s.length() == 1) return false;
-	            else continue;
-	        }
-	        if(Character.digit(s.charAt(i),radix) < 0) return false;
-	    }
-	    return true;
+	public static int stringToInt(String str, String arg) throws SyncFactoryException {
+		try {
+			return Integer.parseInt(str); 
+		}
+		catch(NumberFormatException e) {
+			throw new SyncFactoryException("The argument "+arg+ " should be an integer.");
+		}
+			
+		
+	}
+	
+	public static double stringToDouble(String str, String arg) throws SyncFactoryException {
+		try {
+			return Double.parseDouble(str); 
+		}
+		catch(NumberFormatException e) {
+			throw new SyncFactoryException("The argument "+arg+ " should be a double.");
+		}
+			
+		
 	}
 
 	public MyVelib getMyVelib() {
@@ -62,6 +78,14 @@ public abstract class Command {
 	}
 
 	public static void main(String[] args) {
+		
+		try {
+			System.out.println(stringToDouble("A", "bla"));
+		} catch (SyncFactoryException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 	}
+	
 }
 
