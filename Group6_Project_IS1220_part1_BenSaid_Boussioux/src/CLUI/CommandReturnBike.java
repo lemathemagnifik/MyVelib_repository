@@ -45,6 +45,7 @@ public class CommandReturnBike extends Command {
 		
 		try {
 			user.returnBike(station, tripDuration);
+			System.out.println("The user "+user.getName()+ " with the ID "+user.getId()+" returned his bike to the station "+station.getId()+".");
 		} catch (OfflineStationException | NoAvailableFreeSlotsException e) {}
 		
 	}

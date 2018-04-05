@@ -407,6 +407,16 @@ public class User implements Observer {
 	}
 	
 
+	public void displayBalance() {
+		String str ="";
+		str+= "User name : " + this.name + ".\n";
+		str+= "User ID : " + this.id +".\n";
+		str+= "Number of rides : " + this.getNumberOfRides() +".\n";
+		str+= "Total time : " + this.getTotalTime().toMinutes() +" minutes. \n";
+		str+= "Total time credit : " + this.getTotalTimeCredit().toMinutes() +" minutes. \n";
+		System.out.println(str);
+		
+	}
 //-----------------------------------------------------------------//
 
 // toString METHOD

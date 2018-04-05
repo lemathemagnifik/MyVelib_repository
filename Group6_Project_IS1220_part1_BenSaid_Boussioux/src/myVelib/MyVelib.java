@@ -20,6 +20,21 @@ public class MyVelib {
 		return null;
 	}
 	
+	public User getUser(String networkName, String struserID) {
+		int userID=Integer.parseInt(struserID);
+		Network network = this.getNetwork(networkName);
+		if (network!=null) {
+			for (User u:network.getUsers()) {
+				if (u.getId()==userID) {
+					return u;
+				}
+			}
+			System.out.println("There is no user with the ID : "+struserID+".");
+			return null;
+		}
+		return null;
+	}
+	
 	public Network getNetwork(String networkName) {
 		for (Network n:networks) {
 			if (n.getName().equalsIgnoreCase(networkName)) {
@@ -66,5 +81,7 @@ public class MyVelib {
 	
 		
 	}
-	
+	public static void main(String[] args) {
+		System.out.println(Duration.ofMinutes(50).);
+	}
 }

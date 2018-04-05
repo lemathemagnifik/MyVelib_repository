@@ -48,6 +48,7 @@ public class CommandRentBike extends Command {
 		else throw new SyntaxErrorException("Please check the bicycle type.");
 		try {
 			user.rentBike(station, bType);
+			System.out.println("The user "+user.getName()+ " with the ID "+user.getId()+" rented a bike from the station "+station.getId()+".");
 		} catch (AlreadyHasABikeException | OfflineStationException | NoBikesAvailableException e) {}
 	}
 

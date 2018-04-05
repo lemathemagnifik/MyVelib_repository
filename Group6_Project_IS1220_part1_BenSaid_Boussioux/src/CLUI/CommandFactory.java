@@ -40,6 +40,10 @@ public class CommandFactory {
 			return new CommandDisplayStation(myVelib, args);
 		}
 		
+		if(cmd.equalsIgnoreCase("displayUser")) {
+			return new CommandDisplayUser(myVelib, args);
+		}
+		
 		if(cmd.equalsIgnoreCase("offline")) {
 			return new CommandOffline(myVelib, args);
 		}
