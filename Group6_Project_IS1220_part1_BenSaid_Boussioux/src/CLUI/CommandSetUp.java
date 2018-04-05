@@ -18,7 +18,7 @@ public class CommandSetUp extends Command {
 
 
 	@Override
-	public void execute() throws SyntaxErrorException {
+	public void execute() throws SyntaxErrorException, MisuseException {
 		MyVelib myVelib = getMyVelib();
 		String networkName = getArgs().get(0);
 		
@@ -41,9 +41,11 @@ public class CommandSetUp extends Command {
 				int nslots = stringToInt(getArgs().get(2),"nslots");
 				double sidearea  = stringToDouble(getArgs().get(3),"sidearea");
 				int nbikes = stringToInt(getArgs().get(4),"nbikes");
-
+				if (nbikes>nstations*nslots) {
+					System.out.println("Too many bikes for this network.");
+					throw new MisuseException();}
 				myVelib.addNetwork(networkName,nstations, nslots, sidearea, nbikes);
-				 System.out.println("The network "+networkName+" has been created.");
+				System.out.println("The network "+networkName+" has been created.");
 
 			} catch (UnavailableSlotException e) {
 				// TODO Auto-generated catch block

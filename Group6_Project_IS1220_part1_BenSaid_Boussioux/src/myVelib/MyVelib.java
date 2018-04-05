@@ -79,6 +79,7 @@ public class MyVelib {
 		network2.setStations(stations);
 		network2.setName(network);
 		this.networks.add(network2);
+		
 
 	}
 	
