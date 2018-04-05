@@ -361,7 +361,7 @@ public class Station extends Observable {
 		else {strStatus = "Offline";}
 		if (type == StationType.Normal) {strType = "Normal";}
 		else {strType = "Plus";}
-		return String.format("%-20s %1s %-10% %1s %-6s %1s %-25s %1s %-10s %1s %-13s %1s %-15s %1s %-19s %1s %-20s %1s", name, "|", this.id, "|", strType, "|", this.position, "|", strStatus, "|", slotsFree(), "|", slotsBroken(), "|", slotsOccupied(BicycleType.Electrical), "|", slotsOccupied(BicycleType.Mechanical),"|");
+		return String.format("%-20s %1s %-10 %1s %-6s %1s %-25s %1s %-10s %1s %-13s %1s %-15s %1s %-19s %1s %-20s %1s", name, "|", this.id, "|", strType, "|", this.position, "|", strStatus, "|", slotsFree(), "|", slotsBroken(), "|", slotsOccupied(BicycleType.Electrical), "|", slotsOccupied(BicycleType.Mechanical),"|");
 
 	}
 	
