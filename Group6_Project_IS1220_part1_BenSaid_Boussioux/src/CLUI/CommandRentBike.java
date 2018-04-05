@@ -20,8 +20,8 @@ public class CommandRentBike extends Command {
 	public void execute() throws MisuseException, SyntaxErrorException {
 		MyVelib myVelib = getMyVelib();
 		
-		String userID = getArgs().get(0);
-		String stationID = getArgs().get(1);
+		int userID = stringToInt(getArgs().get(0), "userID");
+		int stationID = stringToInt(getArgs().get(1), "stationID");
 		String bikeType = getArgs().get(2);
 		
 		User user = myVelib.getUser(userID);

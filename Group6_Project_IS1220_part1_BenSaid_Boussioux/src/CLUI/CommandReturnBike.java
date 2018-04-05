@@ -20,7 +20,7 @@ public class CommandReturnBike extends Command {
 		MyVelib myVelib = getMyVelib();
 		
 		int userID = stringToInt(getArgs().get(0), "user ID");
-		String stationID = getArgs().get(1);
+		int stationID = stringToInt(getArgs().get(1),"stationID");
 		String strDuration = getArgs().get(2);
 		
 		User user = myVelib.getUser(userID);
