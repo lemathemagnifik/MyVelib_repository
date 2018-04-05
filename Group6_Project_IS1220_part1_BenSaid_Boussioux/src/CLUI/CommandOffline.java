@@ -29,6 +29,13 @@ public class CommandOffline extends Command {
 		checkNumOfArgs(1);
 	}
 
+<<<<<<< HEAD
+	public static void main(String[] args) {
+		Double a=Double.parseDouble("1");
+		System.out.println(a);
+	}
+=======
 	
+>>>>>>> 8ab6275ed6c6164f555f25698efcdf47c655dab7
 }
 
