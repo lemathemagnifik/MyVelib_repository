@@ -66,7 +66,7 @@ public double getX() {
 	
 	@Override
 	public String toString() {
-		return "GPS : x=" + x + ", y=" + y + ";";
+		return String.format("%-10s %1s %-10s","x=" + x ,",", " y=" + y);
 	}
 
 public static void main(String[] args) {
