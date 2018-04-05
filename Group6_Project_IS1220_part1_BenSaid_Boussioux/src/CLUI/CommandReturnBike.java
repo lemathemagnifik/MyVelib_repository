@@ -19,7 +19,7 @@ public class CommandReturnBike extends Command {
 	public void execute() throws SyntaxErrorException, MisuseException {
 		MyVelib myVelib = getMyVelib();
 		
-		String userID = getArgs().get(0);
+		int userID = stringToInt(getArgs().get(0), "user ID");
 		String stationID = getArgs().get(1);
 		String strDuration = getArgs().get(2);
 		
@@ -37,9 +37,6 @@ public class CommandReturnBike extends Command {
 			throw new MisuseException("The user and the station do not belong to the same network.");
 			}
 		
-		if (isInteger(strDuration)==false) {
-			throw new SyntaxErrorException("The duration of the trip should be a long that equals the number of minutes.");
-		}
 		
 		Duration tripDuration = Duration.ofMinutes(Long.parseLong(strDuration));
 		

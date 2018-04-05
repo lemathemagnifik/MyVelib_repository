@@ -9,8 +9,7 @@ public class MyVelib {
 	private String name;
 	private ArrayList<Network> networks;
 	
-	public User getUser(String struserID) {
-		int userID=Integer.parseInt(struserID);
+	public User getUser(int userID) {
 		for (Network n:networks) {
 			for (User u:n.getUsers()) {
 				if (u.getId()==userID) {
@@ -18,12 +17,11 @@ public class MyVelib {
 				}
 			}
 		}
-		System.out.println("There is no user with the ID : "+struserID+".");
+		System.out.println("There is no user with the ID : "+userID+".");
 		return null;
 	}
 	
-	public User getUser(String networkName, String struserID) {
-		int userID=Integer.parseInt(struserID);
+	public User getUser(String networkName, int userID) {
 		Network network = this.getNetwork(networkName);
 		if (network!=null) {
 			for (User u:network.getUsers()) {
@@ -31,7 +29,7 @@ public class MyVelib {
 					return u;
 				}
 			}
-			System.out.println("There is no user with the ID : "+struserID+".");
+			System.out.println("There is no user with the ID : "+userID+".");
 			return null;
 		}
 		return null;
@@ -47,8 +45,7 @@ public class MyVelib {
 		return null;
 	}
 	
-	public Station getStation(String strstationID) {
-		int stationID=Integer.parseInt(strstationID);
+	public Station getStation(int stationID) {
 		for (Network network:this.networks) {
 			for (Station s:network.getStations()) {
 				if (s.getId() == stationID) {
@@ -56,7 +53,7 @@ public class MyVelib {
 				}
 			}
 		}
-		System.out.println("There is no station with the ID : "+strstationID+".");
+		System.out.println("There is no station with the ID : "+stationID+".");
 		return null;
 	}
 	

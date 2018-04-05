@@ -16,7 +16,7 @@ public class CommandOnline extends Command {
 
 	@Override
 	public void execute() throws SyntaxErrorException {
-		String stationID=getArgs().get(0);
+		int stationID=stringToInt(getArgs().get(0), "station ID");
 		Station station = this.getMyVelib().getStation(stationID);
 		if (station!=null) {
 			station.setStatus(Station.Status.OnService);
