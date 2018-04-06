@@ -81,7 +81,7 @@ public class ClientTest {
 					try {
 						try {
 							System.out.println("Léonard loue son vélo à la station conseillée.");
-							user.rentBike(user.plannedRide.getDepartureStation(),Bicycle.BicycleType.Mechanical,new Timestamp(200000000));
+							user.rentBike(user.plannedRide.getDepartureStation(),Bicycle.BicycleType.Mechanical);
 							user.subscribeStation(user.plannedRide.getArrivalStation());
 							}
 						catch(AlreadyHasABikeException e) {e.toString();}	
