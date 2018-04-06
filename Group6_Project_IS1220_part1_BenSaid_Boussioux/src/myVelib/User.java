@@ -271,7 +271,7 @@ public class User implements Observer {
 	 */
 	public void updateUserHistory(Timestamp t, Ride ride){
 		if(!userHistory.isEmpty()&& userHistory.lastKey().compareTo(t)>0){
-			System.out.println("Error, do not enter a time in the past.");
+//			System.out.println("Error, do not enter a time in the past.");
 		}
 		else{
 			userHistory.put(t,ride);
@@ -316,7 +316,6 @@ public class User implements Observer {
 				this.ride.setTimeCredit(this.ride.getTimeCredit().plus(Station.plusTimeCredit));
 				this.userBalance.setTotalTimeCredit(this.userBalance.getTotalTimeCredit().plus(Station.plusTimeCredit));
 			}
-			ConcreteCardVisitor.applyVelibBonus(vCard.getTimeCredit(), tripDuration);
 		}
 				 		
 		
@@ -328,7 +327,7 @@ public class User implements Observer {
 		} catch (Exception e) {
 		}
 		
-		System.out.println("Please pay " + cost +".");
+		System.out.println(this.name +" paid "+ cost +"€.");
 		
 		this.userBalance.setTotalCharges(this.userBalance.getTotalCharges() + cost);
 		this.userBalance.getTotalTime().plus(tripDuration);
@@ -453,7 +452,7 @@ public class User implements Observer {
 		private static final long serialVersionUID = -8282649192773856116L;
 
 		public AlreadyHasABikeException(){
-		    System.out.println("Sorry, you already have a bike.");
+		    System.out.println("This user has already a bike ! Only one bike can be rented at a time.");
 		  }  
 	}
 

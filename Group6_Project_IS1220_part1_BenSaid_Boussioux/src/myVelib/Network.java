@@ -330,6 +330,7 @@ public class Network {
 		for (User u:users) {
 			str+= u.toArray() + "\n";
 		}
+		str+="\n==============================================\n";
 
 		return str;
 		

@@ -34,7 +34,7 @@ public class ConcreteCardVisitor implements CardVisitor {
 				newTripDuration = newTripDuration.minus(excess.plusNanos(1));
 			}
 		}
-		System.out.println("The user used "+timeCredit.minus(newTimeCredit).toMinutes()+" minutes of his time credit to reduce the minutes to pay.");
+		System.out.println("The user transformed "+timeCredit.minus(newTimeCredit).toMinutes()+" minutes of his time credit to reduce the charged trip duration.");
 		System.out.println("Remaining time credit : "+newTimeCredit.toMinutes()+" minutes.");
 		System.out.println("Charged minutes : "+newTripDuration.toMinutes()+" minutes.");
 		results[0]= newTimeCredit;

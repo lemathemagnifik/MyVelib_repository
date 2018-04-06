@@ -252,11 +252,11 @@ public class Station extends Observable {
 
 	public void addEntryToStationHistory(Timestamp t){
 		if(!stationHistory.isEmpty()&& stationHistory.lastKey().compareTo(t)>0){
-			System.out.println("Error, do not enter a time in the past.");
+//			System.out.println("Error, do not enter a time in the past.");
 		}
 		else{
 			stationHistory.put(t,new int[] {this.slotsFree(),this.slotsOccupiedByMechanical(),slotsOccupiedByElectrical(),slotsBroken()});
-			System.out.println("The station's history is updated: the station has "+this.toString());
+//			System.out.println("The station's history is updated: the station has "+this.toString());
 		}
 	}
 
@@ -277,7 +277,7 @@ public class Station extends Observable {
 	public Integer selectFreeSlot() throws NoAvailableFreeSlotsException {
 		for (int i=0; i<=this.getParkingSlots().size(); i++) {
 			if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.Free) {
-					System.out.println("Please return your bicycle at slot "+ i);
+					System.out.println("A free spot is available at parking slot "+ i+".");
 					return i;
 				}
 		}
@@ -306,11 +306,11 @@ public class Station extends Observable {
 				
 			else if (this.getParkingSlots().get(i).getBicycle()!=null) {
 				if (bType==null) {
-					System.out.println("The user has taken the" + Bicycle.bicycleTypeString(bType) + " bicycle at slot number "+ i);
+					System.out.println("The " + Bicycle.bicycleTypeString(bType) + " bicycle is availble at parking slot number "+ i+".");
 					return i;
 				}
 				else if (this.getParkingSlots().get(i).getBicycle().getType()==bType) {
-					System.out.println("The user has taken the" + Bicycle.bicycleTypeString(bType) + " bicycle at slot number "+ i);
+					System.out.println("The " + Bicycle.bicycleTypeString(bType) + " bicycle is availble at parking slot number "+ i+".");
 					return i;
 				}	
 			}	
