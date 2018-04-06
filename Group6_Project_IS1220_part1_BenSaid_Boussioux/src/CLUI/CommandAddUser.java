@@ -27,13 +27,13 @@ public class CommandAddUser extends Command {
 			throw new SyntaxErrorException("Please check the network name.");
 		}
 		if (cardType.equalsIgnoreCase("Vlibre")){
-			 user = new User(userName, new VlibreCard(user, Duration.ZERO), network);
+			 user = new User(userName, new VlibreCard(user, Duration.ZERO), network,myVelib);
 		 }
 		 else if (cardType.equalsIgnoreCase("VMax")) {
-			 user = new User(userName, new VmaxCard(user, Duration.ZERO), network);
+			 user = new User(userName, new VmaxCard(user, Duration.ZERO), network,myVelib);
 		 }
 		 else if (cardType.equalsIgnoreCase("CreditCard")){
-			 user = new User(userName, new CreditCard(user), network);
+			 user = new User(userName, new CreditCard(user), network,myVelib);
 		 }
 		 else {
 			 throw new SyntaxErrorException("Please check the card type.");

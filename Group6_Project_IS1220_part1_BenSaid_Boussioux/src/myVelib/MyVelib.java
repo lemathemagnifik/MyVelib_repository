@@ -22,8 +22,13 @@ public class MyVelib {
 	public Timestamp getCurrentTime() {
 		return currentTime;
 	}
+	
 
-//	public Timestamp getCurrentTime() {
+	public void setCurrentTime(Timestamp currentTime) {
+		this.currentTime = currentTime;
+	}
+
+	//	public Timestamp getCurrentTime() {
 //		long actualDuration = System.currentTimeMillis() - this.iniTime.getTime();
 //		long simulationDuration = actualDuration * MyVelib.homothetie;
 //		return new Timestamp(this.iniTime.getTime() + simulationDuration);
@@ -39,8 +44,16 @@ public class MyVelib {
 		
 	}
 	
-	static void printTime(Timestamp time) {
+	public static void printTime(Timestamp time) {
 		System.out.println(new Date(time.getTime()));
+	}
+	
+	public void printCurrentTime() {
+		System.out.println("Current time is : "+new Date(this.currentTime.getTime()));
+	}
+	
+	public static String timeToString(Timestamp time) {
+		return new Date(time.getTime()).toString();
 	}
 	
 	public User getUser(int userID) {

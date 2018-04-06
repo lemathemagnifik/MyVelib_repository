@@ -10,6 +10,7 @@ import java.util.Observer;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+import CLUI.MisuseException;
 import myVelib.Bicycle.BicycleType;
 import myVelib.Station.NoAvailableFreeSlotsException;
 import myVelib.Station.NoBikesAvailableException;
@@ -27,6 +28,7 @@ public class User implements Observer {
 	static int IDuserCounter=0;
 	final static double walkingSpeed = 4;
 	
+	private MyVelib myVelib;
 	private Network network;
 	protected int id;
 	private String name;
@@ -72,7 +74,7 @@ public class User implements Observer {
 		this.userBalance = new UserBalance();
 	}
 	
-	public User(String name, Card card, Network network) {
+	public User(String name, Card card, Network network, MyVelib myVelib) {
 		super();
 		IDuserCounter++;
 		this.id=IDuserCounter;
@@ -83,6 +85,7 @@ public class User implements Observer {
 		this.messageBox = new ArrayList <Message>();
 		this.position = new GPS(0,0);
 		this.userBalance = new UserBalance();
+		this.myVelib = myVelib;
 	}
 	
 	
@@ -291,7 +294,26 @@ public class User implements Observer {
 	 */
 	
 	public void returnBike(Station s, Duration tripDuration) throws OfflineStationException, NoAvailableFreeSlotsException   {
-		Timestamp returnTime = new Timestamp(this.ride.getDepartureTime().getTime()+tripDuration.toMillis());
+		Timestamp myVelibCurrentTime = myVelib.getCurrentTime();
+		Timestamp rentTime = this.ride.getDepartureTime();
+		Timestamp returnTime = new Timestamp(rentTime.getTime()+tripDuration.toMillis());
+		
+		if (myVelibCurrentTime.getTime() > returnTime.getTime()) {
+			Duration minDuration = Duration.ofMillis(myVelibCurrentTime.getTime() - rentTime.getTime());
+			System.out.println("Wrong duration :");
+			System.out.println("The user "+this.name+" rented his bike on : "+ MyVelib.timeToString(rentTime)+".");
+			System.out.println("Current time is : "+ MyVelib.timeToString(myVelibCurrentTime)+".");
+			System.out.println("So the minimum trip duration should be : "+ minDuration+".");
+			System.out.println("Consequently, the user's trip duration has been sat to the minimum allowed duration");
+			System.out.println("and return time has been set to current time.");
+			tripDuration = minDuration;
+			returnTime = new Timestamp(myVelibCurrentTime.getTime());
+		}
+		else {
+			this.myVelib.setCurrentTime(returnTime);
+			myVelib.printCurrentTime();
+		}
+
 		this.position = s.getPosition();
 		// return the bike to an available ParkingSlot
 		s.returnBicycle(this.bicycle, returnTime);
@@ -350,7 +372,7 @@ public class User implements Observer {
 
 	
 	public void rentBike(Station s, Bicycle.BicycleType bType) throws AlreadyHasABikeException, OfflineStationException, NoBikesAvailableException {
-		Timestamp t = new Timestamp(System.currentTimeMillis());
+		Timestamp t = new Timestamp(myVelib.getCurrentTime().getTime());
 		if (this.getBicycle()!=null) {
 			throw new AlreadyHasABikeException();
 		}

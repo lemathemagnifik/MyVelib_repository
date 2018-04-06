@@ -79,6 +79,10 @@ public class CommandFactory {
 		if(cmd.equalsIgnoreCase("moveuser")) {
 			return new CommandMove(myVelib, args);
 		}	
+		
+//		if(cmd.equalsIgnoreCase("advancetime")) {
+//			return new CommandAdvanceTime(myVelib, args);
+//		}	
 
 		throw new SyntaxErrorException("No such command.");
 	}
