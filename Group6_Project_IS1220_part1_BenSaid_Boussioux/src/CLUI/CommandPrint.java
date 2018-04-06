@@ -21,7 +21,7 @@ public class CommandPrint extends Command {
 			}
 			else System.out.print(s+" ");
 		}
-		System.out.println();
+		System.out.print("\n");
 	}
 
 	@Override

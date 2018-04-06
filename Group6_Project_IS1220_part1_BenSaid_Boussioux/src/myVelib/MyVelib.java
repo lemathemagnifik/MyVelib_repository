@@ -49,7 +49,7 @@ public class MyVelib {
 	}
 	
 	public void printCurrentTime() {
-		System.out.println("Current time is : "+new Date(this.currentTime.getTime()));
+		System.out.println("\nCurrent time is : "+new Date(this.currentTime.getTime())+"\n");
 	}
 	
 	public static String timeToString(Timestamp time) {
