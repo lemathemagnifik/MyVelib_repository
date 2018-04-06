@@ -1,5 +1,7 @@
 package myVelib;
 
+import java.util.Date;
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.ArrayList;
 
@@ -8,6 +10,38 @@ import myVelib.ParkingSlot.UnavailableSlotException;
 public class MyVelib {
 	private String name;
 	private ArrayList<Network> networks;
+	private Timestamp iniTime;
+	private Timestamp currentTime;
+//	final static long homothetie = 300000;
+	
+	
+	public Timestamp getIniTime() {
+		return iniTime;
+	}
+	
+	public Timestamp getCurrentTime() {
+		return currentTime;
+	}
+
+//	public Timestamp getCurrentTime() {
+//		long actualDuration = System.currentTimeMillis() - this.iniTime.getTime();
+//		long simulationDuration = actualDuration * MyVelib.homothetie;
+//		return new Timestamp(this.iniTime.getTime() + simulationDuration);
+//		
+//	}
+	public void advanceTime(Duration duration) {
+		this.currentTime= new Timestamp(this.currentTime.getTime()+duration.toMillis());
+	}
+	
+	public void advanceTimeRandom() {
+		Duration addedDuration = Duration.ofMillis(Math.round(Math.random()*3600000));
+		this.currentTime=new Timestamp(this.currentTime.getTime()+addedDuration.toMillis());
+		
+	}
+	
+	static void printTime(Timestamp time) {
+		System.out.println(new Date(time.getTime()));
+	}
 	
 	public User getUser(int userID) {
 		for (Network n:networks) {
@@ -114,16 +148,16 @@ public class MyVelib {
 	
 	public MyVelib() {
 		this.networks = new ArrayList<Network>();
+		this.iniTime = new Timestamp(System.currentTimeMillis());
+		this.currentTime = new Timestamp(this.iniTime.getTime());
 	}
 	
 	public static void main(String[] args) {
 		MyVelib myV = new MyVelib();
-		try {
-			myV.addNetwork("network", 10, 10 , 10, 50);
-			System.out.println(myV.getNetwork("network").getStations().get(1).getNetwork());
-		} catch (UnavailableSlotException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		printTime(myV.getCurrentTime());
+		myV.advanceTimeRandom();
+		printTime(myV.getCurrentTime());
+		myV.advanceTime(Duration.ofMinutes(10));
+		printTime(myV.getCurrentTime());		
 	}
 }

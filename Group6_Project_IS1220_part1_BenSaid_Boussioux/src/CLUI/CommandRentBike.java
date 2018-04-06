@@ -1,5 +1,6 @@
 package CLUI;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import myVelib.*;
 import myVelib.Bicycle.BicycleType;
@@ -49,6 +50,7 @@ public class CommandRentBike extends Command {
 			user.rentBike(station, bType);
 			System.out.println("The user "+user.getName()+ " with the ID "+user.getId()+" rented a bike from the station "+station.getId()+".");
 		} catch (AlreadyHasABikeException | OfflineStationException | NoBikesAvailableException e) {}
+		
 	}
 
 	@Override
