@@ -62,6 +62,7 @@ public class ClientTest {
 		//Deuxième test
 		try {
 			try {
+				Duration d = Duration.ofMillis(myVelibCurrentTime.getTime());
 				user.returnBike(stations.get(9), new Duration(10));
 				System.out.println("Nous venons de tester avec succès le second use case : location et retour d'un vélo");
 				}
