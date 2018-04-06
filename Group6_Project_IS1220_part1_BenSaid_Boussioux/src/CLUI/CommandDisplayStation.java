@@ -19,6 +19,7 @@ public class CommandDisplayStation extends Command {
 	@Override
 	public void execute() throws SyntaxErrorException {
 		MyVelib myVelib = getMyVelib();
+		myVelib.printCurrentTime();
 		int stationID = stringToInt(getArgs().get(1),"stationID");
 		String networkName = getArgs().get(0);
 		Station station = myVelib.getStation(networkName, stationID);

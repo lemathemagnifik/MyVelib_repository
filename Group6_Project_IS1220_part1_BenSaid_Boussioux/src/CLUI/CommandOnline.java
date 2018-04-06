@@ -16,8 +16,10 @@ public class CommandOnline extends Command {
 
 	@Override
 	public void execute() throws SyntaxErrorException {
+		MyVelib myVelib = this.getMyVelib();
+		myVelib.printCurrentTime();
 		int stationID=stringToInt(getArgs().get(0), "station ID");
-		Station station = this.getMyVelib().getStation(stationID);
+		Station station = myVelib.getStation(stationID);
 		if (station!=null) {
 			station.setStatus(Station.Status.OnService);
 			System.out.println("The station with ID "+stationID+ " is On Service.\n");

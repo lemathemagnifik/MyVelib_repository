@@ -14,9 +14,12 @@ public class CommandPrint extends Command {
 	@Override
 	public void execute() throws SyntaxErrorException, MisuseException {
 		ArrayList<String> msg = getArgs();
-		System.out.print("Simulation commentary : ");
+		System.out.print("Test commentary : ");
 		for (String s:msg) {
-			System.out.print(s+" ");
+			if (s.equalsIgnoreCase("\n")) {
+				System.out.println();
+			}
+			else System.out.print(s+" ");
 		}
 		System.out.println();
 	}

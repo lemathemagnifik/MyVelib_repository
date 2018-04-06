@@ -18,6 +18,7 @@ public class CommandSortStation extends Command {
 	@Override
 	public void execute() {
 		MyVelib myVelib = getMyVelib();
+		myVelib.printCurrentTime();
 		String networkName = getArgs().get(0);
 		String sortpolicy = getArgs().get(1);
 		Timestamp t2 = new Timestamp(System.currentTimeMillis());

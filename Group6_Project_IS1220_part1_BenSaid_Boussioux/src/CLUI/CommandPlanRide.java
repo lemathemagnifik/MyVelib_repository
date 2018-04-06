@@ -15,6 +15,7 @@ public class CommandPlanRide extends Command {
 	@Override
 	public void execute() throws SyntaxErrorException, MisuseException {
 		MyVelib myVelib=getMyVelib();
+		myVelib.printCurrentTime();
 		User user = myVelib.getUser(stringToInt(getArgs().get(0), "UserID"));
 		if (user==null) {
 			throw new SyntaxException("Please check argument UserID.");

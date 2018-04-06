@@ -16,6 +16,7 @@ public class CommandDisplay extends Command{
 	@Override
 	public void execute() throws SyntaxErrorException {
 		MyVelib myVelib = this.getMyVelib();
+		myVelib.printCurrentTime();
 		String velibnetworkName = getArgs().get(0);
 		Network network = myVelib.getNetwork(velibnetworkName);
 		if (network==null) {

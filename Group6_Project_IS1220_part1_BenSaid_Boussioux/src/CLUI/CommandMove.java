@@ -16,6 +16,7 @@ public class CommandMove extends Command {
 	@Override
 	public void execute() throws SyntaxErrorException, MisuseException {
 		MyVelib myVelib = getMyVelib();
+		myVelib.printCurrentTime();
 		int userID = stringToInt(getArgs().get(0),"userID");
 		String networkName = getArgs().get(1);
 		User user = myVelib.getUser(networkName, userID);
