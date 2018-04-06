@@ -21,7 +21,10 @@ public class CommandRunTest extends Command {
 	@Override
 	public void execute() throws SyntaxErrorException, MisuseException {
 		MyVelib myVelib = getMyVelib();
-		String path = getArgs().get(0);
+		String path="";
+		for (String s:getArgs()) {
+			path+=s+" ";
+		}
 		try{
 			InputStream flux=new FileInputStream(path); 
 			InputStreamReader lecture=new InputStreamReader(flux);
@@ -45,7 +48,7 @@ public class CommandRunTest extends Command {
 
 	@Override
 	public void check() throws SyntaxErrorException {
-		checkNumOfArgs(1);// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 
 	}
 
