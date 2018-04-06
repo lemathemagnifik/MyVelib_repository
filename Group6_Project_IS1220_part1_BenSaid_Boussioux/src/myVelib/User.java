@@ -380,11 +380,11 @@ public class User implements Observer {
 	public void planRide(GPS destination,  boolean plus, boolean uniformity, boolean fastest) {
 		if (this.bicycle == null) {
 			this.plannedRide = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, false);
-			System.out.println("We are finding the best path");
+			System.out.println(this.plannedRide);
 		}
 		else {
 			this.plannedRide = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, true);
-			System.out.println("You haven't reached your destination yet. We are looking for a new path.");
+			System.out.println(this.plannedRide);
 			
 		}
 		this.ride = this.plannedRide;

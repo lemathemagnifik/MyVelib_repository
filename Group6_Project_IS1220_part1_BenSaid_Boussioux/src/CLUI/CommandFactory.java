@@ -67,6 +67,14 @@ public class CommandFactory {
 		if(cmd.equalsIgnoreCase("runtest")) {
 			return new CommandRunTest(myVelib, args);
 		}
+		
+		if(cmd.equalsIgnoreCase("print")) {
+			return new CommandPrint(myVelib, args);
+		}
+		
+		if(cmd.equalsIgnoreCase("planride")) {
+			return new CommandPlanRide(myVelib, args);
+		}	
 
 		throw new SyntaxErrorException("No such command.");
 	}

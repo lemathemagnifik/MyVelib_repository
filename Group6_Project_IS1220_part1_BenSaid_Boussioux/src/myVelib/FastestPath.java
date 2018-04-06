@@ -1,5 +1,6 @@
 package myVelib;
 
+import java.time.Duration;
 import java.util.ArrayList;
 
 import myVelib.Bicycle.BicycleType;
@@ -8,6 +9,7 @@ import myVelib.Station.StationType;
 
 public class FastestPath extends TripPreference {
 	private BicycleType bicycleType;
+	private Duration duration;
 	
 	public BicycleType getBicycleType() {
 		return bicycleType;
@@ -26,7 +28,7 @@ public class FastestPath extends TripPreference {
 		double cyclingDistance;
 		double cyclingSpeed;
 		double travelTime;
-		double minTravelTime;
+		Double minTravelTime;
 		Station[] Path = new Station[2];
 		BicycleType bType;
 		
@@ -62,10 +64,11 @@ public class FastestPath extends TripPreference {
 					Path[0] = fastestDepartureStation;
 					Path[1] = closestArrivalStation;
 					this.bicycleType = bType;
+					this.duration = Duration.ZERO.plusMinutes(Math.round(60*minTravelTime)) ;
 				}
 			}
 			if (this.bicycleType==null) {
-				System.out.println("NoPath");
+				System.out.println("No path found.");
 			}
 		}
 		
@@ -128,5 +131,9 @@ public class FastestPath extends TripPreference {
 
 		
 
+	}
+
+	public Duration getDuration() {
+		return this.duration;
 	}
 }

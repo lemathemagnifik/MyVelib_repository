@@ -68,6 +68,10 @@ public double getX() {
 	public String toString() {
 		return String.format("%-10s %1s %-10s","x=" + x ,",", " y=" + y);
 	}
+	
+	public String str() {
+		return "("+this.x+","+this.y+")" ;
+	}
 
 public static void main(String[] args) {
 //	GPS l1=new GPS(0,1);

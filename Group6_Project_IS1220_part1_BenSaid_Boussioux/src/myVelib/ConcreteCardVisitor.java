@@ -17,23 +17,28 @@ public class ConcreteCardVisitor implements CardVisitor {
 	 */
 	public static Duration[] applyVelibBonus(Duration timeCredit, Duration tripDuration) {
 		Duration [ ] results = new Duration[2];
+		Duration newTimeCredit;
+		Duration newTripDuration;
 		if (timeCredit.compareTo(tripDuration)>=0) {
-			timeCredit = timeCredit.minus(tripDuration);
-			tripDuration = Duration.ZERO;
+			newTimeCredit = timeCredit.minus(tripDuration);
+			newTripDuration = Duration.ZERO;
 		}
 		else {
 			// We substract the number of hours available in timeCredit
-			tripDuration=tripDuration.minusHours(timeCredit.toHours());
-			timeCredit=timeCredit.minusHours(timeCredit.toHours());
+			newTripDuration=tripDuration.minusHours(timeCredit.toHours());
+			newTimeCredit=timeCredit.minusHours(timeCredit.toHours());
 			// if the remaining time in timeCredit is enough to lower the number of hours in tripDuration we transfer the needed time credit to reduce the tripduration.
-			if (tripDuration.minus(timeCredit).toHours()<tripDuration.toHours()) {
-				Duration excess = tripDuration.minusHours(tripDuration.toHours());
-				timeCredit = timeCredit.minus(excess.plusNanos(1));
-				tripDuration = tripDuration.minus(excess.plusNanos(1));
+			if (newTripDuration.minus(newTimeCredit).toHours()<newTripDuration.toHours()) {
+				Duration excess = newTripDuration.minusHours(newTripDuration.toHours());
+				newTimeCredit = newTimeCredit.minus(excess.plusNanos(1));
+				newTripDuration = newTripDuration.minus(excess.plusNanos(1));
 			}
 		}
-		results[0]= timeCredit;
-		results[1]= tripDuration;
+		System.out.println("The user used "+timeCredit.minus(newTimeCredit).toMinutes()+" minutes of his time credit to reduce the minutes to pay.");
+		System.out.println("Remaining time credit : "+newTimeCredit.toMinutes()+" minutes.");
+		System.out.println("Charged minutes : "+newTripDuration.toMinutes()+" minutes.");
+		results[0]= newTimeCredit;
+		results[1]= newTripDuration;
 		return results;
 	}
 	
