@@ -406,27 +406,35 @@ public class User implements Observer {
 	}
 	
 
-	public void displayBalance() {
-		String str ="";
-		str+= "User name : " + this.name + ".\n";
-		str+= "User ID : " + this.id +".\n";
-		str+= "Number of rides : " + this.getNumberOfRides() +".\n";
-		str+= "Total time : " + this.getTotalTime().toMinutes() +" minutes. \n";
-		str+= "Total time credit : " + this.getTotalTimeCredit().toMinutes() +" minutes. \n";
-		System.out.println(str);
-		
-	}
+
 //-----------------------------------------------------------------//
 
 // toString METHOD
 		
 		public String toString() {
+			String str="";
 			String strCard ="";
-			if (card instanceof VlibreCard) {strCard = "Vlibre";}
-			else if (card instanceof VmaxCard) {strCard = "Vmax";}
+			String strTime="";
+			if (this.card instanceof VelibCard) {
+				VelibCard vCard = (VelibCard) this.card;
+				strTime = String.format("%-20s %1s", "Time Credit", " : ")+ vCard.getTimeCredit().toMinutes() +"\n";
+				if (card instanceof VlibreCard) {strCard = "Vlibre";}
+				else if (card instanceof VmaxCard) {strCard = "Vmax";}
+			}
 			else {strCard="Credit Card";};
 
-			return "User : ID = " + id + ", User Name = " + name + ", Card Type = " + strCard;
+			str+= "========= User Infos =========" +"\n";
+			str+= String.format("%-20s %1s", "User Name", " : ")+ this.name +"\n";
+			str+= String.format("%-20s %1s", "User Id", " : ")+ this.id +"\n";
+			str+= String.format("%-20s %1s", "Network Name", " : ")+ this.network.getName() +"\n";
+			str+= String.format("%-20s %1s", "Card Type", " : ")+ strCard +"\n";
+			str+= strTime;
+			str+= "======== User Balance ========" +"\n";
+			str+= String.format("%-20s %1s", "Number of rides", " : ")+ this.getNumberOfRides() +"\n";
+			str+= String.format("%-20s %1s", "Total trips duration", " : ")+ this.getTotalTime().toMinutes() +" minutes \n";
+			str+= String.format("%-20s %1s", "Total time credit", " : ")+ this.getTotalTimeCredit().toMinutes() +" minutes \n";
+			return str;
+
 		}
 
 		public String toArray() {

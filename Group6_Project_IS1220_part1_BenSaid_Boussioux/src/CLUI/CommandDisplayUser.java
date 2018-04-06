@@ -20,7 +20,7 @@ public class CommandDisplayUser extends Command {
 		if (user==null) {
 			throw new SyntaxErrorException("Please check the user ID or the network name.");
 		}
-		else user.displayBalance();
+		else System.out.println(user);
 	}
 
 	@Override
