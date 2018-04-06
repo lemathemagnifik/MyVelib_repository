@@ -3,6 +3,7 @@ package Tests;
 import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class ClientTest {
 		try {
 		System.out.println("Test 1");
 		System.out.println("We are going to put 50 stations, 2000 parking slots occupied at a rate of 70% with 70% mechanical.");	
-		ArrayList<Station> stations = myNetwork.stationWithBicycles(50, 2000, 70, 70);
+		ArrayList<Station> stations = myNetwork.stationWithBicycles(50, 2000, 70, 70,10);
 		myNetwork.setStations(stations);
 		System.out.println("Nous venons de tester avec succès le premier use case de création d'un réseau Velib");
 
@@ -48,7 +49,7 @@ public class ClientTest {
 		try {
 			try {
 				try {
-					user.rentBike(stations.get(5),Bicycle.BicycleType.Mechanical,new Timestamp(20));
+					user.rentBike(stations.get(5),Bicycle.BicycleType.Mechanical);
 					}
 				catch(AlreadyHasABikeException e) {e.toString();}	
 				}
@@ -61,7 +62,7 @@ public class ClientTest {
 		//Deuxième test
 		try {
 			try {
-				user.returnBike(stations.get(9), new Timestamp(10000000));
+				user.returnBike(stations.get(9), new Duration(10));
 				System.out.println("Nous venons de tester avec succès le second use case : location et retour d'un vélo");
 				}
 			catch (NoAvailableFreeSlotsException e) {e.toString();}		
