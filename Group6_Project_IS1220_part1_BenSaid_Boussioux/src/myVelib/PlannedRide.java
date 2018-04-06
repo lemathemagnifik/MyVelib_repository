@@ -133,7 +133,7 @@ public class PlannedRide extends Ride{
 	@Override
 	public String toString() {
 		String str="";
-		str+="====== Planned Ride ======\n";
+		str+="====== Planned Ride ======\n\n";
 		str+="You are now at "+ this.departure.str()+ " and want to go to "+ this.arrival.str() + "using ";
 		if (this.fastest) {
 			str+= "the fastest path. \n";
@@ -148,17 +148,18 @@ public class PlannedRide extends Ride{
 		if (this.alreadyHaveBicycle) {
 			str+="\n You have already rented a bicycle.";
 		}
-		str+= "\n To reach your destination you need to :";
+		str+= "\n\n To reach your destination you need to :";
 		if (this.alreadyHaveBicycle==false) {
 			str+= "\n* Walk to the "+this.departureStation.getName()+ " station whose ID is "+this.departureStation.getId()+". It is located at : "+ this.departureStation.getPosition().str()+"."
 					+ "\n* Rent the "+Bicycle.bicycleTypeString(this.bicycleType)+ " bike of your choice.";
 		}
 		str+= "\n* Cycle towards the " + this.arrivalStation.getName()+ " station whose ID is "+this.arrivalStation.getId()+". It is located at : "+ this.arrivalStation.getPosition().str()+".";
 		if (fastest) {
-			str+= "\n You well get there in "+this.duration.toMinutes()+" minutes.";
+			str+= "\n  You will get there in "+this.duration.toMinutes()+" minutes.";
 		}
+		str+= "\n  You will be notified if the station goes offline.";
 		str+= "\n* Drop your bike there and walk to your destination : "+this.arrival.str()+".";
-		str+="\n Enjoy your trip with Velib !";
+		str+="\n  Enjoy your trip with Velib !\n";
 		 
 		return str;
 	}

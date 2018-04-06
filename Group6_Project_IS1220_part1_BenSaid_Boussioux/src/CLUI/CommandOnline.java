@@ -20,7 +20,7 @@ public class CommandOnline extends Command {
 		Station station = this.getMyVelib().getStation(stationID);
 		if (station!=null) {
 			station.setStatus(Station.Status.OnService);
-			System.out.println("The station with ID "+stationID+ " is On Service.");
+			System.out.println("The station with ID "+stationID+ " is On Service.\n");
 			}
 		else {throw new SyntaxErrorException("Please check the station ID.");}		
 

@@ -19,7 +19,7 @@ public class CommandOffline extends Command {
 		Station station = this.getMyVelib().getStation(stationID);
 		if (station!=null) {
 			station.setStatus(Station.Status.Offline);
-			System.out.println("The station with ID "+stationID+ " is Offline.");
+			System.out.println("The station with ID "+ station.getId() + " is now Offline.");
 			}
 		else {throw new SyntaxErrorException("Please check the station ID.");}
 	}

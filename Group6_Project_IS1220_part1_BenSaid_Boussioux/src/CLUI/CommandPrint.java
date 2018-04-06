@@ -18,6 +18,7 @@ public class CommandPrint extends Command {
 		for (String s:msg) {
 			System.out.print(s+" ");
 		}
+		System.out.println();
 	}
 
 	@Override

@@ -215,31 +215,29 @@ public class User implements Observer {
 	public void update(Observable o, Object arg) {
 		if (o instanceof Station) {
 			Station station = (Station) o;
-			this.recieveMessage(new Message("The Station "+station.getName()+" is now "+station.getStatus()));
-			System.out.println("The Station "+station.getName()+" is now "+station.getStatus());
+			this.recieveMessage(new Message("Your arrival station "+station.getName()+" with ID "+station.getId()+" is now "+station.getStatus()+"."));
+			System.out.println("Your arrival station "+station.getName()+" with ID "+station.getId()+" is now "+station.getStatus()+".");
 			Scanner sc = new Scanner(System.in);
 			char str = ' ';
 			while (str != 'Y' || str!='N') {
-				System.out.println("Voulez vous recalculer le chemin ? (Y/N)");
+				System.out.println("Would you want to recalculate your path ? (Y/N)");
 				str = sc.nextLine().charAt(0);
-				
 				if (str =='Y') {
 					GPS destination = this.plannedRide.getArrival();
 					boolean plus = this.plannedRide.isPlus();
 					boolean uniformity = this.plannedRide.isUniformity();
 					boolean fastest = this.plannedRide.isFastest();
 		 			this.planRide(destination, plus, uniformity, fastest);
-		 			System.out.println("Go to this station :" + this.plannedRide.getArrivalStation());
 		 			break;
 				}
 				else if (str =='N') {
-					System.out.println("Aucun chemin ne sera calculé.");
+					System.out.println("No new path calculation.");
 					break;
 				}
-				else{	System.out.println("Entrée invalide : veuillez saisir Y ou N.");}
+				else{	System.out.println("Invalide Synthaxe : please enter Y or N.");}
 
 			}
-			sc.close();
+	
 		}
 
 	}
@@ -379,14 +377,13 @@ public class User implements Observer {
 	public void planRide(GPS destination,  boolean plus, boolean uniformity, boolean fastest) {
 		if (this.bicycle == null) {
 			this.plannedRide = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, false);
-			System.out.println(this.plannedRide);
 		}
 		else {
 			this.plannedRide = new PlannedRide(this.network, this.position, destination, plus, uniformity, fastest, true);
-			System.out.println(this.plannedRide);
-			
 		}
+		System.out.println(this.plannedRide);
 		this.ride = this.plannedRide;
+		this.plannedRide.getArrivalStation().addObserver(this);
 	}
 	
 	public int getNumberOfRides() {
@@ -427,6 +424,7 @@ public class User implements Observer {
 			str+= String.format("%-20s %1s", "User Name", " : ")+ this.name +"\n";
 			str+= String.format("%-20s %1s", "User Id", " : ")+ this.id +"\n";
 			str+= String.format("%-20s %1s", "Network Name", " : ")+ this.network.getName() +"\n";
+			str+= String.format("%-20s %1s", "User Position", " : ")+ this.position.str() +"\n";
 			str+= String.format("%-20s %1s", "Card Type", " : ")+ strCard +"\n";
 			str+= strTime;
 			str+= "======== User Balance ========" +"\n";
@@ -439,11 +437,16 @@ public class User implements Observer {
 
 		public String toArray() {
 			String strCard ="";
-			if (card instanceof VlibreCard) {strCard = "Vlibre";}
-			else if (card instanceof VmaxCard) {strCard = "Vmax";}
+			String strTime="";
+			if (this.card instanceof VelibCard) {
+				VelibCard vCard = (VelibCard) this.card;
+				strTime = vCard.getTimeCredit().toMinutes() +" min";
+				if (card instanceof VlibreCard) {strCard = "Vlibre";}
+				else if (card instanceof VmaxCard) {strCard = "Vmax";}
+			}
 			else {strCard="Credit Card";};
 			
-			return String.format("%-7s %1s %-20s %1s %-11s %1s", id, "|",name, "|",strCard, "|"  );
+			return String.format("%-7s %1s %-20s %1s %-25s %1s %-11s %1s %-11s %1s %-15s %1s %-20s %1s %-17s %1s", id, "|",name, "|",this.position ,"|",strCard, "|", strTime, "|", this.getNumberOfRides(),"|", this.getTotalTime().toMinutes()+" min", "|", this.getTotalTimeCredit().toMinutes() +" min", "|"  );
 		}
 	
 //*****************************************************************//

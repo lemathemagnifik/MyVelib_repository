@@ -9,7 +9,7 @@ public class Message {
 		super();
 		this.text= text;
 		this.read=false;
-		System.out.println("A new message is created!");
+		System.out.println("You have a new notification !");
 	}
 
 		@Override

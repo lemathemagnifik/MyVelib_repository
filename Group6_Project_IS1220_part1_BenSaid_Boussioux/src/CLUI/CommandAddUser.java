@@ -39,7 +39,7 @@ public class CommandAddUser extends Command {
 			 throw new SyntaxErrorException("Please check the card type.");
 			 }
 		 network.addUser(user); ;
-		 System.out.println("The user "+userName+" has been added to "+velibnetworkName+".");
+		 System.out.println("The user "+userName+" has been added to "+velibnetworkName+".\n");
 	}
 
 	@Override
