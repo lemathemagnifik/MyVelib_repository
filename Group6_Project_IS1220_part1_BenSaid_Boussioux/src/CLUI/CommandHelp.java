@@ -25,6 +25,9 @@ public class CommandHelp extends Command {
 		help += "to add a user with name userName and card cardType (i.e. ‘‘none’’ if the user has no card) to a myVelib network velibnetworkName. Card types available :\n";
 		help += "Vlibre - Vmax\n";
 		
+		help += "\n- move <userID> <networkName> <x> <y>:\n";
+		help += "to to move the user to the location (x,y).\n";
+		
 		help += "\n- offline <velibnetworkName> <stationID>:\n";
 		help += "to put offline the station stationID of the myVelib network velibnetworkName.\n";
 		
