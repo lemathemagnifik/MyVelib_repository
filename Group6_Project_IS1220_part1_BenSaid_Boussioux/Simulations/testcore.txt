@@ -1,0 +1,9 @@
+print Cette simulation vise à tester les fonctions basique du code.
+print Setup Paris
+setup Paris
+print adduser Anis Vlibre Paris
+adduser Anis Vlibre Paris
+print rentbike 1 2 electrical
+rentbike 1 2 electrical
+print returnbike 1 5 127
+returnbike 1 5 127
