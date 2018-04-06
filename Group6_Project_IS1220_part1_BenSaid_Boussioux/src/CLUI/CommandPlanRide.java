@@ -2,7 +2,7 @@ package CLUI;
 
 import java.util.ArrayList;
 
-import jdk.nashorn.internal.runtime.regexp.joni.exception.SyntaxException;
+
 import myVelib.*;
 
 public class CommandPlanRide extends Command {
@@ -18,7 +18,7 @@ public class CommandPlanRide extends Command {
 		myVelib.printCurrentTime();
 		User user = myVelib.getUser(stringToInt(getArgs().get(0), "UserID"));
 		if (user==null) {
-			throw new SyntaxException("Please check argument UserID.");
+			throw new SyntaxErrorException("Please check argument UserID.");
 		}
 		GPS destination = new GPS(stringToDouble(getArgs().get(1), "x"), stringToDouble(getArgs().get(2), "y"));
 		boolean fastest=false;
@@ -32,7 +32,7 @@ public class CommandPlanRide extends Command {
 		else if (strPreference.equalsIgnoreCase("ShortestPath")) {
 			fastest=false;
 		}
-		else throw  new SyntaxException("Please check the pathType argument.");
+		else throw  new SyntaxErrorException("Please check the pathType argument.");
 
 		if (getArgs().size()==5) {
 			String option = getArgs().get(4);
@@ -42,7 +42,7 @@ public class CommandPlanRide extends Command {
 			else if (option.equalsIgnoreCase("Uniformity")){
 				uniformity=true;
 			}
-			else throw  new SyntaxException("Please check the trip preference argument.");
+			else throw  new SyntaxErrorException("Please check the trip preference argument.");
 		}
 		else if(getArgs().size()==6) {
 			String strUniformity =  getArgs().get(4);
@@ -50,11 +50,11 @@ public class CommandPlanRide extends Command {
 			if (strUniformity.equalsIgnoreCase("Uniformity")) {
 				uniformity=true;
 			}
-			else throw  new SyntaxException("Please check the argument uniformity.");
+			else throw  new SyntaxErrorException("Please check the argument uniformity.");
 			if (strPlus.equalsIgnoreCase("Plus")) {
 				plus=true;
 			} 
-			else  throw  new SyntaxException("Please check the argument plus.");
+			else  throw  new SyntaxErrorException("Please check the argument plus.");
 		}
 		user.planRide(destination, plus, uniformity, fastest);
 
