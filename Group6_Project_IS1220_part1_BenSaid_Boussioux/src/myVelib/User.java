@@ -317,7 +317,7 @@ public class User implements Observer {
 			this.myVelib.setCurrentTime(returnTime);
 			myVelib.printCurrentTime();
 		}
-
+		this.userBalance.setTotalTime(Duration.ofMillis(this.getTotalTime().toMillis()+tripDuration.toMillis()));
 		this.position = s.getPosition();
 		// return the bike to an available ParkingSlot
 		s.returnBicycle(this.bicycle, returnTime);
@@ -354,7 +354,7 @@ public class User implements Observer {
 		System.out.println(this.name +" paid "+ cost +"€.");
 		
 		this.userBalance.setTotalCharges(this.userBalance.getTotalCharges() + cost);
-		this.userBalance.getTotalTime().plus(tripDuration);
+
 		
 		this.ride.setArrivalTime(returnTime);
 		this.ride.setArrivalStation(s);
@@ -456,6 +456,7 @@ public class User implements Observer {
 			str+= "=========== User Balance ===========" +"\n";
 			str+= String.format("%-20s %1s", "Number of rides", " : ")+ this.getNumberOfRides() +"\n";
 			str+= String.format("%-20s %1s", "Total trips duration", " : ")+ this.getTotalTime().toMinutes() +" minutes \n";
+			str+= String.format("%-20s %1s", "Total charges", " : ")+ this.getTotalCharges() +" € \n";
 			str+= String.format("%-20s %1s", "Total time credit", " : ")+ this.getTotalTimeCredit().toMinutes() +" minutes \n";
 			return str;
 
@@ -472,7 +473,7 @@ public class User implements Observer {
 			}
 			else {strCard="Credit Card";};
 			
-			return String.format("%-7s %1s %-20s %1s %-25s %1s %-11s %1s %-11s %1s %-15s %1s %-20s %1s %-17s %1s", id, "|",name, "|",this.position ,"|",strCard, "|", strTime, "|", this.getNumberOfRides(),"|", this.getTotalTime().toMinutes()+" min", "|", this.getTotalTimeCredit().toMinutes() +" min", "|"  );
+			return String.format("%-7s %1s %-20s %1s %-25s %1s %-11s %1s %-11s %1s %-15s %1s %-20s %1s %-13s %1s %-17s %1s", id, "|",name, "|",this.position ,"|",strCard, "|", strTime, "|", this.getNumberOfRides(),"|", this.getTotalTime().toMinutes()+" min", "|", this.userBalance.getTotalCharges() + " €","|",this.getTotalTimeCredit().toMinutes() +" min", "|"  );
 		}
 	
 //*****************************************************************//

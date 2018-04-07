@@ -1,0 +1,7 @@
+print Dans cette simulation nous allons tester les deux commandes rentbike et returnbike.
+print Commeçons par créer un réseau de 10 stations.
+print setup Paris
+setup Paris
+print Ajoutons deux utilisateurs.
+print adduser Anis Vlibre Paris
+adduser Anis Vlibre Paris

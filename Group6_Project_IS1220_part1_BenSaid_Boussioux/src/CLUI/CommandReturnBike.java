@@ -34,7 +34,7 @@ public class CommandReturnBike extends Command {
 		}
 		
 		if (station.getNetwork().getName().compareTo(user.getNetwork().getName())==1) {
-			throw new MisuseException("The user and the station do not belong to the same network.");
+			throw new MisuseException("The user and the station do not belong to the same network.\n");
 			}
 		
 		
@@ -42,7 +42,7 @@ public class CommandReturnBike extends Command {
 		
 		try {
 			user.returnBike(station, tripDuration);
-			System.out.println("The user "+user.getName()+ " with the ID "+user.getId()+" returned his bike to the station "+station.getId()+".");
+			System.out.println("The user "+user.getName()+ " with the ID "+user.getId()+" returned his bike to the station "+station.getId()+".\n");
 		} catch (OfflineStationException | NoAvailableFreeSlotsException e) {}
 		
 	}

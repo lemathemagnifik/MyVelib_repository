@@ -428,6 +428,15 @@ public class Station extends Observable {
 		str+= String.format("%-20s %1s", "Nb of Returns", " : ")+ getNumberOfReturns() +"\n";
 		str+= String.format("%-20s %1s", "Nb of OPS", " : ") + operations +"\n";
 		str+= String.format("%-20s %1s", "Occupation Rate", " : ")+ occupationRate(new Timestamp(0),new Timestamp(System.currentTimeMillis())) +"\n";
+		
+		str+="\n======== Parking Slots =========\n";
+		str+=String.format("%-6s %1s %-22s %1s", "Number","|", "Status","|")+"\n";
+		str+="================================\n";
+		for (int i=0;i<this.parkingSlots.size();i++) {
+			str+=String.format("%-6s %1s", i,"|")+this.parkingSlots.get(i).toString()+"\n";
+		}
+		str+="================================\n";
+		
 		System.out.println(str);
 	}
 	

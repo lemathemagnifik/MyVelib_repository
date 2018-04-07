@@ -54,17 +54,19 @@ public class ConcreteCardVisitor implements CardVisitor {
 	public double visit(CreditCard creditCard, Duration tripDuration, Bicycle.BicycleType type) throws Exception {
 		
 		if (tripDuration.isZero() || tripDuration.isNegative()) {
-			throw new Exception("Duration negative or equals Zero.");
+			throw new Exception("Duration negative or equals Zero.\n");
 		}
 		
 		if (type==Bicycle.BicycleType.Electrical){
+			System.out.println("Charged minutes : "+tripDuration.toMinutes()+" minutes.");
 			return (tripDuration.toHours()+1)*CreditCard.getCost1HElectrical();
 		}
 		if (type==Bicycle.BicycleType.Mechanical){
+			System.out.println("Charged minutes : "+tripDuration.toMinutes()+" minutes.");
 			return (tripDuration.toHours()+1)*CreditCard.getCost1HMechanical();
 		}
 		else{
-			throw new Exception("bicycle type not found!");
+			throw new Exception("Bicycle type not found!\n");
 		}
 	}
 	
@@ -80,7 +82,7 @@ public class ConcreteCardVisitor implements CardVisitor {
 	public double visit(VlibreCard vlibreCard, Duration tripDuration, Bicycle.BicycleType bType) throws Exception {	
 		
 		if (tripDuration.isZero() || tripDuration.isNegative()) {
-			throw new Exception("Duration negative or equals Zero.");
+			throw new Exception("Duration negative or equals Zero.\n");
 		}
 		
 		Duration timeCredit = vlibreCard.getTimeCredit();

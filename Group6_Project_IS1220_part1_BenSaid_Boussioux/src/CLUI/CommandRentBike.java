@@ -1,6 +1,7 @@
 package CLUI;
 
 import java.sql.Time;
+import java.time.Duration;
 import java.util.ArrayList;
 import myVelib.*;
 import myVelib.Bicycle.BicycleType;
@@ -49,7 +50,7 @@ public class CommandRentBike extends Command {
 		}
 		else throw new SyntaxErrorException("Please check the bicycle type.\n");
 		try {
-			myVelib.advanceTimeRandom();
+			myVelib.advanceTime(Duration.ofMillis(1));
 			myVelib.printCurrentTime();
 			user.rentBike(station, bType);
 			System.out.println("The user "+user.getName()+ " with the ID "+user.getId()+" rented "+bikeType+" bike from the station "+station.getId()+".\n");
