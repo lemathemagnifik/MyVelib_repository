@@ -337,8 +337,8 @@ public class User implements Observer {
 			VelibCard vCard = (VelibCard) this.card;
 			if (s.getStationType()==Station.StationType.Plus) {
 				vCard.creditTime();
-				this.ride.setTimeCredit(this.ride.getTimeCredit().plus(Station.plusTimeCredit));
-				this.userBalance.setTotalTimeCredit(this.userBalance.getTotalTimeCredit().plus(Station.plusTimeCredit));
+				this.ride.setTimeCredit(Duration.ofMillis(this.ride.getTimeCredit().toMillis()+Station.plusTimeCredit.toMillis()));
+				this.userBalance.setTotalTimeCredit(Duration.ofMillis(this.userBalance.getTotalTimeCredit().toMillis()+Station.plusTimeCredit.toMillis()));
 			}
 		}
 				 		
@@ -446,14 +446,14 @@ public class User implements Observer {
 			}
 			else {strCard="Credit Card";};
 
-			str+= "========= User Infos =========" +"\n";
+			str+= "============ User Infos ============" +"\n";
 			str+= String.format("%-20s %1s", "User Name", " : ")+ this.name +"\n";
 			str+= String.format("%-20s %1s", "User Id", " : ")+ this.id +"\n";
 			str+= String.format("%-20s %1s", "Network Name", " : ")+ this.network.getName() +"\n";
 			str+= String.format("%-20s %1s", "User Position", " : ")+ this.position.str() +"\n";
 			str+= String.format("%-20s %1s", "Card Type", " : ")+ strCard +"\n";
 			str+= strTime;
-			str+= "======== User Balance ========" +"\n";
+			str+= "=========== User Balance ===========" +"\n";
 			str+= String.format("%-20s %1s", "Number of rides", " : ")+ this.getNumberOfRides() +"\n";
 			str+= String.format("%-20s %1s", "Total trips duration", " : ")+ this.getTotalTime().toMinutes() +" minutes \n";
 			str+= String.format("%-20s %1s", "Total time credit", " : ")+ this.getTotalTimeCredit().toMinutes() +" minutes \n";

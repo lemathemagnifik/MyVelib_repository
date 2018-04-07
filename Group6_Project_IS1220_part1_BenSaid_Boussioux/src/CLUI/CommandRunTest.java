@@ -35,7 +35,6 @@ public class CommandRunTest extends Command {
 				CmdParser parser = new CmdParser();
 				CommandFactory cmdFactory = new CommandFactory(myVelib);
 				parser.parse(line);
-				
 				cmdFactory.createCommand(parser.getCmd(),parser.getArgs()).execute();
 			}
 			buff.close(); 

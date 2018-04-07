@@ -275,7 +275,7 @@ public class Station extends Observable {
 	
 	
 	public Integer selectFreeSlot() throws NoAvailableFreeSlotsException {
-		for (int i=0; i<=this.getParkingSlots().size(); i++) {
+		for (int i=0; i<=this.getParkingSlots().size()-1; i++) {
 			if (this.getParkingSlots().get(i).getStatus() == ParkingSlot.Status.Free) {
 					System.out.println("A free spot is available at parking slot "+ i+".");
 					return i;

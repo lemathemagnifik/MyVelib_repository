@@ -20,6 +20,8 @@ public class Ride {
 	
 	public Ride() {
 		super();
+		this.duration=Duration.ZERO;
+		this.timeCredit=Duration.ZERO;
 	}
 
 

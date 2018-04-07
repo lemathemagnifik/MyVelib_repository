@@ -195,10 +195,10 @@ public class Network {
 			
 			double random1 = Math.round(Math.random() * side * 1000.0)/1000.0;
 			double random2 = Math.round(Math.random() * side * 1000.0)/1000.0;
-			if (i%3==0) {
-				stations.add(new Station(String.valueOf(i), Station.StationType.Plus,new GPS(random1,random2),this));
+			if ((i+1)%3==0) {
+				stations.add(new Station("Station"+String.valueOf(i+1), Station.StationType.Plus,new GPS(random1,random2),this));
 			}
-			else stations.add(new Station(String.valueOf(i), Station.StationType.Normal,new GPS(random1,random2),this));
+			else stations.add(new Station("Station"+String.valueOf(i+1), Station.StationType.Normal,new GPS(random1,random2),this));
 
 
 		}
