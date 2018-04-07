@@ -191,6 +191,28 @@ public class ParkingSlot {
 		return (double) (r.getTime()-t.getTime()-acc)/(double)(r.getTime()-t.getTime());
 	}
 	
+	
+	
+	@Override
+	public String toString() {
+		String str="";
+		String stat="";
+		if (this.status==Status.Free) {
+			stat="Free";
+		}
+		else if (this.status==Status.Broken) {
+			stat="Broken";
+		}
+		else if (this.status==Status.OccupiedByElectrical) {
+			stat="Occupied by electrical";
+		}
+		else if (this.status==Status.OccupiedByMechanical) {
+			stat="Occupied by mechanical";
+		}
+		str=String.format("%-22s %1s", stat, "|");
+		return str;
+	}
+
 	public static void main(String[] args) {
 		
 	}

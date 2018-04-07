@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import myVelib.ParkingSlot.UnavailableSlotException;
 
 public class MyVelib {
-	private String name;
 	private ArrayList<Network> networks;
 	private Timestamp iniTime;
 	private Timestamp currentTime;

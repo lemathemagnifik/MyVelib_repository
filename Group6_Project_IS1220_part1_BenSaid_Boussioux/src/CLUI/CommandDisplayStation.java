@@ -24,7 +24,7 @@ public class CommandDisplayStation extends Command {
 		String networkName = getArgs().get(0);
 		Station station = myVelib.getStation(networkName, stationID);
 		if (station==null) {
-			throw new SyntaxErrorException("Please check the user ID or the network name.");
+			throw new SyntaxErrorException("Please check the user ID or the network name.\n");
 		}
 		
 		

@@ -291,9 +291,13 @@ public class User implements Observer {
 	 * @param s
 	 * @throws NoAvailableFreeSlotsException 
 	 * @throws OfflineStationException 
+	 * @throws MisuseException 
 	 */
 	
-	public void returnBike(Station s, Duration tripDuration) throws OfflineStationException, NoAvailableFreeSlotsException   {
+	public void returnBike(Station s, Duration tripDuration) throws OfflineStationException, NoAvailableFreeSlotsException, MisuseException   {
+		if (this.bicycle==null) {
+			throw new MisuseException("The user "+this.name+" did not rent a bike yet.");
+		}
 		Timestamp myVelibCurrentTime = myVelib.getCurrentTime();
 		Timestamp rentTime = this.ride.getDepartureTime();
 		Timestamp returnTime = new Timestamp(rentTime.getTime()+tripDuration.toMillis());
@@ -313,7 +317,7 @@ public class User implements Observer {
 			this.myVelib.setCurrentTime(returnTime);
 			myVelib.printCurrentTime();
 		}
-
+		this.userBalance.setTotalTime(Duration.ofMillis(this.getTotalTime().toMillis()+tripDuration.toMillis()));
 		this.position = s.getPosition();
 		// return the bike to an available ParkingSlot
 		s.returnBicycle(this.bicycle, returnTime);
@@ -333,8 +337,8 @@ public class User implements Observer {
 			VelibCard vCard = (VelibCard) this.card;
 			if (s.getStationType()==Station.StationType.Plus) {
 				vCard.creditTime();
-				this.ride.setTimeCredit(this.ride.getTimeCredit().plus(Station.plusTimeCredit));
-				this.userBalance.setTotalTimeCredit(this.userBalance.getTotalTimeCredit().plus(Station.plusTimeCredit));
+				this.ride.setTimeCredit(Duration.ofMillis(this.ride.getTimeCredit().toMillis()+Station.plusTimeCredit.toMillis()));
+				this.userBalance.setTotalTimeCredit(Duration.ofMillis(this.userBalance.getTotalTimeCredit().toMillis()+Station.plusTimeCredit.toMillis()));
 			}
 		}
 				 		
@@ -350,7 +354,7 @@ public class User implements Observer {
 		System.out.println(this.name +" paid "+ cost +"€.");
 		
 		this.userBalance.setTotalCharges(this.userBalance.getTotalCharges() + cost);
-		this.userBalance.getTotalTime().plus(tripDuration);
+
 		
 		this.ride.setArrivalTime(returnTime);
 		this.ride.setArrivalStation(s);
@@ -442,16 +446,17 @@ public class User implements Observer {
 			}
 			else {strCard="Credit Card";};
 
-			str+= "========= User Infos =========" +"\n";
+			str+= "============ User Infos ============" +"\n";
 			str+= String.format("%-20s %1s", "User Name", " : ")+ this.name +"\n";
 			str+= String.format("%-20s %1s", "User Id", " : ")+ this.id +"\n";
 			str+= String.format("%-20s %1s", "Network Name", " : ")+ this.network.getName() +"\n";
 			str+= String.format("%-20s %1s", "User Position", " : ")+ this.position.str() +"\n";
 			str+= String.format("%-20s %1s", "Card Type", " : ")+ strCard +"\n";
 			str+= strTime;
-			str+= "======== User Balance ========" +"\n";
+			str+= "=========== User Balance ===========" +"\n";
 			str+= String.format("%-20s %1s", "Number of rides", " : ")+ this.getNumberOfRides() +"\n";
 			str+= String.format("%-20s %1s", "Total trips duration", " : ")+ this.getTotalTime().toMinutes() +" minutes \n";
+			str+= String.format("%-20s %1s", "Total charges", " : ")+ this.getTotalCharges() +" € \n";
 			str+= String.format("%-20s %1s", "Total time credit", " : ")+ this.getTotalTimeCredit().toMinutes() +" minutes \n";
 			return str;
 
@@ -468,7 +473,7 @@ public class User implements Observer {
 			}
 			else {strCard="Credit Card";};
 			
-			return String.format("%-7s %1s %-20s %1s %-25s %1s %-11s %1s %-11s %1s %-15s %1s %-20s %1s %-17s %1s", id, "|",name, "|",this.position ,"|",strCard, "|", strTime, "|", this.getNumberOfRides(),"|", this.getTotalTime().toMinutes()+" min", "|", this.getTotalTimeCredit().toMinutes() +" min", "|"  );
+			return String.format("%-7s %1s %-20s %1s %-25s %1s %-11s %1s %-11s %1s %-15s %1s %-20s %1s %-13s %1s %-17s %1s", id, "|",name, "|",this.position ,"|",strCard, "|", strTime, "|", this.getNumberOfRides(),"|", this.getTotalTime().toMinutes()+" min", "|", this.userBalance.getTotalCharges() + " €","|",this.getTotalTimeCredit().toMinutes() +" min", "|"  );
 		}
 	
 //*****************************************************************//

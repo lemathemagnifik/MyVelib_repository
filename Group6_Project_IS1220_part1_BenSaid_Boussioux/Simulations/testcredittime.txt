@@ -1,0 +1,32 @@
+print Cette simulation a pour but de tester les méthodes de calcul des coûts des trajets.
+print Commençons par créer un Network.
+print setup Paris
+setup Paris
+print Nous allons maintenant ajouter 3 utilisateurs. Chacun possède un type de carte.
+print adduser Anis CreditCard Paris
+adduser Anis CreditCard Paris
+print adduser Leo Vlibre Paris
+adduser Leo Vlibre Paris
+print adduser MrLapitre Vmax Paris
+adduser MrLapitre Vmax Paris
+print Chacun des utilisateur va louer un vélo, et va le rendre à une station Plus dont l'ID est un entier divisible par 3 (3, 6 et 9 sont des stations Plus).
+print rentbike 1 2 electrical
+rentbike 1 2 electrical
+print returnbike 1 6 70
+returnbike 1 6 70
+print rentbike 2 4 mechanical
+rentbike 2 4 mechanical
+print returnbike 2 3 30
+returnbike 2 3 30
+print rentbike 3 3 mechanical
+rentbike 3 3 mechanical
+print returnbike 3 9 80
+returnbike 3 9 80
+print Nous vérifions que Leo et MrLapitre qui ont des cartes Velib ont gagné 5 min print alors que Anis n'a rien reçu parce qu'il n'a qu'une carte de crédit !
+print displayuser 1 Paris
+displayuser 1 Paris
+print displayuser 2 Paris
+displayuser 2 Paris
+print displayuser 3 Paris
+displayuser 3 Paris
+print Intéressons-nous maintenant aux méthodes de calcul de coût.

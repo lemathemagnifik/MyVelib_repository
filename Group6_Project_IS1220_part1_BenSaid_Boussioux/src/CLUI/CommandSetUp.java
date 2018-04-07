@@ -25,14 +25,12 @@ public class CommandSetUp extends Command {
 		if (getArgs().size()==1) {
 		
 		try {
-			//myVelib.addNetwork(CreateTestNetwork.CreateTestingNetwork());
 			myVelib.addNetwork(networkName);
-			 System.out.println("The network "+networkName+" has been created.");
+			System.out.println("The network "+networkName+" has been created.\n");
 
 		} catch (UnavailableSlotException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}}
+				}
+		}
 		
 		else if (getArgs().size()==5) {
 			try {
@@ -42,9 +40,9 @@ public class CommandSetUp extends Command {
 				double sidearea  = stringToDouble(getArgs().get(3),"sidearea");
 				int nbikes = stringToInt(getArgs().get(4),"nbikes");
 				if (nbikes>nstations*nslots) {
-					throw new MisuseException("Too many bikes for this network.");}
+					throw new MisuseException("Too many bikes for this network.\n");}
 				myVelib.addNetwork(networkName,nstations, nslots, sidearea, nbikes);
-				System.out.println("The network "+networkName+" has been created.");
+				System.out.println("The network "+networkName+" has been created.\n");
 
 			} catch (UnavailableSlotException e) {
 				// TODO Auto-generated catch block

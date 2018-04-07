@@ -22,9 +22,10 @@ public class CommandRunTest extends Command {
 	public void execute() throws SyntaxErrorException, MisuseException {
 		MyVelib myVelib = getMyVelib();
 		String path="";
-		for (String s:getArgs()) {
-			path+=s+" ";
+		for (int i=0;i<getArgs().size()-1;i++) {
+			path+=getArgs().get(i)+" ";
 		}
+		path+=getArgs().get(getArgs().size()-1);
 		try{
 			InputStream flux=new FileInputStream(path); 
 			InputStreamReader lecture=new InputStreamReader(flux);
@@ -34,7 +35,6 @@ public class CommandRunTest extends Command {
 				CmdParser parser = new CmdParser();
 				CommandFactory cmdFactory = new CommandFactory(myVelib);
 				parser.parse(line);
-				
 				cmdFactory.createCommand(parser.getCmd(),parser.getArgs()).execute();
 			}
 			buff.close(); 

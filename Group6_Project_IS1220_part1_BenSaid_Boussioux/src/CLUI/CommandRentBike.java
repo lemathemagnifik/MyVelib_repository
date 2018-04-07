@@ -1,6 +1,7 @@
 package CLUI;
 
 import java.sql.Time;
+import java.time.Duration;
 import java.util.ArrayList;
 import myVelib.*;
 import myVelib.Bicycle.BicycleType;
@@ -35,22 +36,24 @@ public class CommandRentBike extends Command {
 			throw new SyntaxErrorException("Please check the station ID.");
 		}
 		if (station.getNetwork().getName().compareTo(user.getNetwork().getName())==1) {
-			throw new MisuseException("The user and the station do not belong to the same network.");
+			throw new MisuseException("The user and the station do not belong to the same network.\n");
 			}
 		
 		BicycleType bType;
 		if (bikeType.equalsIgnoreCase("Electrical")) {
 			bType= Bicycle.BicycleType.Electrical;
+			bikeType = "an electrical";
 		}
 		else if (bikeType.equalsIgnoreCase("Mechanical")) {
 			bType= Bicycle.BicycleType.Mechanical;
+			bikeType= "a mechanical";
 		}
-		else throw new SyntaxErrorException("Please check the bicycle type.");
+		else throw new SyntaxErrorException("Please check the bicycle type.\n");
 		try {
-			myVelib.advanceTimeRandom();
+			myVelib.advanceTime(Duration.ofMillis(1));
 			myVelib.printCurrentTime();
 			user.rentBike(station, bType);
-			System.out.println("The user "+user.getName()+ " with the ID "+user.getId()+" rented a bike from the station "+station.getId()+".");
+			System.out.println("The user "+user.getName()+ " with the ID "+user.getId()+" rented "+bikeType+" bike from the station "+station.getId()+".\n");
 		} catch (AlreadyHasABikeException | OfflineStationException | NoBikesAvailableException e) {}
 		
 	}

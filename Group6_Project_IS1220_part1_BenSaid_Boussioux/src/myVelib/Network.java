@@ -195,7 +195,11 @@ public class Network {
 			
 			double random1 = Math.round(Math.random() * side * 1000.0)/1000.0;
 			double random2 = Math.round(Math.random() * side * 1000.0)/1000.0;
-			stations.add(new Station(String.valueOf(i), Station.StationType.Normal,new GPS(random1,random2),this));
+			if ((i+1)%3==0) {
+				stations.add(new Station("Station"+String.valueOf(i+1), Station.StationType.Plus,new GPS(random1,random2),this));
+			}
+			else stations.add(new Station("Station"+String.valueOf(i+1), Station.StationType.Normal,new GPS(random1,random2),this));
+
 
 		}
 
@@ -324,13 +328,13 @@ public class Network {
 		str+= "========= Users ========= \n";
 		str+= "Number of Users : "+ users.size() + "\n";
 		
-		str+= "=================================================================== Users ===========================================================================\n";
-		str+= String.format("%-7s %1s %-20s %1s %-25s %1s %-11s %1s %-11s %1s %-15s %1s %-20s %1s %-17s %1s", "User ID", "|","User Name","|","Position", "|","Card Type", "|","Time Credit", "|", "Number of rides","|", "Total trips duration", "|", "Total time credit", "|"   );
-		str+="\n=====================================================================================================================================================\n";
+		str+= "=================================================================== Users ==========================================================================================\n";
+		str+= String.format("%-7s %1s %-20s %1s %-25s %1s %-11s %1s %-11s %1s %-15s %1s %-20s %1s %-13s %1s %-17s %1s", "User ID", "|","User Name","|","Position", "|","Card Type", "|","Time Credit", "|", "Number of rides","|", "Total trips duration", "|", "Total charges","|","Total time credit", "|"   );
+		str+="\n====================================================================================================================================================================\n";
 		for (User u:users) {
 			str+= u.toArray() + "\n";
 		}
-		str+="=====================================================================================================================================================\n\n";
+		str+="====================================================================================================================================================================\n\n";
 
 		return str;
 		
