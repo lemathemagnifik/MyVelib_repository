@@ -299,7 +299,7 @@ public class Station extends Observable {
 
 	
 	public Integer selectBicycle (Bicycle.BicycleType bType) throws NoBikesAvailableException{
-		for (int i=0; i<=this.getParkingSlots().size(); i++) {
+		for (int i=0; i<this.getParkingSlots().size(); i++) {
 			if (this.getParkingSlots().get(i).getStatus()==ParkingSlot.Status.Broken) {
 				continue;
 			}
@@ -411,26 +411,26 @@ public class Station extends Observable {
 		else {strStatus = "Offline";}
 		if (type == StationType.Normal) {strType = "Normal";}
 		else {strType = "Plus";}
-		str+= "======== Station Infos ========" +"\n";
+		str+= "============= Station Infos =============" +"\n";
 		str+= String.format("%-20s %1s", "Station Name", " : ")+ this.name +"\n";
 		str+= String.format("%-20s %1s", "Station ID", " : ")+ this.id +"\n";
 		str+= String.format("%-20s %1s", "Type", " : ")+ strType +"\n";
 		str+= String.format("%-20s %1s", "Localisation", " : ")+ this.position +"\n";
 		str+= String.format("%-20s %1s", "Status", " : ")+ strStatus +"\n";
-		str+= "====== Station Occupation ======" +"\n";
+		str+= "=========== Station Occupation ===========" +"\n";
 		str+= String.format("%-20s %1s", "Free Slots", " : ")+ slotsFree() +"\n";
 		str+= String.format("%-20s %1s", "Broken Slots", " : ")+ slotsBroken() +"\n";
 		str+= String.format("%-20s %1s", "Occupied Slots", " : ")+ slotsOccupied(null) +"\n";
 		str+= String.format("%-20s %1s", "Nb Electrical Bikes", " : ")+ slotsOccupied(BicycleType.Electrical) +"\n";
 		str+= String.format("%-20s %1s", "Nb Mechanical Bikes", " : ")+ slotsOccupied(BicycleType.Mechanical) +"\n";
-		str+= "======= Station Balance =======" +"\n";
+		str+= "============ Station Balance ============" +"\n";
 		str+= String.format("%-20s %1s", "Nb of Rentals", " : ")+ getNumberOfRentals() +"\n";
 		str+= String.format("%-20s %1s", "Nb of Returns", " : ")+ getNumberOfReturns() +"\n";
 		str+= String.format("%-20s %1s", "Nb of OPS", " : ") + operations +"\n";
 		str+= String.format("%-20s %1s", "Occupation Rate", " : ")+ occupationRate(new Timestamp(0),new Timestamp(System.currentTimeMillis())) +"\n";
 		
 		str+="\n======== Parking Slots =========\n";
-		str+=String.format("%-6s %1s %-22s %1s", "Number","|", "Status","|")+"\n";
+		str+=String.format("%-6s %1s %-21s %1s", "Number","|", "Status","|")+"\n";
 		str+="================================\n";
 		for (int i=0;i<this.parkingSlots.size();i++) {
 			str+=String.format("%-6s %1s", i,"|")+this.parkingSlots.get(i).toString()+"\n";

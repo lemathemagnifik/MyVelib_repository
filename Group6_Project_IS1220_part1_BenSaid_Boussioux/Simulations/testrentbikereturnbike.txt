@@ -2,6 +2,84 @@ print Dans cette simulation nous allons tester les deux commandes rentbike et re
 print Commeçons par créer un réseau de 10 stations.
 print setup Paris
 setup Paris
-print Ajoutons deux utilisateurs.
+print Ajoutons un utilisateur.
 print adduser Anis Vlibre Paris
 adduser Anis Vlibre Paris
+print On affiche le status de la station 1.
+print displaystation 1 Paris
+displaystation Paris 1
+print Anis va louer un velo électrique depuis la station 1.
+print rentbike 1 1 electrical
+rentbike 1 1 electrical
+print On vérifie que le nombre de vélos électiques diminue de 1.
+print displaystation Paris 1
+displaystation Paris 1
+print On affiche le status de la station 2
+print displaystation Paris 2
+displaystation Paris 2
+print Anis va rendre le vélo à la station 2 après une durée de 90min.
+print returnbike 1 2 90
+print On vérifie que le nombre de vélos électiques augmante de 1.
+print displaystation Paris 2
+displaystation Paris 2
+print On peut aussi vérifier les attributs de l'utilisateur.
+print displayuser 1 Paris
+print Voyons voir ce qui ce que passe quand on essaye de louer un vélo dans une station alors qu'il n'y a plus de vélos disponibles.
+print Nous allons ajouter 2 utilisateurs.
+print adduser Leo Vmax Paris
+adduser Leo Vmax Paris
+print adduser MrLafite Vlibre Paris
+adduser MrLafite Creditcard Paris
+print Nous allons maintenant prendre tous les vélos de la station 10 et les répartir sur les stations 3, 4 et 5. 
+print rentbike 1 10 mechanical
+rentbike 1 10 mechanical
+print returnbike 1 3 70
+returnbike 1 3 70
+print rentbike 2 10 mechanical
+rentbike 2 10 mechanical
+print returnbike 2 3 57
+returnbike 2 3 57
+print rentbike 3 10 mechanical
+rentbike 3 10 mechanical
+print returnbike 3 3 78
+returnbike 3 3 78
+print A ce stade, il n'y a plus de place dans la station 3. On le vérifie avec un display.
+print displaystation Paris 3
+displaystation Paris 3
+print Essayons de rajouter un vélo dans la station 3.
+print rentbike 1 10 mechanical
+rentbike 1 10 mechanical
+print returnbike 1 3 40
+returnbike 1 3 40
+print Une exception retourne un message nous informant que la station est pleine. On dépose désormais les vélos dans la station 4.
+print returnbike 1 4 40
+returnbike 1 4 40
+print rentbike 2 10 mechanical
+rentbike 2 10 mechanical
+print returnbike 2 4 124
+returnbike 2 4 124
+print rentbike 3 10 mechanical
+rentbike 3 10 mechanical
+print returnbike 3 4 90
+returnbike 3 4 90
+print A ce stade, il n'y a plus que des vélos électriques dans la station 10. On le vérifie avec un display.
+print displaystation Paris 10
+displaystation Paris 10
+print Essayons de louer un vélo mécanique depuis la station 10.
+print rentbike 3 10 mechanical
+rentbike 3 10 mechanical
+print Un message apparaît nous informant qu'il n'y a plus de vélos du type souhaité.
+print continuons notre mission avec les vélos électriques !
+print rentbike 3 10 electrical
+rentbike 3 10 electrical
+print returnbike 3 5 10
+returnbike 3 5 10
+print rentbike 1 10 electrical
+rentbike 1 10 electrical
+print returnbike 1 5 15
+returnbike 1 5 15
+print A ce stade il n'y a plus de vélos à la station 10. Essayons d'en louer.
+print rentbike 1 10 electrical
+rentbike 1 10 electrical
+print Un message apparaît !
+print Cette simulation est terminée ! On vous invite à lancer celles qui restent.

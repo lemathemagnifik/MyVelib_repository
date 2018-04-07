@@ -1,3 +1,4 @@
+print Cette simulation a pour but de tester les méthodes de calcul des coûts des trajets.
 print Commençons par créer un Network.
 print setup Paris
 setup Paris
@@ -28,3 +29,4 @@ print displayuser 2 Paris
 displayuser 2 Paris
 print displayuser 3 Paris
 displayuser 3 Paris
+print Intéressons-nous maintenant aux méthodes de calcul de coût.
