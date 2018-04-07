@@ -80,9 +80,11 @@ public class CommandFactory {
 			return new CommandMove(myVelib, args);
 		}	
 		
-//		if(cmd.equalsIgnoreCase("advancetime")) {
-//			return new CommandAdvanceTime(myVelib, args);
-//		}	
+		if(cmd.equalsIgnoreCase("simulate")) {
+			return new CommandSimulate(myVelib, args);
+		}
+		
+
 
 		throw new SyntaxErrorException("No such command.");
 	}
