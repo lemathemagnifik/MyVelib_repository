@@ -25,14 +25,12 @@ public class CommandSetUp extends Command {
 		if (getArgs().size()==1) {
 		
 		try {
-			//myVelib.addNetwork(CreateTestNetwork.CreateTestingNetwork());
 			myVelib.addNetwork(networkName);
-			 System.out.println("The network "+networkName+" has been created.");
+			System.out.println("The network "+networkName+" has been created.");
 
 		} catch (UnavailableSlotException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}}
+				}
+		}
 		
 		else if (getArgs().size()==5) {
 			try {
