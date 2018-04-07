@@ -24,7 +24,7 @@ public class CommandAddUser extends Command {
 		String velibnetworkName = getArgs().get(2);
 		Network network = myVelib.getNetwork(velibnetworkName);
 		if (network==null) {
-			throw new SyntaxErrorException("Please check the network name.");
+			throw new SyntaxErrorException("Please check the network name.\n");
 		}
 		if (cardType.equalsIgnoreCase("Vlibre")){
 			 user = new User(userName, new VlibreCard(user, Duration.ZERO), network,myVelib);
@@ -36,7 +36,7 @@ public class CommandAddUser extends Command {
 			 user = new User(userName, new CreditCard(user), network,myVelib);
 		 }
 		 else {
-			 throw new SyntaxErrorException("Please check the card type.");
+			 throw new SyntaxErrorException("Please check the card type.\n");
 			 }
 		 network.addUser(user); ;
 		 System.out.println("The user "+userName+" has been added to "+velibnetworkName+".\n");

@@ -291,9 +291,13 @@ public class User implements Observer {
 	 * @param s
 	 * @throws NoAvailableFreeSlotsException 
 	 * @throws OfflineStationException 
+	 * @throws MisuseException 
 	 */
 	
-	public void returnBike(Station s, Duration tripDuration) throws OfflineStationException, NoAvailableFreeSlotsException   {
+	public void returnBike(Station s, Duration tripDuration) throws OfflineStationException, NoAvailableFreeSlotsException, MisuseException   {
+		if (this.bicycle==null) {
+			throw new MisuseException("The user "+this.name+" did not rent a bike yet.");
+		}
 		Timestamp myVelibCurrentTime = myVelib.getCurrentTime();
 		Timestamp rentTime = this.ride.getDepartureTime();
 		Timestamp returnTime = new Timestamp(rentTime.getTime()+tripDuration.toMillis());
