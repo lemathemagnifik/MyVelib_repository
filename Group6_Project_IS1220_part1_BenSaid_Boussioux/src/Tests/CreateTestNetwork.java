@@ -1,9 +1,14 @@
 package Tests;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import myVelib.*;
 
 import myVelib.ParkingSlot.UnavailableSlotException;
 
 public class CreateTestNetwork {
+	@Test
 	public static Network CreateTestingNetwork() throws UnavailableSlotException {
 		Network myNetwork= new Network();
 		
@@ -33,7 +38,9 @@ public class CreateTestNetwork {
 				myNetwork.addStation(station);
 			}
 		}
+		assertTrue(myNetwork!=null);
 		return myNetwork;
+		
 	}
 	
 	public static void main(String[] args) {

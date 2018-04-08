@@ -1,10 +1,9 @@
 package Tests;
-import myVelib.*;
+
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-
 import myVelib.Bicycle;
+
 
 public class BicycleTest {
 

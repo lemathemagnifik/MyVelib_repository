@@ -280,13 +280,19 @@ public class Network {
 //*****************************************************************//	
 	
 	public ArrayList<Station> mostUsedStations(){
-		ArrayList<Station> sortedStations = this.stations;
+		ArrayList<Station> sortedStations = new ArrayList<Station>();
+		for (Station s : this.stations) {
+			sortedStations.add(s);
+		}
 		Collections.sort(sortedStations, Station.mostUsedComparator);
 		return sortedStations;
 	}
 	
 	public ArrayList<Station> leastOccupiedStations(Timestamp t1, Timestamp t2){
-		ArrayList<Station> sortedStations = this.stations;
+		ArrayList<Station> sortedStations = new ArrayList<Station>();
+		for (Station s : this.stations) {
+			sortedStations.add(s);
+		}
 		Collections.sort(sortedStations, Station.leastOccupiedComparator(t1, t2));
 		return sortedStations;
 	}

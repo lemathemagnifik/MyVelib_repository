@@ -22,6 +22,9 @@ public class CommandRunTest extends Command {
 	public void execute() throws SyntaxErrorException, MisuseException {
 		MyVelib myVelib = getMyVelib();
 		String path="";
+		if (getArgs().size()==0){
+			throw new SyntaxErrorException("Wrong path.");
+		}
 		for (int i=0;i<getArgs().size()-1;i++) {
 			path+=getArgs().get(i)+" ";
 		}

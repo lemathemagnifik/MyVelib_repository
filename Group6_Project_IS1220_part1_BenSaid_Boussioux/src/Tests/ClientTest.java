@@ -1,19 +1,15 @@
 package Tests;
 
-import static org.junit.Assert.*;
 
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.ArrayList;
-
 import org.junit.Test;
-
 import CLUI.MisuseException;
 import myVelib.Bicycle;
 import myVelib.GPS;
 import myVelib.Network;
 import myVelib.ParkingSlot.UnavailableSlotException;
-import myVelib.PlannedRide;
 import myVelib.Station;
 import myVelib.Station.NoAvailableFreeSlotsException;
 import myVelib.Station.NoBikesAvailableException;

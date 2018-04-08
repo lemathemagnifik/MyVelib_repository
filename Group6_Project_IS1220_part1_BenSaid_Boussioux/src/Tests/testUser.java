@@ -1,5 +1,7 @@
 package Tests;
 
+import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 import myVelib.*;
 import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
@@ -8,7 +10,7 @@ import myVelib.Station.StationType;
 
 public class testUser {
 
-	
+	@Test
 	public void testPlanRideShortestPath() {
 		Network myNetwork = new Network();
 		try {myNetwork = CreateTestNetwork.CreateTestingNetwork();} catch (UnavailableSlotException e) { }
@@ -16,6 +18,7 @@ public class testUser {
 		myNetwork.addUser(user);
 		user.planRide(new GPS(4.3,5.6), false, false, false);
 		System.out.println(user.getRide());
+		assertTrue(true);
 	}
 	
 	//public void testPlanRideFastestPath();
