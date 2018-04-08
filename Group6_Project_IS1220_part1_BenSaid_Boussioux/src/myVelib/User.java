@@ -70,6 +70,7 @@ public class User implements Observer {
 		this.messageBox = new ArrayList <Message>();
 		this.position = new GPS(0,0);
 		this.userBalance = new UserBalance();
+		this.myVelib= new MyVelib();
 	}
 	
 	public User(String name, Card card, Network network, MyVelib myVelib) {
