@@ -229,6 +229,16 @@
   <packagedElement xmi:type="uml:Class" xmi:id="_Y3x9YDBQEei51ebNAZYFAQ" name="ArrayList&lt;Observable>"/>
   <packagedElement xmi:type="uml:Class" xmi:id="_p36gwDBUEei51ebNAZYFAQ" name="ArrayList&lt;Message>"/>
   <packagedElement xmi:type="uml:Class" xmi:id="_uwL3QDBUEei51ebNAZYFAQ" name="ArrayList&lt;Observable>"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_-ntqMDrUEeicMLGvMojN_g"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_CxCQADrVEeicMLGvMojN_g" name="CLUI"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_LBaKwDrVEeicMLGvMojN_g" name="CmdParser"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_PBFsYDrVEeicMLGvMojN_g" name="Command"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_QedpUDrVEeicMLGvMojN_g" name="CommandFactory"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_WIPVQDrVEeicMLGvMojN_g" name="CommandAddUser">
+    <nestedClassifier xmi:type="uml:Class" xmi:id="_YBbEcDrVEeicMLGvMojN_g" name="CommandDispley"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_rDMFMDrVEeicMLGvMojN_g" name="CommandHelp"/>
+  <packagedElement xmi:type="uml:Class" xmi:id="_tloMwDrVEeicMLGvMojN_g" name="OtherCommands"/>
   <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_6AFQcDBPEei51ebNAZYFAQ">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_6AHFoDBPEei51ebNAZYFAQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
       <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
