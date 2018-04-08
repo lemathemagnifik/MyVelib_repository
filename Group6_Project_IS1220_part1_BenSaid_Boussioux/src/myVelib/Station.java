@@ -268,9 +268,10 @@ public class Station extends Observable {
 		for (int i=0;i<this.getParkingSlots().size();i++)
 			occupationTime +=this.getParkingSlots().get(i).occupationTime(t1, t2);
 		
-		//System.out.println(occupationTime);
+		//System.out.println((double) occupationTime);
 		//System.out.println(((t2.getTime()-t1.getTime())*this.getParkingSlots().size()));
-		return Math.round( (double) occupationTime*1000.0 / this.getParkingSlots().size())/1000.0;
+		
+		return Math.round ( (double) occupationTime*1000.0 / ((double) this.getParkingSlots().size()))/1000.0;
 	}
 	
 	
