@@ -505,10 +505,10 @@ public class Station extends Observable {
 			double occupationRate2 = s2.occupationRate(t1, t2); 
 
 			if (occupationRate1 > occupationRate2) {
-	              return -1;
+	              return 1;
 	            }
 			if (occupationRate1 < occupationRate2) {
-	              return 1;
+	              return -1;
 	            }
 	        return 0;
 		}      
