@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import CLUI.MisuseException;
 import myVelib.Bicycle;
 import myVelib.GPS;
 import myVelib.Network;
@@ -36,6 +37,7 @@ public class ClientTest {
 		System.out.println("We are going to put 50 stations, 2000 parking slots occupied at a rate of 70% with 70% mechanical.");	
 		ArrayList<Station> stations = myNetwork.stationWithBicycles(50, 2000, 70, 70,10);
 		myNetwork.setStations(stations);
+		System.out.println(myNetwork);
 		System.out.println("Nous venons de tester avec succès le premier use case de création d'un réseau Velib");
 
 		System.out.println();
@@ -49,7 +51,7 @@ public class ClientTest {
 		try {
 			try {
 				try {
-					user.rentBike(stations.get(5),Bicycle.BicycleType.Mechanical);
+					user.rentBike(myNetwork.getStations().get(1),Bicycle.BicycleType.Mechanical);
 					}
 				catch(AlreadyHasABikeException e) {e.toString();}	
 				}
@@ -62,11 +64,14 @@ public class ClientTest {
 		//Deuxième test
 		try {
 			try {
-				Duration d = Duration.ofMillis(myVelibCurrentTime.getTime());
-				user.returnBike(stations.get(9), new Duration(10));
+				Duration d = Duration.ofMillis(60);
+				user.returnBike(stations.get(9), d);
 				System.out.println("Nous venons de tester avec succès le second use case : location et retour d'un vélo");
 				}
-			catch (NoAvailableFreeSlotsException e) {e.toString();}		
+			catch (NoAvailableFreeSlotsException e) {e.toString();} catch (MisuseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
 			}
 		catch(OfflineStationException e) {e.toString();}
 		
