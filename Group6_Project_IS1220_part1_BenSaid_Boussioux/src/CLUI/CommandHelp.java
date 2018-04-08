@@ -56,7 +56,7 @@ public class CommandHelp extends Command {
 		help += "<userID> is an integer. Use the command display <velibnetworkName> to access those IDs.";
 
 		help += "\n- sortStation<velibnetworkName> <sortpolicy>:\n";
-		help += "to display the stations in increasing order w.r.t. to the sorting policy of user sortpolicy. Sort Policies available :\n";
+		help += "to display the stations in increasing order according to the sorting policy of user sortpolicy. Sort Policies available :\n";
 		help += "mostUsedStations - leastOccupiedStations\n";
 
 		
