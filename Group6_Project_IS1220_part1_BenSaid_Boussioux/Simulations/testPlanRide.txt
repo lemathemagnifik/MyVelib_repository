@@ -3,7 +3,7 @@ adduser Anis Vlibre Paris
 planride 1 2 2 fastestpath uniformity plus
 print A vous de jouer a present ! Comme la commande setup genere un network aleatoire, 
 print nous ne pouvons pas recuperer les resultats donnes par planride pour continuer les simulations. 
-print C'est là que vous rentrez en jeu. Vous pouvez rendre la station  d'arrive ArrivalStation OffLine 
+print C'est là que vous rentrez en jeu. Vous pouvez rendre la station  d'arrivee ArrivalStation OffLine 
 print avec la fonction Offline ArrivalStationID pour voir si l'utilisateur Anis est notifie ou non de ce malheureux accident. 
-print Une fois que \n  vous aurez la nouvelle destination, utilisez la commande 
+print Une fois que  vous aurez la nouvelle destination, utilisez la commande 
 print returnbike <Anis> <ArrivalStationID> <Duration> pour rentre le velo !

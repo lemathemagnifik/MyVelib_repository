@@ -1,4 +1,4 @@
-print Cette simulation a pour but de tester les méthodes de calcul des coûts des trajets.
+print Cette simulation a pour but de tester les méthodes de calcul des coûts des trajets et en particulier le credit time.
 print Commençons par créer un Network.
 print setup Paris
 setup Paris
