@@ -332,17 +332,18 @@ public class User implements Observer {
 
 			
 		//If the user has a VelibCard, if the Station is Plus we add timeCredit to the card, 
-		//then we reduce the number of hours to pay using that timeCredit.
 		if (this.card instanceof VelibCard) {
 			VelibCard vCard = (VelibCard) this.card;
 			if (s.getStationType()==Station.StationType.Plus) {
 				vCard.creditTime();
+				System.out.println(this.name+" has returned his bike to a Plus station, therefore, he recieved a 5min credit on his Velib Card.");
 				this.ride.setTimeCredit(Duration.ofMillis(this.ride.getTimeCredit().toMillis()+Station.plusTimeCredit.toMillis()));
 				this.userBalance.setTotalTimeCredit(Duration.ofMillis(this.userBalance.getTotalTimeCredit().toMillis()+Station.plusTimeCredit.toMillis()));
+				
 			}
 		}
 				 		
-		
+		//then we reduce the number of hours to pay using that timeCredit.
 		CardVisitor visitor = new ConcreteCardVisitor();
 			
 		Double cost = (double) 0;
@@ -350,6 +351,8 @@ public class User implements Observer {
 			cost = this.card.accept(visitor, tripDuration, this.ride.getBicycle().getType());
 		} catch (Exception e) {
 		}
+		
+
 		
 		System.out.println(this.name +" paid "+ cost +"€.");
 		
@@ -440,7 +443,7 @@ public class User implements Observer {
 			String strTime="";
 			if (this.card instanceof VelibCard) {
 				VelibCard vCard = (VelibCard) this.card;
-				strTime = String.format("%-20s %1s", "Time Credit", " : ")+ vCard.getTimeCredit().toMinutes() +"\n";
+				strTime = String.format("%-20s %1s", "Time Credit", " : ")+ vCard.getTimeCredit().toMinutes() +" minutes \n";
 				if (card instanceof VlibreCard) {strCard = "Vlibre";}
 				else if (card instanceof VmaxCard) {strCard = "Vmax";}
 			}

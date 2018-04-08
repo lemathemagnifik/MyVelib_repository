@@ -1,3 +1,4 @@
+print Avant de commencer la simulation, assurez-vous que le CLUI est fraîchement initialisé. Pour cela, relancer la commande CLUItest.
 print Dans cette simulation nous allons tester les deux commandes rentbike et returnbike.
 print Commeçons par créer un réseau de 10 stations.
 print setup Paris

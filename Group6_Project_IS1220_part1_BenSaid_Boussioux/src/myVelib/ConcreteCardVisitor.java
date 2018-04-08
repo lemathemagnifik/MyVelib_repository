@@ -30,8 +30,8 @@ public class ConcreteCardVisitor implements CardVisitor {
 			// if the remaining time in timeCredit is enough to lower the number of hours in tripDuration we transfer the needed time credit to reduce the tripduration.
 			if (newTripDuration.minus(newTimeCredit).toHours()<newTripDuration.toHours()) {
 				Duration excess = newTripDuration.minusHours(newTripDuration.toHours());
-				newTimeCredit = newTimeCredit.minus(excess.plusNanos(1));
-				newTripDuration = newTripDuration.minus(excess.plusNanos(1));
+				newTimeCredit = newTimeCredit.minus(excess);
+				newTripDuration = newTripDuration.minus(excess);
 			}
 		}
 		System.out.println("The user transformed "+timeCredit.minus(newTimeCredit).toMinutes()+" minutes of his time credit to reduce the charged trip duration.");
@@ -87,9 +87,11 @@ public class ConcreteCardVisitor implements CardVisitor {
 		
 		Duration timeCredit = vlibreCard.getTimeCredit();
 		
-		applyVelibBonus(timeCredit, tripDuration);
+		Duration[] durations = applyVelibBonus(timeCredit, tripDuration);
+		vlibreCard.setTimeCredit(durations[0]);
+		tripDuration = durations[1];
 		
-		long tripNbHours = tripDuration.toHours();
+		long tripNbHours = tripDuration.minusNanos(1).toHours();
 		
 		if (bType == Bicycle.BicycleType.Electrical) {
 			return VlibreCard.getCost1HElectrical() + tripNbHours*VlibreCard.getCostAfter1HElectrical();
@@ -114,10 +116,17 @@ public class ConcreteCardVisitor implements CardVisitor {
 	public double visit(VmaxCard vmaxCard,  Duration tripDuration, BicycleType type) throws Exception {
 		
 		if (tripDuration.isZero() || tripDuration.isNegative()) {
-			throw new Exception("Duration negative or equals Zero.");
+			throw new Exception("Duration negative or equals Zero.\n");
 		}
 		
-		long tripNbHours = tripDuration.toHours();
+		Duration timeCredit = vmaxCard.getTimeCredit();
+		
+		Duration[] durations = applyVelibBonus(timeCredit, tripDuration);
+		vmaxCard.setTimeCredit(durations[0]);
+		tripDuration = durations[1];
+
+		
+		long tripNbHours = tripDuration.minusNanos(1).toHours();
 		return VmaxCard.getCostH1() + tripNbHours * VmaxCard.getCostAfterH1();
 	}
 	

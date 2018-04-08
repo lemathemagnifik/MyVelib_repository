@@ -1,3 +1,4 @@
+print Avant de commencer la simulation, assurez-vous que le CLUI est fraîchement initialisé. Pour cela, relancer la commande CLUItest.
 print Cette simulation a pour but de tester les méthodes de calcul des coûts des trajets.
 print Commençons par créer un Network.
 print setup Paris
