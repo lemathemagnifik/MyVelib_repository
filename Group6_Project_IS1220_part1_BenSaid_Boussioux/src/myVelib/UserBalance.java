@@ -1,8 +1,8 @@
 package myVelib;
 
-import java.sql.Timestamp;
+
 import java.time.Duration;
-import java.util.concurrent.ConcurrentSkipListMap;
+
 
 //should allow to retrieve the number of rides, the total time spent on
 //a bike, the total amount of charges for all rides performed by a user, as well as the

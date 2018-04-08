@@ -1,13 +1,8 @@
 package CLUI;
 
 import java.util.ArrayList;
-
-import javax.sql.rowset.spi.SyncFactoryException;
-
 import myVelib.*;
-import myVelib.Station.NoBikesAvailableException;
-import myVelib.Station.OfflineStationException;
-import myVelib.User.AlreadyHasABikeException;
+
 
 
 

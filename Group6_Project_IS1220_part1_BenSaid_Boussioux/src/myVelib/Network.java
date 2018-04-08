@@ -3,10 +3,6 @@ package myVelib;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Random;
-
-import myVelib.Bicycle.BicycleType;
 import myVelib.ParkingSlot.UnavailableSlotException;
 import myVelib.Station.Status;
 
@@ -69,7 +65,7 @@ public class Network {
 	}
 	
 	public ArrayList<Station> getOnServiceStations(){
-		ArrayList<Station> onService = new ArrayList();
+		ArrayList<Station> onService = new ArrayList<Station>();
 		for (Station s:this.getStations()) {
 			if (s.getStatus()==Status.OnService) {
 				onService.add(s);

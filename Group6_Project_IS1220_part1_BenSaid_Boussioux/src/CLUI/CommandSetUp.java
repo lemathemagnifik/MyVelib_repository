@@ -1,12 +1,9 @@
 package CLUI;
 
 import java.util.ArrayList;
-
-import javax.sql.rowset.spi.SyncFactoryException;
-
 import myVelib.*;
 import myVelib.ParkingSlot.UnavailableSlotException;
-import Tests.*;
+
 
 public class CommandSetUp extends Command {
 

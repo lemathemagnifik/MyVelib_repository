@@ -1,10 +1,6 @@
 package myVelib;
 
-import java.util.Arrays;
 
-import junit.framework.Test;
-import myVelib.ParkingSlot.UnavailableSlotException;
-import Tests.*;
 
 public class PlannedRide extends Ride{
 	private TripPreference preference;
@@ -165,16 +161,7 @@ public class PlannedRide extends Ride{
 	}
 
 	public static void main(String[] args)  {
-		Network myNetwork = new Network();
-		try {
-			myNetwork = CreateTestNetwork.CreateTestingNetwork();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		PlannedRide plannedRide = new PlannedRide(myNetwork, new GPS(1,1), new GPS(3.4,5), true, true, false, false);
-		System.out.println(plannedRide.getPath()[0]);
-		System.out.println(plannedRide.getPath()[1]);
+
 
 	}
 	

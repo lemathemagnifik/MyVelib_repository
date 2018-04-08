@@ -12,7 +12,7 @@ public class CommandSimulate extends Command{
 	}
 
 	public ArrayList<String> args(String str) {
-		ArrayList<String> argslist = new ArrayList(Arrays.asList(str.split(" ")));
+		ArrayList<String> argslist = new ArrayList<String>(Arrays.asList(str.split(" ")));
 		return argslist;
 	}
 	

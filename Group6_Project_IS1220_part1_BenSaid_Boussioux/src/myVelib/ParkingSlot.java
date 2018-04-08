@@ -1,11 +1,7 @@
 package myVelib;
 
 import java.sql.Timestamp;
-
 import java.util.concurrent.ConcurrentSkipListMap;
-
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.concurrent.ConcurrentNavigableMap;
 
 
@@ -87,6 +83,11 @@ public class ParkingSlot {
 	
 	
 	public class UnavailableSlotException extends Exception{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5202936832658305620L;
+
 		public UnavailableSlotException(){
 		    System.out.println("Sorry, this slot is broken or occupied.");
 		  }  

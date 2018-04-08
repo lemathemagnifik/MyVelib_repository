@@ -9,9 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentSkipListMap;
-
 import CLUI.MisuseException;
-import myVelib.Bicycle.BicycleType;
 import myVelib.Station.NoAvailableFreeSlotsException;
 import myVelib.Station.NoBikesAvailableException;
 import myVelib.Station.OfflineStationException;

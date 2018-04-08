@@ -2,10 +2,8 @@ package CLUI;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import myVelib.*;
 
-import myVelib.MyVelib;
-import myVelib.Station;
-import myVelib.User;
 
 public class CommandDisplayStation extends Command {
 
