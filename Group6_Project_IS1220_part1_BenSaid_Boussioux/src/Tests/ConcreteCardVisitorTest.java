@@ -23,19 +23,4 @@ public class ConcreteCardVisitorTest {
 		assertTrue(results[0].equals(timeCredit.minusMinutes(65)) & results[1].equals(tripDuration.minusMinutes(65)));
 	}
 
-//	@Test
-//	public void testVisitCreditCardDurationBicycleType() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testVisitVlibreCardDurationBicycleType() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testVisitVmaxCardDurationBicycleType() {
-//		fail("Not yet implemented");
-//	}
-//
 }

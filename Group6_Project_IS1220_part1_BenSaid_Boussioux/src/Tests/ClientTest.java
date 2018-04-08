@@ -1,6 +1,8 @@
 package Tests;
 
 
+import static org.junit.Assert.assertTrue;
+
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class ClientTest {
 		catch(NoBikesAvailableException e) {e.toString();}
 		System.out.println();
 		System.out.println("Léonard now returns his bicycle at station 6.");
-		
+		assertTrue(user.getBicycle()!=null);
 		//Deuxième test
 		try {
 			try {
