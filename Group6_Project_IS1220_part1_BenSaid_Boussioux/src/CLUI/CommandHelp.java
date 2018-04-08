@@ -64,11 +64,11 @@ public class CommandHelp extends Command {
 		help += "to display the entire status (stations, parking bays, users) of an a myVelib network velibnetworkName.\n";
 		
 		
-		help += "\n- move <userID> <networkName> <x> <y>:\n";
+		help += "\n- moveUser <userID> <networkName> <x> <y>:\n";
 		help += "to move the user to the location (x,y).\n";
 		
 		
-		help += "\n- planride <userID> <x of destination> <y of destination> <preference> <uniformity> <plus> :\n";
+		help += "\n- planRide <userID> <x of destination> <y of destination> <preference> <uniformity> <plus> :\n";
 		help += "to make the user with <userID> plan a ride according to his preferences .\n";
 		help += "<stationID> is an integer. Use the command display <velibnetworkName> to access those IDs.";
 		help += "<x of destination> and <y of destination> are doubles";

@@ -130,7 +130,7 @@ public class PlannedRide extends Ride{
 	public String toString() {
 		String str="";
 		str+="====== Planned Ride ======\n\n";
-		str+="You are now at "+ this.departure.str()+ " and want to go to "+ this.arrival.str() + "using ";
+		str+="You are now at "+ this.departure.str()+ " and want to go to "+ this.arrival.str() + " using ";
 		if (this.fastest) {
 			str+= "the fastest path. \n";
 		}
@@ -139,12 +139,12 @@ public class PlannedRide extends Ride{
 			str+="Arrival station should be a plus station if possible. \n";
 		}
 		if (this.uniformity) {
-			str+= "Thank you for helping us unifromize our stations !";
+			str+= "Thank you for helping us unifromize our stations !\n";
 		}
 		if (this.alreadyHaveBicycle) {
-			str+="\n You have already rented a bicycle.";
+			str+="\n You have already rented a bicycle.\n";
 		}
-		str+= "\n\n To reach your destination you need to :";
+		str+= "\n To reach your destination you need to :";
 		if (this.alreadyHaveBicycle==false) {
 			str+= "\n* Walk to the "+this.departureStation.getName()+ " station whose ID is "+this.departureStation.getId()+". It is located at : "+ this.departureStation.getPosition().str()+"."
 					+ "\n* Rent the "+Bicycle.bicycleTypeString(this.bicycleType)+ " bike of your choice.";

@@ -1,2 +1,73 @@
 print Avant de commencer la simulation, assurez-vous que le CLUI est fraîchement initialisé (i.e aucune commande n'a été rentrée dans le CLUI avant runtest). 
 print Pour initilialisé le CLUI il suffit de relancer testClui.
+print Dans cette simulation nous allons tester la commande PlanRide qui permet de plannifier des voyages selon les préférences de l'utilisateurs.
+print Commeçons par créer un réseau de 10 stations.
+print setup Paris
+setup Paris
+print Ajoutons un utilisateur.
+print adduser Anis Vlibre Paris
+adduser Anis Vlibre Paris
+print display Paris
+display Paris
+print Modifions un peu le réseau pour casser sa symétrie.
+rentbike 1 1 electrical
+returnbike 1 2 40
+rentbike 1 1 mechanical
+returnbike 1 5 30
+rentbike 1 4 electrical
+returnbike 1 10 50
+rentbike 1 9 mechanical
+returnbike 1 8 20
+rentbike 1 8 electrical
+returnbike 1 4 20
+rentbike 1 8 electrical
+returnbike 1 3 20
+rentbike 1 8 mechanical
+returnbike 1 9 20
+display Paris
+print Déplaçon l'utilisateur vers la position (0,0)
+print moveuser 1 0 0
+moveuser 1 Paris 0 0
+print Plannifions le chemin le plus rapide vers (3,3) sans uniformisation ni de préférence pour les stations Plus.
+print planride 1 3 3 shortestpath false false
+planride 1 3 3 shortestpath false false
+print moveuser 1 1.2 0.4
+moveuser 1 Paris 1.2 0.4
+print Plannifions le chemin le plus rapide vers (2,2) avec uniformisation mais pas de préférence pour les stations Plus.
+print planride 1 2 2 shortestpath true false
+planride 1 2 2 shortestpath true false
+print moveuser 1 2.4 1.4
+moveuser 1 Paris 2.4 1.4
+print Plannifions le chemin le plus rapide vers (1,1) sans uniformisation mais avec une préférence pour les stations Plus.
+print planride 1 1 1 shortestpath false true
+planride 1 1 1 shortestpath false true
+print moveuser 1 0.5 2.4
+moveuser 1 Paris 0.5 2.4
+print Plannifions le chemin le plus rapide vers (3.5,3.5) avec uniformisation et une préférence pour les stations Plus.
+print planride 1 3.5 3.5 shortestpath true true
+planride 1 3.5 3.5 shortestpath true true
+print display Paris
+display Paris
+print moveuser 1 0 0
+moveuser 1 Paris 0 0
+print Plannifions le chemin le plus court vers (2.5,2.5) sans uniformisation ni de préférence pour les stations Plus.
+print planride 1 2.5 2.5 fastestpath false false
+planride 1 2.5 2.5 shortestpath false false
+print moveuser 1 1.4 0.4
+moveuser 1 Paris 1.4 0.4
+print Plannifions le chemin le plus court vers (0.5,0.5) avec uniformisation mais pas de préférence pour les stations Plus.
+print planride 1 0.5 0.5 fastestpathtrue false
+planride 1 0.5 0.5 shortestpath true false
+print moveuser 1 2.4 1.8
+moveuser 1 Paris 2.4 1.8
+print Plannifions le chemin le plus court vers (1.5,1.5) sans uniformisation mais avec une préférence pour les stations Plus.
+print planride 1 1.5 1.5 fastestpathfalse true
+planride 1 1.5 1.5 shortestpath false true
+print moveuser 1 1 1.8
+moveuser 1 Paris 1 1.8
+print Plannifions le chemin le plus court vers (3,3) avec uniformisation et une préférence pour les stations Plus.
+print planride 1 3 3 fastestpathtrue true
+planride 1 3 3 shortestpath true true
+print display Paris
+display Paris
+print Cette simulation est termiée !

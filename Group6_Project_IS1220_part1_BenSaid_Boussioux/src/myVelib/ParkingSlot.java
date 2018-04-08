@@ -140,7 +140,7 @@ public class ParkingSlot {
 	// Je pense que c'est dans le time qu'on va printer le fait qu'un utilisateur récupère un vélo.
 	public void updateSlotHistory(Timestamp t){
 		if(!this.slotHistory.isEmpty()&& this.slotHistory.lastKey().compareTo(t)>0){
-			System.out.println("Error, do not enter a time in the past.");
+//			System.out.println("Error, do not enter a time in the past.");
 		}
 		else{
 			//Vérifier que c'est bien fait
