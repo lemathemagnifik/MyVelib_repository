@@ -1,4 +1,0 @@
-setup Paris
-adduser Anis Vlibre Paris
-planride 1 2 2 fastestpath uniformity plus
-print A vous de jouer a present ! Comme la commande setup genere un network aleatoire, \n nous ne pouvons pas recuperer les resultats donnes par planride pour continuer les \n  simulations. C'est l� que vous rentrez en jeu. Vous pouvez rendre la station  d'arrive \n ArrivalStation OffLine avec la fonction Offline ArrivalStationID pour voir \n si l'utilisateur Anis est notifie ou non de ce malheureux accident. Une fois que \n  vous aurez la nouvelle destination, utilisez la commande \n returnbike <Anis> <ArrivalStationID> <Duration> pour rentre le velo !

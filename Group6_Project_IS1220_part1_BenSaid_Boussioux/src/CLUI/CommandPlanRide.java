@@ -32,37 +32,33 @@ public class CommandPlanRide extends Command {
 		else if (strPreference.equalsIgnoreCase("ShortestPath")) {
 			fastest=false;
 		}
-		else throw  new SyntaxErrorException("Please check the pathType argument.");
+		else throw  new SyntaxErrorException("Please check the preference argument.");
 
-		if (getArgs().size()==5) {
-			String option = getArgs().get(4);
-			if (option.equalsIgnoreCase("Plus")) {
-				plus=true;
-			}
-			else if (option.equalsIgnoreCase("Uniformity")){
-				uniformity=true;
-			}
-			else throw  new SyntaxErrorException("Please check the trip preference argument.");
-		}
-		else if(getArgs().size()==6) {
+
 			String strUniformity =  getArgs().get(4);
 			String strPlus =  getArgs().get(5);
-			if (strUniformity.equalsIgnoreCase("Uniformity")) {
+			if (strUniformity.equalsIgnoreCase("True")) {
 				uniformity=true;
 			}
+			else if (strUniformity.equalsIgnoreCase("False")) {
+				uniformity=false;
+			}
 			else throw  new SyntaxErrorException("Please check the argument uniformity.");
-			if (strPlus.equalsIgnoreCase("Plus")) {
+			if (strPlus.equalsIgnoreCase("True")) {
 				plus=true;
 			} 
+			else if (strPlus.equalsIgnoreCase("False")) {
+				plus=false;
+			} 
 			else  throw  new SyntaxErrorException("Please check the argument plus.");
-		}
+		
 		user.planRide(destination, plus, uniformity, fastest);
 
 	}
 
 	@Override
 	public void check() throws SyntaxErrorException {
-		checkNumOfArgs(5, 6);
+		checkNumOfArgs(6);
 
 	}
 

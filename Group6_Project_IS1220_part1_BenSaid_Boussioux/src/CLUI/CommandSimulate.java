@@ -19,9 +19,7 @@ public class CommandSimulate extends Command{
 	@Override
 	public void execute() throws SyntaxErrorException, MisuseException {
 		MyVelib myVelib = getMyVelib();
-//		CommandFactory cmdFactory = new CommandFactory(myVelib);
-//		cmdFactory.createCommand("setup", "Paris ").execute();
-		
+
 		new CommandSetUp(myVelib, args("Paris")).execute();
 		
 		
