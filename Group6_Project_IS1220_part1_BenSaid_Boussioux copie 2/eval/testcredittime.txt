@@ -1,0 +1,36 @@
+print Avant de commencer la simulation, assurez-vous que le CLUI est fraîchement initialisé (i.e aucune commande n'a été rentrée dans le CLUI avant runtest). 
+print Pour initilialisé le CLUI il suffit de relancer testClui.
+print Cette simulation a pour but de tester les méthodes de calcul des coûts des trajets en prenant en compte le credit time.
+print Commençons par créer un Network.
+print setup Paris
+setup Paris
+print Nous allons maintenant ajouter 3 utilisateurs. Chacun possède un type de carte.
+print adduser Anis CreditCard Paris
+adduser Anis CreditCard Paris
+print adduser Leo Vlibre Paris
+adduser Leo Vlibre Paris
+print adduser MrLapitre Vmax Paris
+adduser MrLapitre Vmax Paris
+print Chacun des utilisateur va louer un vélo, et va le rendre à une station Plus (dont l'ID est un entier divisible par 3 : 3, 6 et 9). 
+print la durée du trajet sera comprise entre 61 min et 65 min afin de tester le prélévement du time credit.
+print rentbike 1 2 electrical
+rentbike 1 2 electrical
+print returnbike 1 6 63
+returnbike 1 6 63
+print rentbike 2 4 mechanical
+rentbike 2 4 mechanical
+print returnbike 2 3 62
+returnbike 2 3 62
+print rentbike 3 3 mechanical
+rentbike 3 3 mechanical
+print returnbike 3 9 63
+returnbike 3 9 63
+print Nous vérifions que Leo et MrLapitre qui ont des cartes Velib ont gagné 5min et ont réduit la durée de leurs voyages pour ne payer qu'une heure.
+print Anis n'a rien reçu parce qu'il n'a qu'une carte de crédit !
+print On finit cette simulation avec un display de chacun des utilisateurs.
+print displayuser 1 Paris
+displayuser 1 Paris
+print displayuser 2 Paris
+displayuser 2 Paris
+print displayuser 3 Paris
+displayuser 3 Paris

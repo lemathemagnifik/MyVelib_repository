@@ -1,0 +1,15 @@
+print Avant de commencer la simulation, assurez-vous que le CLUI est fraîchement initialisé (i.e aucune commande n'a été rentrée dans le CLUI avant runtest). 
+print Pour initilialisé le CLUI il suffit de relancer testClui.
+print Cette simulation vise à tester les fonctions basique du code.
+print Setup Paris
+setup Paris
+print adduser Anis Vlibre Paris
+adduser Anis Vlibre Paris
+print rentbike 1 2 electrical
+rentbike 1 2 electrical
+print returnbike 1 5 127
+returnbike 1 5 127
+adduser Leo Vmax Paris
+rentbike 2 3 mechanical
+returnbike 2 1 120
+returnbike 1 3 50
